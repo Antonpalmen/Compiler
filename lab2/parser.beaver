@@ -1,0 +1,43 @@
+%class "LangParser";
+%package "lang.ast";
+
+%embed {:
+	static public class SyntaxError extends RuntimeException { public SyntaxError(String msg) {super(msg);}}
+	// Disable syntax error recovery
+	protected void recoverFromError(Symbol token, TokenStream in) {
+		throw new SyntaxError("Cannot recover from the syntax error");
+	}
+:};
+
+
+
+// Self added terminals
+%terminals ID, NUMERAL, INT, LPAR, RPAR, LBRACE, RBRACE, SEMI, ASSIGN, ADD, SUB, MUL, DIV, MOD, COMMA, IF, ELSE, WHILE, LT, GT, EQ, NEQ, RETURN;
+
+%typeof program = "Program";
+//%typeof exp = "Expr";
+%typeof func_list = "List";
+%typeof func = "Func";
+%typeof id_decl = "IdDecl";
+%typeof id_use = "IdUse";
+%typeof id_assign = "Assign";
+
+
+
+%goal program;
+
+program = func_list.a {: return new Program(a); :};
+
+func_list = func.a {: return new List().add(a); :} | func_list.a func.b {: return a.add(b); :};
+
+func =  INT ID.id LPAR RPAR LBRA opt_stmt_list.b RBRA {: return new Func(id, new List(),b); :}
+	| INT ID.id LPAR param_decl_list.a RPAR LBRA opt_stmt_list.b RBRA {: return new Func(id, a, b); :};
+
+id_decl = INT ID.a SEMICOLON {:  return new IdDecl(a, new Opt()); :} | INT ID.a ASSIGN expr.b SEMICOLON {:  return new IdDecl(a, new Opt(b)); :} ;
+
+id_use = ID.a ASSIGN expr.b SEMICOLON {:  return new IdUse(a, b); :} ;
+
+id_assign = idDecl.id ASSIGN expr.expr SEMI {: return new Assignment(id, expr); :} ;
+
+numeral = NUMERAL.a {: return new Numeral(a); :} ;
+id = ID.a {: return new Name(a); :};
