@@ -44,6 +44,8 @@ Numeral = [0-9]+
 "}"           { return sym(Terminals.RBRACKET); }
 ";"           { return sym(Terminals.SEMI); }
 "="           { return sym(Terminals.ASSIGN); }
+"+"           { return sym(Terminals.ADD); }
+"-"           { return sym(Terminals.SUB); }
 {Numeral}     { return sym(Terminals.NUMERAL); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
