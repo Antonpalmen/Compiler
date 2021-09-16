@@ -9,7 +9,7 @@
 	}
 :};
 
-%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB, MUL, DIV, MOD;
+%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB, MUL, DIV, MOD, IF, ELSE, WHILE, LT, GT, EQ, NEQ, LEQ, GEQ;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -20,6 +20,16 @@
 %typeof assignment = "Assignment";
 %typeof statementList = "List";
 %typeof statement = "Statement";
+%typeof if = "IfStatement";
+%typeof else = "Else";
+%typeof while = "WhileStatement";
+%typeof comparison = "Comparison";
+%typeof lt = "LesserThan";
+%typeof gt = "GreaterThan";
+%typeof leq = "LesserThanEqual";
+%typeof geq = "GreaterThanEqual";
+%typeof eq = "Equal";
+%typeof neq = "NotEqual";
 %typeof expression = "Expression";
 %typeof term = "Expression";
 %typeof factor = "Expression";
@@ -50,14 +60,40 @@ statementList =
 	| statementList.stmtList statement.stmt {: return stmtList.add(stmt); :} ;
 
 statement = declaration
-			| assignment;
+			| assignment
+			| if
+			| while;
+
+if =
+    IF LPAR comparison.c RPAR LBRACKET statementList.list RBRACKET else.opt {: return new IfStatement(c, list, new Opt(opt)); :}
+    | IF LPAR comparison.c RPAR LBRACKET RBRACKET else.opt {: return new IfStatement(c, new List(), new Opt(opt)); :}
+    | IF LPAR comparison.c RPAR LBRACKET statementList.list RBRACKET {: return new IfStatement(c, list, new Opt()); :}
+    | IF LPAR comparison.c RPAR LBRACKET RBRACKET {: return new IfStatement(c, new List(), new Opt()); :}
+    ;
+
+else =
+    ELSE LBRACKET statementList.list RBRACKET {: return new Else(list); :}
+    | ELSE LBRACKET RBRACKET {: return new Else(new List()); :}
+    ;
+
+while =
+    WHILE LPAR comparison.c RPAR LBRACKET statementList.list RBRACKET {: return new WhileStatement(c, list); :}
+    | WHILE LPAR comparison.c RPAR LBRACKET RBRACKET {: return new WhileStatement(c, new List()); :}
+    ;
+
 declaration = INT idDecl.id SEMI {: return new Declaration(id); :} ;
 assignment = idDecl.id ASSIGN expression.expr SEMI {: return new Assignment(id, expr); :} ;
 
 
 expression = add
 			 | sub
-			 | term;
+			 | term
+			 | lt
+			 | gt
+			 | eq
+			 | neq
+			 | leq
+			 | geq;
 
 add = expression.e ADD term.t {: return new Add(e, t); :} ;
 sub = expression.e SUB term.t {: return new Sub(e, t); :} ;
@@ -74,6 +110,20 @@ factor = idUse
 mul = term.t MUL factor.f {: return new Mul(t, f); :} ;
 div = term.t DIV factor.f {: return new Div(t, f); :} ;
 mod = term.t MOD factor.f {: return new Mod(t, f); :} ;
+
+comparison = eq
+			 | neq
+			 | lt
+			 | gt
+			 | leq
+			 | geq;
+
+eq = expression.a EQ expression.b {: return new Equal(a, b); :} ;
+neq = expression.a NEQ expression.b{: return new NotEqual(a, b); :} ;
+lt = expression.a LT expression.b {: return new LesserThan(a, b); :} ;
+gt = expression.a GT expression.b {: return new GreaterThan(a, b); :} ;
+leq = expression.a LEQ expression.b {: return new LesserThanEqual(a, b); :} ;
+geq = expression.a GEQ expression.b {: return new GreaterThanEqual(a, b); :} ;
 
 numeral = NUMERAL.num {: return new Numeral(num); :} ;
 
