@@ -9,52 +9,57 @@
 	}
 :};
 
-
-
-// Self added terminals
-%terminals ID, NUMERAL, INT, LPAR, RPAR, LBRACE, RBRACE, SEMI, ASSIGN;
+%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB;
 
 %typeof program = "Program";
 %typeof function = "Function";
 %typeof functionList = "List";
 %typeof idDecl = "IdDecl";
-%typeof stmtList = "List";
-%typeof stmt = "Statement";
-%typeof expr = "Expression";
-%typeof decl = "Declaration";
-%typeof assign = "Assignment";
-%typeof numeral = "Numeral";
 %typeof idUse = "IdUse";
+%typeof declaration = "Declaration";
+%typeof assignment = "Assignment";
+%typeof statementList = "List";
+%typeof statement = "Statement";
+%typeof expression = "Expression";
+%typeof numeral = "Numeral";
+%typeof add = "Add";
+%typeof sub = "Sub";
+
 
 %goal program;
 
-program = functionList.a {: return new Program(a); :};
+program = functionList.list {: return new Program(list); :} ;
+idDecl = ID.id {: return new IdDecl(id); :} ;
 
 functionList =
-    function.func {: return new List().add(func); :}
-    | functionList.funcList function.func {: return funcList.add(func); :} ;
+    function.f {: return new List().add(f); :}
+    | functionList.list function.f {: return list.add(f); :} ;
 
 function =
-    INT idDecl.funcID LPAR RPAR LBRACE stmtList.listOfStmt RBRACE {: return new Function(funcID, listOfStmt); :}
-    | INT idDecl.funcID LPAR RPAR LBRACE RBRACE {: return new Function(funcID, new List()); :}
+    INT idDecl.funcID LPAR RPAR LBRACKET statementList.list RBRACKET {: return new Function(funcID, list); :}
+    | INT idDecl.funcID LPAR RPAR LBRACKET RBRACKET {: return new Function(funcID, new List()); :}
     ;
 
-stmtList =
-    stmt.stmt {: return new List().add(stmt); :}
-    | stmtList.stmtList stmt.stmt {: return stmtList.add(stmt); :} ;
+statementList =
+	statement.stmt {: return new List().add(stmt); :}
+	| statementList.stmtList statement.stmt {: return stmtList.add(stmt); :} ;
 
-// Statements
-stmt = decl | assign ;
+statement = declaration
+			| assignment;
+declaration = INT idDecl.id SEMI {: return new Declaration(id); :} ;
+assignment = idDecl.id ASSIGN expression.expr SEMI {: return new Assignment(id, expr); :} ;
 
-decl = INT idDecl.id SEMI {: return new Declaration(id); :} ;
 
-assign = idDecl.id ASSIGN expr.expr SEMI {: return new Assignment(id, expr); :} ;
+expression = add
+			 | sub
+			 | idUse
+			 | numeral;
 
-// Expressions
-expr = numeral | idUse;
+add = expression.a ADD expression.b {: return new Add(a, b); :} ;
+sub = expression.a SUB expression.b {: return new Sub(a, b); :} ;
+
 
 numeral = NUMERAL.num {: return new Numeral(num); :} ;
 
-idUse = ID.id {: return new IdUse(id); :} ;
-
+idUse = ID.id{: return new IdUse(id); :} ;
 idDecl = ID.id {: return new IdDecl(id); :} ;
