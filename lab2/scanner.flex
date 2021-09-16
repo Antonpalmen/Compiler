@@ -58,11 +58,10 @@ Numeral = [0-9]+
 "!="          { return sym(Terminals.NEQ); }
 "<="          { return sym(Terminals.LEQ); }
 ">="          { return sym(Terminals.GEQ); }
+","           { return sym(Terminals.COMMA); }
 {Numeral}     { return sym(Terminals.NUMERAL); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
 
 /* error fallback */
 [^]           { throw new SyntaxError("Illegal character <"+yytext()+">"); }
-
-
