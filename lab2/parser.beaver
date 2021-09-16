@@ -9,7 +9,7 @@
 	}
 :};
 
-%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB;
+%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB, MUL, DIV, MOD;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -21,9 +21,14 @@
 %typeof statementList = "List";
 %typeof statement = "Statement";
 %typeof expression = "Expression";
+%typeof term = "Expression";
+%typeof factor = "Expression";
 %typeof numeral = "Numeral";
 %typeof add = "Add";
 %typeof sub = "Sub";
+%typeof mul = "Mul";
+%typeof div = "Div";
+%typeof mod = "Mod";
 
 
 %goal program;
@@ -52,12 +57,23 @@ assignment = idDecl.id ASSIGN expression.expr SEMI {: return new Assignment(id, 
 
 expression = add
 			 | sub
-			 | idUse
-			 | numeral;
+			 | term;
 
-add = expression.a ADD expression.b {: return new Add(a, b); :} ;
-sub = expression.a SUB expression.b {: return new Sub(a, b); :} ;
+add = expression.e ADD term.t {: return new Add(e, t); :} ;
+sub = expression.e SUB term.t {: return new Sub(e, t); :} ;
 
+term = mul
+	   | div
+	   | mod
+	   | factor;
+
+factor = idUse
+		 | numeral
+		 | LPAR expression RPAR;
+
+mul = term.t MUL factor.f {: return new Mul(t, f); :} ;
+div = term.t DIV factor.f {: return new Div(t, f); :} ;
+mod = term.t MOD factor.f {: return new Mod(t, f); :} ;
 
 numeral = NUMERAL.num {: return new Numeral(num); :} ;
 
