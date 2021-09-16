@@ -9,7 +9,7 @@
 	}
 :};
 
-%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB, MUL, DIV, MOD, IF, ELSE, WHILE, LT, GT, EQ, NEQ, LEQ, GEQ;
+%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB, MUL, DIV, MOD, IF, ELSE, WHILE, LT, GT, EQ, NEQ, LEQ, GEQ, COMMA;
 
 %typeof program = "Program";
 %typeof function = "Function";
@@ -39,20 +39,28 @@
 %typeof mul = "Mul";
 %typeof div = "Div";
 %typeof mod = "Mod";
+%typeof parameterList = "List";
 
 
 %goal program;
 
 program = functionList.list {: return new Program(list); :} ;
 idDecl = ID.id {: return new IdDecl(id); :} ;
+idUse = ID.id{: return new IdUse(id); :} ;
+
+parameterList =	INT idDecl.a {: return new List().add(a); :}
+				| parameterList.a COMMA INT idDecl.b {: return a.add(b); :}
+				;
 
 functionList =
     function.f {: return new List().add(f); :}
     | functionList.list function.f {: return list.add(f); :} ;
 
 function =
-    INT idDecl.funcID LPAR RPAR LBRACKET statementList.list RBRACKET {: return new Function(funcID, list); :}
-    | INT idDecl.funcID LPAR RPAR LBRACKET RBRACKET {: return new Function(funcID, new List()); :}
+    INT idDecl.funcID LPAR RPAR LBRACKET statementList.list RBRACKET {: return new Function(funcID, new List(), list); :}
+    | INT idDecl.funcID LPAR RPAR LBRACKET RBRACKET {: return new Function(funcID, new List(), new List()); :}
+	| INT idDecl.funcID LPAR parameterList.list RPAR LBRACKER RBRACKET {: return new Function(funcID, list, new List()); :}
+	| INT idDecl.funcID LPAR parameterList.parameters RPAR LBRACKET statementList.statements RBRACKET {: return new Function(funcID, parameters, statements); :}
     ;
 
 statementList =
@@ -62,7 +70,8 @@ statementList =
 statement = declaration
 			| assignment
 			| if
-			| while;
+			| while
+			;
 
 if =
     IF LPAR comparison.c RPAR LBRACKET statementList.list RBRACKET else.opt {: return new IfStatement(c, list, new Opt(opt)); :}
@@ -93,7 +102,8 @@ expression = add
 			 | eq
 			 | neq
 			 | leq
-			 | geq;
+			 | geq
+			 ;
 
 add = expression.e ADD term.t {: return new Add(e, t); :} ;
 sub = expression.e SUB term.t {: return new Sub(e, t); :} ;
@@ -101,11 +111,13 @@ sub = expression.e SUB term.t {: return new Sub(e, t); :} ;
 term = mul
 	   | div
 	   | mod
-	   | factor;
+	   | factor
+	   ;
 
 factor = idUse
 		 | numeral
-		 | LPAR expression RPAR;
+		 | LPAR expression RPAR
+		 ;
 
 mul = term.t MUL factor.f {: return new Mul(t, f); :} ;
 div = term.t DIV factor.f {: return new Div(t, f); :} ;
@@ -116,7 +128,8 @@ comparison = eq
 			 | lt
 			 | gt
 			 | leq
-			 | geq;
+			 | geq
+			 ;
 
 eq = expression.a EQ expression.b {: return new Equal(a, b); :} ;
 neq = expression.a NEQ expression.b{: return new NotEqual(a, b); :} ;
@@ -126,6 +139,3 @@ leq = expression.a LEQ expression.b {: return new LesserThanEqual(a, b); :} ;
 geq = expression.a GEQ expression.b {: return new GreaterThanEqual(a, b); :} ;
 
 numeral = NUMERAL.num {: return new Numeral(num); :} ;
-
-idUse = ID.id{: return new IdUse(id); :} ;
-idDecl = ID.id {: return new IdDecl(id); :} ;
