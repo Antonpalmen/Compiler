@@ -1,6 +1,6 @@
 Program ::= Function*;
 IdDecl ::= <ID>;
-Function ::= IdDecl Statement*;
+Function ::= IdDecl Parameter* Statement*;
 
 abstract Statement;
 Declaration:Statement ::= IdDecl;
@@ -12,6 +12,7 @@ WhileStatement:Statement ::= Comparison Statement*;
 abstract Expression;
 IdUse:Expression ::= <ID>;
 Numeral:Expression ::= <NUMERAL>;
+Parameter ::= IdDecl;
 
 abstract Comparison;
 LesserThan:Comparison ::= a:Expression b:Expression;
@@ -29,4 +30,3 @@ abstract Factor:Term;
 Mul:Expression ::= a:Expression b:Expression;
 Div:Expression ::= a:Expression b:Expression;
 Mod:Expression ::= a:Expression b:Expression;
-
