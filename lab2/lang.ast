@@ -5,10 +5,21 @@ Function ::= IdDecl Statement*;
 abstract Statement;
 Declaration:Statement ::= IdDecl;
 Assignment:Statement ::= IdDecl Expression;
+IfStatement:Statement ::= Comparison Statement* [Else];
+Else:Statement ::= Statement*;
+WhileStatement:Statement ::= Comparison Statement*;
 
 abstract Expression;
 IdUse:Expression ::= <ID>;
 Numeral:Expression ::= <NUMERAL>;
+
+abstract Comparison;
+LesserThan:Comparison ::= a:Expression b:Expression;
+GreaterThan:Comparison ::= a:Expression b:Expression;
+Equal:Comparison ::= a:Expression b:Expression;
+NotEqual:Comparison ::= a:Expression b:Expression;
+LesserThanEqual:Comparison ::= a:Expression b:Expression;
+GreaterThanEqual:Comparison ::= a:Expression b:Expression;
 
 abstract Term:Expression;
 Add:Expression ::= a:Expression b:Expression;
@@ -18,3 +29,4 @@ abstract Factor:Term;
 Mul:Expression ::= a:Expression b:Expression;
 Div:Expression ::= a:Expression b:Expression;
 Mod:Expression ::= a:Expression b:Expression;
+
