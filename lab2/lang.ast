@@ -8,6 +8,13 @@ Assignment:Statement ::= IdDecl Expression;
 
 abstract Expression;
 IdUse:Expression ::= <ID>;
-Numeral:Expression ::= <Numeral>;
+Numeral:Expression ::= <NUMERAL>;
+
+abstract Term:Expression;
 Add:Expression ::= a:Expression b:Expression;
 Sub:Expression ::= a:Expression b:Expression;
+
+abstract Factor:Term;
+Mul:Expression ::= a:Expression b:Expression;
+Div:Expression ::= a:Expression b:Expression;
+Mod:Expression ::= a:Expression b:Expression;
