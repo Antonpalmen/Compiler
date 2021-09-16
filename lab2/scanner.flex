@@ -49,9 +49,20 @@ Numeral = [0-9]+
 "*"           { return sym(Terminals.MUL); }
 "/"           { return sym(Terminals.DIV); }
 "%"           { return sym(Terminals.MOD); }
+"if"          { return sym(Terminals.IF); }
+"else"        { return sym(Terminals.ELSE); }
+"while"       { return sym(Terminals.WHILE); }
+"<"           { return sym(Terminals.LT); }
+">"           { return sym(Terminals.GT); }
+"=="          { return sym(Terminals.EQ); }
+"!="          { return sym(Terminals.NEQ); }
+"<="          { return sym(Terminals.LEQ); }
+">="          { return sym(Terminals.GEQ); }
 {Numeral}     { return sym(Terminals.NUMERAL); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
 
 /* error fallback */
 [^]           { throw new SyntaxError("Illegal character <"+yytext()+">"); }
+
+
