@@ -103,14 +103,16 @@ aspect PrettyPrint {
 	public void Declaration.prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "int ");
 		getIdDecl().prettyPrint(out, ind);
-		out.print(" = ");
-		getAssignment().prettyPrint(out, ind);
+		if(hasAssignment()) {
+			out.print(" = ");
+			getAssignment().prettyPrint(out, ind);
+		}
 		out.println(";");
 	}
 
 	public void Assignment.prettyPrint(PrintStream out, String ind) {
 		out.print(ind);
-		getIdDecl().prettyPrint(out, ind);
+		getIdUse().prettyPrint(out, ind);
 		out.print(" = ");
 		getExpression().prettyPrint(out, ind);
 		out.print(";");
