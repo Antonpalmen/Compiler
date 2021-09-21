@@ -3,18 +3,22 @@ IdDecl ::= <ID>;
 Function ::= IdDecl Parameter* Statement*;
 
 abstract Statement;
-Declaration:Statement ::= IdDecl;
+Declaration:Statement ::= IdDecl [Expression];
 Assignment:Statement ::= IdDecl Expression;
-IfStatement:Statement ::= Comparison Statement* [Else];
+IfStatement:Statement ::= Expression Statement* [Else];
 Else:Statement ::= Statement*;
-WhileStatement:Statement ::= Comparison Statement*;
+WhileStatement:Statement ::= Expression Statement*;
+Return:Statement ::= Expression;
+FunctionCall:Statement ::= FunctionUse;
+
+DeclareAssignment:Statement ::= IdDecl Expression;
 
 abstract Expression;
 IdUse:Expression ::= <ID>;
 Numeral:Expression ::= <NUMERAL>;
 Parameter ::= IdDecl;
 
-abstract Comparison;
+abstract Comparison:Expression;
 LesserThan:Comparison ::= a:Expression b:Expression;
 GreaterThan:Comparison ::= a:Expression b:Expression;
 Equal:Comparison ::= a:Expression b:Expression;
@@ -30,3 +34,5 @@ abstract Factor:Term;
 Mul:Expression ::= a:Expression b:Expression;
 Div:Expression ::= a:Expression b:Expression;
 Mod:Expression ::= a:Expression b:Expression;
+
+FunctionUse:Expression ::= IdUse Expression*;
