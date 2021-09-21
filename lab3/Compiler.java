@@ -1,4 +1,5 @@
 package lang;
+package lang;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,7 +38,9 @@ public class Compiler {
 			Program program = (Program) parser.parse(scanner);
             DrAST_root_node = program; //Enable debugging with DrAST
 			System.out.println(program.dumpTree());
+			program.prettyPrint(System.out);
       System.out.println("The MSN for the program is: " + CalculateMSN.result(program));
+      program.prettyPrint(System.out);
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!");
 			System.exit(1);
