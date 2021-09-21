@@ -28,13 +28,15 @@ import lang.ast.LangParser.SyntaxError;
 
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
-ID = [a-zA-Z]+
-Numeral = [0-9]+
+ID = [a-zA-Z][a-zA-Z0-9]*
+Numeral = ([1-9][0-9]* | 0)("."[0-9]*[1-9])?
+Comment = "//"~"\n"
 
 %%
 
 // discard whitespace information
 {WhiteSpace}  { }
+{Comment} { }
 
 // token definitions
 "int"         { return sym(Terminals.INT); }
@@ -59,6 +61,7 @@ Numeral = [0-9]+
 "<="          { return sym(Terminals.LEQ); }
 ">="          { return sym(Terminals.GEQ); }
 ","           { return sym(Terminals.COMMA); }
+"return"      { return sym(Terminals.RETURN); }
 {Numeral}     { return sym(Terminals.NUMERAL); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
