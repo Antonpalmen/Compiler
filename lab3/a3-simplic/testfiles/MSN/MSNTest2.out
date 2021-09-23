@@ -1,0 +1,15 @@
+Program
+  List
+    Function
+      IdDecl ID="main"
+      List
+      List
+        Declaration
+          IdDecl ID="i"
+          Opt
+            Numeral NUMERAL="100"
+        WhileStatement
+          GreaterThan
+            IdUse ID="i"
+            Numeral NUMERAL="0"
+          List

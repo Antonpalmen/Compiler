@@ -1,0 +1,11 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        Declaration
+          IdDecl ID="x"
+          Opt
+        Print
+          IdUse ID="x"

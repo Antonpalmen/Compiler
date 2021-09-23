@@ -1,0 +1,7 @@
+int main() {
+  // depth = 1
+  int i = 100;
+  while (i > 0) {
+    // depth = 2
+    }
+}

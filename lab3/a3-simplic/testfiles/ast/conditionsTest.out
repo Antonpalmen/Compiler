@@ -1,0 +1,66 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        Declaration
+          IdDecl ID="a"
+          Opt
+        Assignment
+          IdDecl ID="a"
+          Numeral NUMERAL="2"
+        IfStatement
+          LesserThan
+            IdUse ID="a"
+            Numeral NUMERAL="2"
+          List
+            Assignment
+              IdDecl ID="a"
+              Numeral NUMERAL="3"
+          Opt
+        IfStatement
+          GreaterThan
+            IdUse ID="a"
+            Numeral NUMERAL="2"
+          List
+            Assignment
+              IdDecl ID="a"
+              Numeral NUMERAL="3"
+          Opt
+        IfStatement
+          LesserThanEqual
+            IdUse ID="a"
+            Numeral NUMERAL="2"
+          List
+            Assignment
+              IdDecl ID="a"
+              Numeral NUMERAL="3"
+          Opt
+        IfStatement
+          GreaterThanEqual
+            IdUse ID="a"
+            Numeral NUMERAL="2"
+          List
+            Assignment
+              IdDecl ID="a"
+              Numeral NUMERAL="3"
+          Opt
+        IfStatement
+          NotEqual
+            IdUse ID="a"
+            Numeral NUMERAL="2"
+          List
+            Assignment
+              IdDecl ID="a"
+              Numeral NUMERAL="3"
+          Opt
+        IfStatement
+          Equal
+            IdUse ID="a"
+            Numeral NUMERAL="2"
+          List
+            Assignment
+              IdDecl ID="a"
+              Numeral NUMERAL="3"
+          Opt

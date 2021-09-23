@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lang.TestVisitor" tests="12" skipped="0" failures="0" errors="0" timestamp="2021-09-20T09:48:44" hostname="LAPTOP-4TE2LN4I" time="0.159">
+  <properties/>
+  <testcase name="runTest[ask1.in]" classname="lang.TestVisitor" time="0.036"/>
+  <testcase name="runTest[ask2.in]" classname="lang.TestVisitor" time="0.01"/>
+  <testcase name="runTest[ask3.in]" classname="lang.TestVisitor" time="0.011"/>
+  <testcase name="runTest[ask4.in]" classname="lang.TestVisitor" time="0.012"/>
+  <testcase name="runTest[example.in]" classname="lang.TestVisitor" time="0.014"/>
+  <testcase name="runTest[example2.in]" classname="lang.TestVisitor" time="0.011"/>
+  <testcase name="runTest[let.in]" classname="lang.TestVisitor" time="0.011"/>
+  <testcase name="runTest[let1.in]" classname="lang.TestVisitor" time="0.009"/>
+  <testcase name="runTest[let2.in]" classname="lang.TestVisitor" time="0.009"/>
+  <testcase name="runTest[let3.in]" classname="lang.TestVisitor" time="0.011"/>
+  <testcase name="runTest[let4.in]" classname="lang.TestVisitor" time="0.011"/>
+  <testcase name="runTest[numerical.in]" classname="lang.TestVisitor" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lang.ParseTests" tests="7" skipped="0" failures="0" errors="0" timestamp="2021-09-20T09:48:43" hostname="LAPTOP-4TE2LN4I" time="0.431">
+  <properties/>
+  <testcase name="identifier" classname="lang.ParseTests" time="0.382"/>
+  <testcase name="error2" classname="lang.ParseTests" time="0.008"/>
+  <testcase name="error3" classname="lang.ParseTests" time="0.007"/>
+  <testcase name="product" classname="lang.ParseTests" time="0.009"/>
+  <testcase name="let" classname="lang.ParseTests" time="0.009"/>
+  <testcase name="error" classname="lang.ParseTests" time="0.008"/>
+  <testcase name="numerical" classname="lang.ParseTests" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

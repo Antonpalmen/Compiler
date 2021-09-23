@@ -1,0 +1,16 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        Return
+          FunctionUse
+            IdUse ID="b"
+            List
+    Function
+      IdDecl ID="b"
+      List
+      List
+        Return
+          Numeral NUMERAL="1"

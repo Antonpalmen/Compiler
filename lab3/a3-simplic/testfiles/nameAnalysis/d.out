@@ -1,0 +1,15 @@
+Program
+  List
+    Function
+      IdDecl ID="main"
+      List
+      List
+        FunctionCall
+          FunctionUse
+            IdUse ID="print"
+            List
+              IdUse ID="a"
+        Declaration
+          IdDecl ID="a"
+          Opt
+            Numeral NUMERAL="10"

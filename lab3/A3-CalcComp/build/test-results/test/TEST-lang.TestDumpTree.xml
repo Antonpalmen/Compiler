@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lang.TestDumpTree" tests="14" skipped="0" failures="0" errors="0" timestamp="2021-09-20T09:48:43" hostname="LAPTOP-4TE2LN4I" time="0.455">
+  <properties/>
+  <testcase name="runTest[ask1.in]" classname="lang.TestDumpTree" time="0.146"/>
+  <testcase name="runTest[ask2.in]" classname="lang.TestDumpTree" time="0.023"/>
+  <testcase name="runTest[ask3.in]" classname="lang.TestDumpTree" time="0.021"/>
+  <testcase name="runTest[ask4.in]" classname="lang.TestDumpTree" time="0.038"/>
+  <testcase name="runTest[example.in]" classname="lang.TestDumpTree" time="0.024"/>
+  <testcase name="runTest[example2.in]" classname="lang.TestDumpTree" time="0.022"/>
+  <testcase name="runTest[identifier.in]" classname="lang.TestDumpTree" time="0.017"/>
+  <testcase name="runTest[let.in]" classname="lang.TestDumpTree" time="0.019"/>
+  <testcase name="runTest[let1.in]" classname="lang.TestDumpTree" time="0.025"/>
+  <testcase name="runTest[let2.in]" classname="lang.TestDumpTree" time="0.024"/>
+  <testcase name="runTest[let3.in]" classname="lang.TestDumpTree" time="0.026"/>
+  <testcase name="runTest[let4.in]" classname="lang.TestDumpTree" time="0.03"/>
+  <testcase name="runTest[numerical.in]" classname="lang.TestDumpTree" time="0.018"/>
+  <testcase name="runTest[product.in]" classname="lang.TestDumpTree" time="0.018"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

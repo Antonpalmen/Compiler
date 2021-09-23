@@ -1,0 +1,30 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        Declaration
+          IdDecl ID="x"
+          Opt
+        Declaration
+          IdDecl ID="y"
+          Opt
+        IfStatement
+          LesserThan
+            IdUse ID="x"
+            IdUse ID="y"
+          List
+            Assignment
+              IdDecl ID="x"
+              Mod
+                Numeral NUMERAL="5"
+                Numeral NUMERAL="4"
+          Opt
+            Else
+              List
+                Assignment
+                  IdDecl ID="y"
+                  Mod
+                    Numeral NUMERAL="5"
+                    Numeral NUMERAL="4"
