@@ -1,0 +1,17 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        Declaration
+          IdDecl ID="x"
+          Opt
+        Declaration
+          IdDecl ID="y"
+          Opt
+        WhileStatement
+          LesserThan
+            IdUse ID="x"
+            IdUse ID="y"
+          List

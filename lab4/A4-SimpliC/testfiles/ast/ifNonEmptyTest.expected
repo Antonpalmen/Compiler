@@ -1,0 +1,15 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        IfStatement
+          LesserThan
+            Numeral NUMERAL="4"
+            Numeral NUMERAL="5"
+          List
+            Declaration
+              IdDecl ID="x"
+              Opt
+          Opt

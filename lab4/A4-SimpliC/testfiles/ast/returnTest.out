@@ -1,0 +1,34 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+      List
+        Declaration
+          IdDecl ID="a"
+          Opt
+        Assignment
+          IdDecl ID="a"
+          Numeral NUMERAL="21"
+        Return
+          IdUse ID="a"
+    Function
+      IdDecl ID="b"
+      List
+      List
+        Return
+          Numeral NUMERAL="5"
+    Function
+      IdDecl ID="c"
+      List
+      List
+        Declaration
+          IdDecl ID="a"
+          Opt
+        Assignment
+          IdDecl ID="a"
+          Numeral NUMERAL="6"
+        Return
+          Add
+            IdUse ID="a"
+            Numeral NUMERAL="2"

@@ -1,0 +1,6 @@
+int a(int x, int y) {
+    if(x < y) {
+        x = 5;
+        y = x;
+    }
+}

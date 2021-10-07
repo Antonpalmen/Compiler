@@ -1,0 +1,9 @@
+int a() {
+    int x;
+    int y;
+    if(x < y) {
+
+    } else {
+
+    }
+}

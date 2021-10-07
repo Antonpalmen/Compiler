@@ -1,0 +1,10 @@
+Program
+  List
+    Function
+      IdDecl ID="a"
+      List
+        IdDecl ID="x"
+      List
+        Assignment
+          IdDecl ID="x"
+          Numeral NUMERAL="5"
