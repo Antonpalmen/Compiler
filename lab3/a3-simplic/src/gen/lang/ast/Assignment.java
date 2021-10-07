@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:7
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:7
  * @astdecl Assignment : Statement ::= IdUse:IdUse Expression:Expression;
  * @production Assignment : {@link Statement} ::= <span class="component">IdUse:{@link IdUse}</span> <span class="component">Expression:{@link Expression}</span>;
 
@@ -15,15 +15,14 @@ import java.util.HashSet;
 public class Assignment extends Statement implements Cloneable {
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:90
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:120
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-    	getIdUse().checkNames(err, symbols);
-    	getExpression().checkNames(err, symbols);
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+			return getIdUse().checkNames(err, symbols) && getExpression().checkNames(err, symbols);
     }
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:113
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:113
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind);
@@ -34,7 +33,7 @@ public class Assignment extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:90
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:90
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

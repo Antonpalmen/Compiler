@@ -7,15 +7,27 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:10
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:10
  * @astdecl WhileStatement : Statement ::= Expression Statement*;
  * @production WhileStatement : {@link Statement} ::= <span class="component">{@link Expression}</span> <span class="component">{@link Statement}*</span>;
 
  */
 public class WhileStatement extends Statement implements Cloneable {
   /**
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:107
+   */
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getExpression().checkNames(err, symbols);
+		symbols = symbols.push();
+		for(int i = 0; i < getNumStatement(); i++) {
+			result = result && getStatement(i).checkNames(err, symbols);
+			}
+		return result;
+	}
+  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:88
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:88
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "while (");
@@ -33,7 +45,7 @@ public class WhileStatement extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:67
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:67
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

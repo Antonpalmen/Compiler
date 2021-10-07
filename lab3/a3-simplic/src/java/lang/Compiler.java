@@ -14,6 +14,7 @@ import lang.ast.LangScanner;
  * Dumps the parsed Abstract Syntax Tree of a Calc program.
  */
 public class Compiler {
+  //public static boolean foundError = false;
 	/**
 	 * Entry point
 	 * @param args
@@ -37,9 +38,11 @@ public class Compiler {
 			Program program = (Program) parser.parse(scanner);
             DrAST_root_node = program; //Enable debugging with DrAST
 			System.out.println(program.dumpTree());
-      System.out.println("The MSN for the program is: " + CalculateMSN.result(program));
-      program.prettyPrint(System.out);
-      program.checkNames(System.err);
+      //System.out.println("The MSN for the program is: " + CalculateMSN.result(program));
+      //program.prettyPrint(System.out);
+      if(!program.checkNames(System.err)) {
+        System.exit(1);
+      }
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!");
 			System.exit(1);

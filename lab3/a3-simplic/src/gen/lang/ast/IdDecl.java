@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:2
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:2
  * @astdecl IdDecl : ASTNode ::= <ID:String>;
  * @production IdDecl : {@link ASTNode} ::= <span class="component">&lt;ID:{@link String}&gt;</span>;
 
@@ -15,24 +15,26 @@ import java.util.HashSet;
 public class IdDecl extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:103
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:132
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
 		if (!symbols.declare(getID())) {
 			err.format("Error at line %d: symbol \'%s\' is already declared!", getLine(), getID());
 			err.println();
+			return false;
 		}
+		return true;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:197
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:197
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(getID());
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:113
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:113
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

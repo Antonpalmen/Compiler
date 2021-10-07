@@ -7,30 +7,31 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:37
- * @astdecl FunctionUse : Expression ::= Name:IdUse Parameter:Expression*;
- * @production FunctionUse : {@link Expression} ::= <span class="component">Name:{@link IdUse}</span> <span class="component">Parameter:{@link Expression}*</span>;
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:36
+ * @astdecl FunctionUse : Expression ::= IdUse:IdUse Parameter:Expression*;
+ * @production FunctionUse : {@link Expression} ::= <span class="component">IdUse:{@link IdUse}</span> <span class="component">Parameter:{@link Expression}*</span>;
 
  */
 public class FunctionUse extends Expression implements Cloneable {
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:117
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:150
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-    	getName().checkNames(err, symbols);
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getIdUse().checkNames(err, symbols);
     	if(hasParameter()){
             for(int i = 0; i < getNumParameter(); i++){
-        	    getParameter(i).checkNames(err, symbols);
+        	    result = result && getParameter(i).checkNames(err, symbols);
         	}
         }
+				return result;
     }
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:183
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:183
    */
   public void prettyPrint(PrintStream out, String ind) {
-		getName().prettyPrint(out, ind);
+		getIdUse().prettyPrint(out, ind);
 		out.print("(");
 		if(hasParameter()){
 				for(int i = 0; i < getNumParameter(); i++){
@@ -44,7 +45,7 @@ public class FunctionUse extends Expression implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:119
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:119
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -70,7 +71,7 @@ public class FunctionUse extends Expression implements Cloneable {
    * @declaredat ASTNode:14
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Name", "Parameter"},
+    name = {"IdUse", "Parameter"},
     type = {"IdUse", "List<Expression>"},
     kind = {"Child", "List"}
   )
@@ -174,30 +175,30 @@ public class FunctionUse extends Expression implements Cloneable {
     return tree;
   }
   /**
-   * Replaces the Name child.
-   * @param node The new node to replace the Name child.
+   * Replaces the IdUse child.
+   * @param node The new node to replace the IdUse child.
    * @apilevel high-level
    */
-  public FunctionUse setName(IdUse node) {
+  public FunctionUse setIdUse(IdUse node) {
     setChild(node, 0);
     return this;
   }
   /**
-   * Retrieves the Name child.
-   * @return The current node used as the Name child.
+   * Retrieves the IdUse child.
+   * @return The current node used as the IdUse child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="Name")
-  public IdUse getName() {
+  @ASTNodeAnnotation.Child(name="IdUse")
+  public IdUse getIdUse() {
     return (IdUse) getChild(0);
   }
   /**
-   * Retrieves the Name child.
+   * Retrieves the IdUse child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Name child.
+   * @return The current node used as the IdUse child.
    * @apilevel low-level
    */
-  public IdUse getNameNoTransform() {
+  public IdUse getIdUseNoTransform() {
     return (IdUse) getChildNoTransform(0);
   }
   /**

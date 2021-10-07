@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:35
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:34
  * @astdecl Mod : Expression ::= a:Expression b:Expression;
  * @production Mod : {@link Expression} ::= <span class="component">a:{@link Expression}</span> <span class="component">b:{@link Expression}</span>;
 
@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class Mod extends Expression implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:169
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:169
    */
   public void prettyPrint(PrintStream out, String ind) {
 		geta().prettyPrint(out, ind);
@@ -24,7 +24,7 @@ public class Mod extends Expression implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:106
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:106
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

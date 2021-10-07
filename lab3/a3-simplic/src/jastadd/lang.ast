@@ -1,6 +1,6 @@
 Program ::= Function*;
 IdDecl ::= <ID>;
-Function ::= IdDecl Parameter* Statement*;
+Function ::= IdDecl Parameter:IdDecl* Statement*;
 
 abstract Statement;
 Declaration:Statement ::= IdDecl:IdDecl [Assignment:Expression];
@@ -15,7 +15,6 @@ FunctionCall:Statement ::= FunctionUse;
 abstract Expression;
 IdUse:Expression ::= <ID>;
 Numeral:Expression ::= <NUMERAL>;
-Parameter ::= IdDecl;
 
 abstract Comparison:Expression;
 LesserThan:Comparison ::= a:Expression b:Expression;
@@ -34,4 +33,4 @@ Mul:Expression ::= a:Expression b:Expression;
 Div:Expression ::= a:Expression b:Expression;
 Mod:Expression ::= a:Expression b:Expression;
 
-FunctionUse:Expression ::= Name:IdUse Parameter:Expression*;
+FunctionUse:Expression ::= IdUse:IdUse Parameter:Expression*;

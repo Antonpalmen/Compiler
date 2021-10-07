@@ -11,7 +11,7 @@ import java.util.HashSet;
  * have a visit method.
  * @ast interface
  * @aspect Visitor
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:6
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:6
  */
 public interface Visitor {
 
@@ -27,10 +27,9 @@ public interface Visitor {
 		 
 		public Object visit(Function node, Object data);
 
+		//public Object visit(Parameter node, Object data);
 		 
-		public Object visit(Parameter node, Object data);
-
-		 
+		//public Object visit(Parameter node, Object data);
 		public Object visit(Return node, Object data);
 
 

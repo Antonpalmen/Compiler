@@ -8,12 +8,12 @@ import java.util.HashSet;
 /**
  * @ast class
  * @aspect NameAnalysis
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:5
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:5
  */
 public class SymbolTable extends java.lang.Object {
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:6
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:6
    */
   
 		private static final SymbolTable BOTTOM = new SymbolTable() {
@@ -29,20 +29,20 @@ public class SymbolTable extends java.lang.Object {
 		};
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:18
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:18
    */
   
 
 		private final SymbolTable tail;
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:19
    */
   
 		private final Set<String> names = new HashSet<String>();
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:21
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:21
    */
   
 
@@ -51,7 +51,7 @@ public class SymbolTable extends java.lang.Object {
 		}
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:25
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:25
    */
   
 
@@ -62,7 +62,7 @@ public class SymbolTable extends java.lang.Object {
    * Attempt to add a new name to the symbol table.
    * @return true if name was not already declared
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:33
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:33
    */
   
 
@@ -76,7 +76,7 @@ public class SymbolTable extends java.lang.Object {
   /**
    * @return true if name has been declared
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:40
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:40
    */
   
 
@@ -90,7 +90,7 @@ public class SymbolTable extends java.lang.Object {
    * Push a new table on the stack.
    * @return the new top of the stack
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:48
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:48
    */
   
 

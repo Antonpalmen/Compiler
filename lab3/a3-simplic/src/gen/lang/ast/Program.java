@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:1
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:1
  * @astdecl Program : ASTNode ::= Function*;
  * @production Program : {@link ASTNode} ::= <span class="component">{@link Function}*</span>;
 
@@ -16,15 +16,18 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @param err where to write error messages
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:56
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:56
    */
-  public void checkNames(PrintStream err) {
+  public boolean checkNames(PrintStream err) {
 		SymbolTable symbols = new SymbolTable();
-		checkNames(err, symbols);
+		symbols.declare("print");
+		symbols.declare("read");
+
+		return checkNames(err, symbols);
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:48
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:48
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

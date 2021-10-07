@@ -7,15 +7,33 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:8
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:8
  * @astdecl IfStatement : Statement ::= Expression Statement* [Else];
  * @production IfStatement : {@link Statement} ::= <span class="component">{@link Expression}</span> <span class="component">{@link Statement}*</span> <span class="component">[{@link Else}]</span>;
 
  */
 public class IfStatement extends Statement implements Cloneable {
   /**
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:92
+   */
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getExpression().checkNames(err, symbols);
+		SymbolTable symbols2 = new SymbolTable(symbols);
+		symbols = symbols.push();
+		for(int i = 0; i < getNumStatement(); i++) {
+			result = result && getStatement(i).checkNames(err, symbols);
+		}
+		if(hasElse()) {
+			for(int i = 0; i < getElse().getNumStatement(); i++) {
+				result = result && getElse().getStatement(i).checkNames(err, symbols2);
+			}
+		}
+		return result;
+	}
+  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:57
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:57
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "if (");
@@ -38,7 +56,7 @@ public class IfStatement extends Statement implements Cloneable {
 }
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:61
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:61
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

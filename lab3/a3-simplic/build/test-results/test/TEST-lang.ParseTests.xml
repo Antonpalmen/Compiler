@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="lang.ParseTests" tests="2" skipped="0" failures="1" errors="0" timestamp="2021-09-23T13:51:04" hostname="LAPTOP-4TE2LN4I" time="1.048">
+<testsuite name="lang.ParseTests" tests="2" skipped="0" failures="1" errors="0" timestamp="2021-10-07T13:57:56" hostname="LAPTOP-4TE2LN4I" time="1.299">
   <properties/>
-  <testcase name="example" classname="lang.ParseTests" time="1.045">
+  <testcase name="example" classname="lang.ParseTests" time="1.296">
     <failure message="java.lang.AssertionError: Unexpected error while parsing 'example.in': Cannot recover from the syntax error" type="java.lang.AssertionError">java.lang.AssertionError: Unexpected error while parsing 'example.in': Cannot recover from the syntax error
 	at org.junit.Assert.fail(Assert.java:89)
 	at lang.Util.testValidSyntax(Util.java:83)

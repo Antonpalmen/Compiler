@@ -53,78 +53,108 @@ aspect NameAnalysis {
 	/**
 	 * @param err where to write error messages
 	 */
-	public void Program.checkNames(PrintStream err) {
+	public boolean Program.checkNames(PrintStream err) {
 		SymbolTable symbols = new SymbolTable();
-		checkNames(err, symbols);
+		symbols.declare("print");
+		symbols.declare("read");
+
+		return checkNames(err, symbols);
 	}
 
 	/**
 	 * @param err where to write error messages
 	 * @param symbols symbol table
 	 */
-	public void ASTNode.checkNames(PrintStream err, SymbolTable symbols) {
+	public boolean ASTNode.checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = true;
 		for (int i = 0; i < getNumChild(); ++i) {
-			getChild(i).checkNames(err, symbols);
+			result = result && getChild(i).checkNames(err, symbols);
 		}
+		return result;
 	}
 
-	public void Function.checkNames(PrintStream err, SymbolTable symbols) {
-		getIdDecl().checkNames(err, symbols);
+	public boolean Function.checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getIdDecl().checkNames(err, symbols);
 		symbols = symbols.push();
 		if(hasParameter()){
 		    for(int i = 0; i < getNumParameter(); i++){
-		        getParameter(i).checkNames(err, symbols);
+		        result = result && getParameter(i).checkNames(err, symbols);
 		    }
 		}
 		if(hasStatement()){
 		    for(int i = 0; i < getNumStatement(); i++){
-		        getStatement(i).checkNames(err, symbols);
+		        result = result && getStatement(i).checkNames(err, symbols);
 		    }
 		}
+		return result;
 	}
 
-	public void Declaration.checkNames(PrintStream err, SymbolTable symbols) {
-	    getIdDecl().checkNames(err, symbols);
+	public boolean IfStatement.checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getExpression().checkNames(err, symbols);
+		SymbolTable symbols2 = new SymbolTable(symbols);
+		symbols = symbols.push();
+		for(int i = 0; i < getNumStatement(); i++) {
+			result = result && getStatement(i).checkNames(err, symbols);
+		}
+		if(hasElse()) {
+			for(int i = 0; i < getElse().getNumStatement(); i++) {
+				result = result && getElse().getStatement(i).checkNames(err, symbols2);
+			}
+		}
+		return result;
 	}
 
-	public void Assignment.checkNames(PrintStream err, SymbolTable symbols) {
-    	getIdUse().checkNames(err, symbols);
-    	getExpression().checkNames(err, symbols);
+	public boolean WhileStatement.checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getExpression().checkNames(err, symbols);
+		symbols = symbols.push();
+		for(int i = 0; i < getNumStatement(); i++) {
+			result = result && getStatement(i).checkNames(err, symbols);
+			}
+		return result;
+	}
+
+	public boolean Declaration.checkNames(PrintStream err, SymbolTable symbols) {
+	    return getIdDecl().checkNames(err, symbols);
+	}
+
+	public boolean Assignment.checkNames(PrintStream err, SymbolTable symbols) {
+			return getIdUse().checkNames(err, symbols) && getExpression().checkNames(err, symbols);
     }
 
-	public void FunctionCall.checkNames(PrintStream err, SymbolTable symbols) {
-    	getFunctionUse().checkNames(err, symbols);
+	public boolean FunctionCall.checkNames(PrintStream err, SymbolTable symbols) {
+    	return getFunctionUse().checkNames(err, symbols);
     }
 
-	public void Return.checkNames(PrintStream err, SymbolTable symbols) {
-    	getExpression().checkNames(err, symbols);
+	public boolean Return.checkNames(PrintStream err, SymbolTable symbols) {
+    	return getExpression().checkNames(err, symbols);
     }
 
 	public boolean IdDecl.checkNames(PrintStream err, SymbolTable symbols) {
 		if (!symbols.declare(getID())) {
 			err.format("Error at line %d: symbol \'%s\' is already declared!", getLine(), getID());
 			err.println();
-			return 1;
+			return false;
 		}
-		return 0;
+		return true;
 	}
 
 	public boolean IdUse.checkNames(PrintStream err, SymbolTable symbols) {
 		if (!symbols.lookup(getID())) {
 			err.format("Error at line %d: symbol \'%s\' has not been declared before this use!", getLine(), getID());
 			err.println();
-			return 1;
+			return false;
 		}
-		return 0;
+		return true;
 	}
 
-	public void FunctionUse.checkNames(PrintStream err, SymbolTable symbols) {
-    	getName().checkNames(err, symbols);
+	public boolean FunctionUse.checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getIdUse().checkNames(err, symbols);
     	if(hasParameter()){
             for(int i = 0; i < getNumParameter(); i++){
-        	    getParameter(i).checkNames(err, symbols);
+        	    result = result && getParameter(i).checkNames(err, symbols);
         	}
         }
+				return result;
     }
 
 	/**

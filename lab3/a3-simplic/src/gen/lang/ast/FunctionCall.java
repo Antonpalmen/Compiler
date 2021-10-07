@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:12
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:12
  * @astdecl FunctionCall : Statement ::= FunctionUse;
  * @production FunctionCall : {@link Statement} ::= <span class="component">{@link FunctionUse}</span>;
 
@@ -15,14 +15,14 @@ import java.util.HashSet;
 public class FunctionCall extends Statement implements Cloneable {
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:95
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:124
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-    	getFunctionUse().checkNames(err, symbols);
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+    	return getFunctionUse().checkNames(err, symbols);
     }
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:51
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:51
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind);
@@ -31,7 +31,7 @@ public class FunctionCall extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:70
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:70
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

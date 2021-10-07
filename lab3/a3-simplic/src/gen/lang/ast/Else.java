@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:9
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:9
  * @astdecl Else : Statement ::= Statement*;
  * @production Else : {@link Statement} ::= <span class="component">{@link Statement}*</span>;
 
@@ -15,7 +15,7 @@ import java.util.HashSet;
 public class Else extends Statement implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:77
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:77
    */
   public void prettyPrint(PrintStream out, String ind) {
 		if(hasStatement()) {
@@ -29,7 +29,7 @@ public class Else extends Statement implements Cloneable {
 }
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:64
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:64
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

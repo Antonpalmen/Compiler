@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:26
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:25
  * @astdecl GreaterThanEqual : Comparison ::= a:Expression b:Expression;
  * @production GreaterThanEqual : {@link Comparison} ::= <span class="component">a:{@link Expression}</span> <span class="component">b:{@link Expression}</span>;
 

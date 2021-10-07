@@ -14,12 +14,12 @@ import java.util.HashSet;
 public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneable {
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/DumpTree.jrag:9
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:9
    */
   private static final String DUMP_TREE_INDENT = "  ";
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/DumpTree.jrag:11
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:11
    */
   public String dumpTree() {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -28,7 +28,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/DumpTree.jrag:17
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:17
    */
   public void dumpTree(PrintStream out) {
 		dumpTree(out, "");
@@ -36,7 +36,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/DumpTree.jrag:22
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:22
    */
   public void dumpTree(PrintStream out, String indent) {
 		out.print(indent + getClass().getSimpleName());
@@ -52,7 +52,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/DumpTree.jrag:35
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:35
    */
   public String getTokens() {
 		java.util.TreeSet<java.lang.reflect.Method> methods = new java.util.TreeSet<>(
@@ -81,25 +81,27 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
    * @param err where to write error messages
    * @param symbols symbol table
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:65
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:68
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = true;
 		for (int i = 0; i < getNumChild(); ++i) {
-			getChild(i).checkNames(err, symbols);
+			result = result && getChild(i).checkNames(err, symbols);
 		}
+		return result;
 	}
   /**
    * Helper method
    * @return line number of this token
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:130
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:164
    */
   public int getLine() {
 		return getLine(getStart());
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:4
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:4
    */
   public void prettyPrint(PrintStream out) {
 		prettyPrint(out, "");
@@ -107,7 +109,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:9
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:9
    */
   public void prettyPrint(PrintStream out, String ind) {
 		for (int i = 0; i < getNumChild(); ++i) {
@@ -116,7 +118,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:39
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:39
    */
   public Object accept(Visitor visitor, Object data) {
 		throw new Error("Visitor: accept method not available for " + getClass().getName());

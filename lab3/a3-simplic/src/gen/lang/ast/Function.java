@@ -7,33 +7,34 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/lang.ast:3
- * @astdecl Function : ASTNode ::= IdDecl Parameter* Statement*;
- * @production Function : {@link ASTNode} ::= <span class="component">{@link IdDecl}</span> <span class="component">{@link Parameter}*</span> <span class="component">{@link Statement}*</span>;
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:3
+ * @astdecl Function : ASTNode ::= IdDecl Parameter:IdDecl* Statement*;
+ * @production Function : {@link ASTNode} ::= <span class="component">{@link IdDecl}</span> <span class="component">Parameter:{@link IdDecl}*</span> <span class="component">{@link Statement}*</span>;
 
  */
 public class Function extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:71
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:76
    */
-  public void checkNames(PrintStream err, SymbolTable symbols) {
-		getIdDecl().checkNames(err, symbols);
+  public boolean checkNames(PrintStream err, SymbolTable symbols) {
+		boolean result = getIdDecl().checkNames(err, symbols);
 		symbols = symbols.push();
 		if(hasParameter()){
 		    for(int i = 0; i < getNumParameter(); i++){
-		        getParameter(i).checkNames(err, symbols);
+		        result = result && getParameter(i).checkNames(err, symbols);
 		    }
 		}
 		if(hasStatement()){
 		    for(int i = 0; i < getNumStatement(); i++){
-		        getStatement(i).checkNames(err, symbols);
+		        result = result && getStatement(i).checkNames(err, symbols);
 		    }
 		}
+		return result;
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:15
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:15
    */
   public void prettyPrint(PrintStream out, String ind) {
 	out.print("int ");
@@ -61,7 +62,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
 		}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/.git/branches/lab3/a3-simplic/src/jastadd/Visitor.jrag:51
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:51
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -89,10 +90,10 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    */
   @ASTNodeAnnotation.Constructor(
     name = {"IdDecl", "Parameter", "Statement"},
-    type = {"IdDecl", "List<Parameter>", "List<Statement>"},
+    type = {"IdDecl", "List<IdDecl>", "List<Statement>"},
     kind = {"Child", "List", "List"}
   )
-  public Function(IdDecl p0, List<Parameter> p1, List<Statement> p2) {
+  public Function(IdDecl p0, List<IdDecl> p1, List<Statement> p2) {
     setChild(p0, 0);
     setChild(p1, 1);
     setChild(p2, 2);
@@ -224,7 +225,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @param list The new list node to be used as the Parameter list.
    * @apilevel high-level
    */
-  public Function setParameterList(List<Parameter> list) {
+  public Function setParameterList(List<IdDecl> list) {
     setChild(list, 1);
     return this;
   }
@@ -251,8 +252,8 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @return The element at position {@code i} in the Parameter list.
    * @apilevel high-level
    */
-  public Parameter getParameter(int i) {
-    return (Parameter) getParameterList().getChild(i);
+  public IdDecl getParameter(int i) {
+    return (IdDecl) getParameterList().getChild(i);
   }
   /**
    * Check whether the Parameter list has any children.
@@ -267,15 +268,15 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @param node The element to append to the Parameter list.
    * @apilevel high-level
    */
-  public Function addParameter(Parameter node) {
-    List<Parameter> list = (parent == null) ? getParameterListNoTransform() : getParameterList();
+  public Function addParameter(IdDecl node) {
+    List<IdDecl> list = (parent == null) ? getParameterListNoTransform() : getParameterList();
     list.addChild(node);
     return this;
   }
   /** @apilevel low-level 
    */
-  public Function addParameterNoTransform(Parameter node) {
-    List<Parameter> list = getParameterListNoTransform();
+  public Function addParameterNoTransform(IdDecl node) {
+    List<IdDecl> list = getParameterListNoTransform();
     list.addChild(node);
     return this;
   }
@@ -285,8 +286,8 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @param i The list index of the node to be replaced.
    * @apilevel high-level
    */
-  public Function setParameter(Parameter node, int i) {
-    List<Parameter> list = getParameterList();
+  public Function setParameter(IdDecl node, int i) {
+    List<IdDecl> list = getParameterList();
     list.setChild(node, i);
     return this;
   }
@@ -296,8 +297,8 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @apilevel high-level
    */
   @ASTNodeAnnotation.ListChild(name="Parameter")
-  public List<Parameter> getParameterList() {
-    List<Parameter> list = (List<Parameter>) getChild(1);
+  public List<IdDecl> getParameterList() {
+    List<IdDecl> list = (List<IdDecl>) getChild(1);
     return list;
   }
   /**
@@ -306,22 +307,22 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @return The node representing the Parameter list.
    * @apilevel low-level
    */
-  public List<Parameter> getParameterListNoTransform() {
-    return (List<Parameter>) getChildNoTransform(1);
+  public List<IdDecl> getParameterListNoTransform() {
+    return (List<IdDecl>) getChildNoTransform(1);
   }
   /**
    * @return the element at index {@code i} in the Parameter list without
    * triggering rewrites.
    */
-  public Parameter getParameterNoTransform(int i) {
-    return (Parameter) getParameterListNoTransform().getChildNoTransform(i);
+  public IdDecl getParameterNoTransform(int i) {
+    return (IdDecl) getParameterListNoTransform().getChildNoTransform(i);
   }
   /**
    * Retrieves the Parameter list.
    * @return The node representing the Parameter list.
    * @apilevel high-level
    */
-  public List<Parameter> getParameters() {
+  public List<IdDecl> getParameters() {
     return getParameterList();
   }
   /**
@@ -330,7 +331,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @return The node representing the Parameter list.
    * @apilevel low-level
    */
-  public List<Parameter> getParametersNoTransform() {
+  public List<IdDecl> getParametersNoTransform() {
     return getParameterListNoTransform();
   }
   /**

@@ -1,22 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="lang.TestDumpTree" tests="4" skipped="0" failures="4" errors="0" timestamp="2021-09-23T13:51:05" hostname="LAPTOP-4TE2LN4I" time="0.277">
+<testsuite name="lang.TestDumpTree" tests="4" skipped="0" failures="4" errors="0" timestamp="2021-10-07T13:57:58" hostname="LAPTOP-4TE2LN4I" time="0.428">
   <properties/>
-  <testcase name="runTest[d.in]" classname="lang.TestDumpTree" time="0.227">
-    <failure message="org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program&#10;  List&#10;    Function&#10;      IdDecl ID=&quot;main&quot;&#10;      List&#10;      List&#10;        FunctionCall&#10;          FunctionUse&#10;            IdUse ID=&quot;print&quot;&#10;            List&#10;              IdUse ID=&quot;a&quot;&#10;        Declaration&#10;          IdDecl ID=&quot;a&quot;&#10;          Opt&#10;            Numeral NUMERAL=&quot;10&quot;]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program
+  <testcase name="runTest[d.in]" classname="lang.TestDumpTree" time="0.329">
+    <failure message="org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program&#10;  List&#10;    Function&#10;      IdDecl ID=&quot;f&quot;&#10;      List&#10;        IdDecl ID=&quot;x&quot;&#10;      List&#10;        WhileStatement&#10;          GreaterThan&#10;            IdUse ID=&quot;x&quot;&#10;            Numeral NUMERAL=&quot;0&quot;&#10;          List&#10;            Declaration&#10;              IdDecl ID=&quot;a&quot;&#10;              Opt&#10;                Sub&#10;                  IdUse ID=&quot;x&quot;&#10;                  Numeral NUMERAL=&quot;1&quot;&#10;            IfStatement&#10;              GreaterThan&#10;                IdUse ID=&quot;x&quot;&#10;                Numeral NUMERAL=&quot;6&quot;&#10;              List&#10;                Declaration&#10;                  IdDecl ID=&quot;a&quot;&#10;                  Opt&#10;                    Numeral NUMERAL=&quot;31&quot;&#10;                IfStatement&#10;                  GreaterThanEqual&#10;                    IdUse ID=&quot;x&quot;&#10;                    Numeral NUMERAL=&quot;3&quot;&#10;                  List&#10;                    Declaration&#10;                      IdDecl ID=&quot;a&quot;&#10;                      Opt&#10;                        Numeral NUMERAL=&quot;42&quot;&#10;                    IfStatement&#10;                      Equal&#10;                        IdUse ID=&quot;x&quot;&#10;                        Numeral NUMERAL=&quot;3&quot;&#10;                      List&#10;                        Assignment&#10;                          IdUse ID=&quot;a&quot;&#10;                          Numeral NUMERAL=&quot;4&quot;&#10;                      Opt&#10;                  Opt&#10;              Opt&#10;            Assignment&#10;              IdUse ID=&quot;x&quot;&#10;              IdUse ID=&quot;a&quot;&#10;        Return&#10;          IdUse ID=&quot;x&quot;]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program
   List
     Function
-      IdDecl ID=&quot;main&quot;
+      IdDecl ID=&quot;f&quot;
       List
+        IdDecl ID=&quot;x&quot;
       List
-        FunctionCall
-          FunctionUse
-            IdUse ID=&quot;print&quot;
-            List
+        WhileStatement
+          GreaterThan
+            IdUse ID=&quot;x&quot;
+            Numeral NUMERAL=&quot;0&quot;
+          List
+            Declaration
+              IdDecl ID=&quot;a&quot;
+              Opt
+                Sub
+                  IdUse ID=&quot;x&quot;
+                  Numeral NUMERAL=&quot;1&quot;
+            IfStatement
+              GreaterThan
+                IdUse ID=&quot;x&quot;
+                Numeral NUMERAL=&quot;6&quot;
+              List
+                Declaration
+                  IdDecl ID=&quot;a&quot;
+                  Opt
+                    Numeral NUMERAL=&quot;31&quot;
+                IfStatement
+                  GreaterThanEqual
+                    IdUse ID=&quot;x&quot;
+                    Numeral NUMERAL=&quot;3&quot;
+                  List
+                    Declaration
+                      IdDecl ID=&quot;a&quot;
+                      Opt
+                        Numeral NUMERAL=&quot;42&quot;
+                    IfStatement
+                      Equal
+                        IdUse ID=&quot;x&quot;
+                        Numeral NUMERAL=&quot;3&quot;
+                      List
+                        Assignment
+                          IdUse ID=&quot;a&quot;
+                          Numeral NUMERAL=&quot;4&quot;
+                      Opt
+                  Opt
+              Opt
+            Assignment
+              IdUse ID=&quot;x&quot;
               IdUse ID=&quot;a&quot;
-        Declaration
-          IdDecl ID=&quot;a&quot;
-          Opt
-            Numeral NUMERAL=&quot;10&quot;]&gt;
+        Return
+          IdUse ID=&quot;x&quot;]&gt;
 	at org.junit.Assert.assertEquals(Assert.java:117)
 	at lang.Util.compareOutput(Util.java:46)
 	at lang.TestDumpTree.runTest(TestDumpTree.java:31)
@@ -73,7 +110,7 @@
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
-  <testcase name="runTest[declareBeforeUseTest.in]" classname="lang.TestDumpTree" time="0.021">
+  <testcase name="runTest[declareBeforeUseTest.in]" classname="lang.TestDumpTree" time="0.037">
     <failure message="org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program&#10;  List&#10;    Function&#10;      IdDecl ID=&quot;main&quot;&#10;      List&#10;      List&#10;        Declaration&#10;          IdDecl ID=&quot;a&quot;&#10;          Opt&#10;        Assignment&#10;          IdUse ID=&quot;a&quot;&#10;          Add&#10;            Numeral NUMERAL=&quot;2&quot;&#10;            IdUse ID=&quot;b&quot;&#10;        Declaration&#10;          IdDecl ID=&quot;b&quot;&#10;          Opt&#10;            Numeral NUMERAL=&quot;3&quot;&#10;        Return&#10;          IdUse ID=&quot;a&quot;]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program
   List
     Function
@@ -150,7 +187,7 @@
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
-  <testcase name="runTest[redeclarationTest.in]" classname="lang.TestDumpTree" time="0.016">
+  <testcase name="runTest[redeclarationTest.in]" classname="lang.TestDumpTree" time="0.033">
     <failure message="org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program&#10;  List&#10;    Function&#10;      IdDecl ID=&quot;main&quot;&#10;      List&#10;      List&#10;        Declaration&#10;          IdDecl ID=&quot;a&quot;&#10;          Opt&#10;            Numeral NUMERAL=&quot;3&quot;&#10;        IfStatement&#10;          NotEqual&#10;            IdUse ID=&quot;a&quot;&#10;            Numeral NUMERAL=&quot;0&quot;&#10;          List&#10;            Declaration&#10;              IdDecl ID=&quot;a&quot;&#10;              Opt&#10;                Numeral NUMERAL=&quot;4&quot;&#10;            Return&#10;              IdUse ID=&quot;a&quot;&#10;          Opt&#10;        Declaration&#10;          IdDecl ID=&quot;a&quot;&#10;          Opt&#10;            Numeral NUMERAL=&quot;5&quot;&#10;        Return&#10;          IdUse ID=&quot;a&quot;]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program
   List
     Function
@@ -235,7 +272,7 @@
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
-  <testcase name="runTest[useBeforeDeclareTest.in]" classname="lang.TestDumpTree" time="0.011">
+  <testcase name="runTest[useBeforeDeclareTest.in]" classname="lang.TestDumpTree" time="0.026">
     <failure message="org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program&#10;  List&#10;    Function&#10;      IdDecl ID=&quot;a&quot;&#10;      List&#10;      List&#10;        Return&#10;          FunctionUse&#10;            IdUse ID=&quot;b&quot;&#10;            List&#10;    Function&#10;      IdDecl ID=&quot;b&quot;&#10;      List&#10;      List&#10;        Return&#10;          Numeral NUMERAL=&quot;1&quot;]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: Output differs. expected:&lt;[]&gt; but was:&lt;[Program
   List
     Function
