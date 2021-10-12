@@ -2,27 +2,20 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:12
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:13
  * @astdecl FunctionCall : Statement ::= FunctionUse;
  * @production FunctionCall : {@link Statement} ::= <span class="component">{@link FunctionUse}</span>;
 
  */
 public class FunctionCall extends Statement implements Cloneable {
   /**
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:124
-   */
-  public boolean checkNames(PrintStream err, SymbolTable symbols) {
-    	return getFunctionUse().checkNames(err, symbols);
-    }
-  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:51
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:51
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind);
@@ -31,7 +24,7 @@ public class FunctionCall extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:70
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:70
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

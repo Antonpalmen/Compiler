@@ -2,32 +2,20 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:10
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:11
  * @astdecl WhileStatement : Statement ::= Expression Statement*;
  * @production WhileStatement : {@link Statement} ::= <span class="component">{@link Expression}</span> <span class="component">{@link Statement}*</span>;
 
  */
 public class WhileStatement extends Statement implements Cloneable {
   /**
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:107
-   */
-  public boolean checkNames(PrintStream err, SymbolTable symbols) {
-		boolean result = getExpression().checkNames(err, symbols);
-		symbols = symbols.push();
-		for(int i = 0; i < getNumStatement(); i++) {
-			result = result && getStatement(i).checkNames(err, symbols);
-			}
-		return result;
-	}
-  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:88
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:88
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "while (");
@@ -45,7 +33,7 @@ public class WhileStatement extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:67
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:67
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -90,7 +78,7 @@ public class WhileStatement extends Statement implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    localLookup_String_int_reset();
   }
   /** @apilevel internal 
    * @declaredat ASTNode:33
@@ -314,6 +302,80 @@ public class WhileStatement extends Statement implements Cloneable {
    */
   public List<Statement> getStatementsNoTransform() {
     return getStatementListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set localLookup_String_int_visited;
+  /** @apilevel internal */
+  private void localLookup_String_int_reset() {
+    localLookup_String_int_values = null;
+    localLookup_String_int_visited = null;
+  }
+  /** @apilevel internal */
+  protected java.util.Map localLookup_String_int_values;
+
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:38
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:38")
+  public IdDecl localLookup(String name, int index) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(name);
+    _parameters.add(index);
+    if (localLookup_String_int_visited == null) localLookup_String_int_visited = new java.util.HashSet(4);
+    if (localLookup_String_int_values == null) localLookup_String_int_values = new java.util.HashMap(4);
+    ASTState state = state();
+    if (localLookup_String_int_values.containsKey(_parameters)) {
+      return (IdDecl) localLookup_String_int_values.get(_parameters);
+    }
+    if (localLookup_String_int_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute WhileStatement.localLookup(String,int).");
+    }
+    localLookup_String_int_visited.add(_parameters);
+    state().enterLazyAttribute();
+    IdDecl localLookup_String_int_value = localLookup_compute(name, index);
+    localLookup_String_int_values.put(_parameters, localLookup_String_int_value);
+    state().leaveLazyAttribute();
+    localLookup_String_int_visited.remove(_parameters);
+    return localLookup_String_int_value;
+  }
+  /** @apilevel internal */
+  private IdDecl localLookup_compute(String name, int index) {
+          for(int i = 0; i <= index; i++){
+              IdDecl decl = getStatement(index).localLookup(name);
+              if (!decl.isUnknown()){
+                  return decl;
+              }
+          }
+  
+          return unknownDecl();
+      }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @apilevel internal
+   */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    if (_callerNode == getStatementListNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:34
+      int index = _callerNode.getIndexOfChild(_childNode);
+      {
+              IdDecl decl = localLookup(name, index);
+              return !decl.isUnknown() ? decl : lookup(name);
+          }
+    }
+    else {
+      return getParent().Define_lookup(this, _callerNode, name);
+    }
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   */
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    return true;
   }
 
 }

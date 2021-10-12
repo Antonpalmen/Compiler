@@ -2,9 +2,9 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
  * @astdecl ASTNode;
@@ -14,12 +14,12 @@ import java.util.HashSet;
 public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneable {
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:9
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/DumpTree.jrag:9
    */
   private static final String DUMP_TREE_INDENT = "  ";
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:11
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/DumpTree.jrag:11
    */
   public String dumpTree() {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -28,7 +28,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:17
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/DumpTree.jrag:17
    */
   public void dumpTree(PrintStream out) {
 		dumpTree(out, "");
@@ -36,7 +36,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:22
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/DumpTree.jrag:22
    */
   public void dumpTree(PrintStream out, String indent) {
 		out.print(indent + getClass().getSimpleName());
@@ -52,7 +52,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect DumpTree
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/DumpTree.jrag:35
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/DumpTree.jrag:35
    */
   public String getTokens() {
 		java.util.TreeSet<java.lang.reflect.Method> methods = new java.util.TreeSet<>(
@@ -78,30 +78,15 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 		return result;
 	}
   /**
-   * @param err where to write error messages
-   * @param symbols symbol table
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:68
+   * @aspect Errors
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:22
    */
-  public boolean checkNames(PrintStream err, SymbolTable symbols) {
-		boolean result = true;
-		for (int i = 0; i < getNumChild(); ++i) {
-			result = result && getChild(i).checkNames(err, symbols);
-		}
-		return result;
-	}
-  /**
-   * Helper method
-   * @return line number of this token
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:164
-   */
-  public int getLine() {
-		return getLine(getStart());
+  protected ErrorMessage error(String message) {
+		return new ErrorMessage(message, getLine(getStart()));
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:4
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:4
    */
   public void prettyPrint(PrintStream out) {
 		prettyPrint(out, "");
@@ -109,7 +94,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:9
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:9
    */
   public void prettyPrint(PrintStream out, String ind) {
 		for (int i = 0; i < getNumChild(); ++i) {
@@ -118,7 +103,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:39
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:39
    */
   public Object accept(Visitor visitor, Object data) {
 		throw new Error("Visitor: accept method not available for " + getClass().getName());
@@ -398,14 +383,16 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
    * @declaredat ASTNode:299
    */
   public void flushAttrCache() {
+    program_reset();
+    unknownDecl_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:302
+   * @declaredat ASTNode:304
    */
   public void flushCollectionCache() {
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:305
+   * @declaredat ASTNode:307
    */
   public ASTNode<T> clone() throws CloneNotSupportedException {
     ASTNode node = (ASTNode) super.clone();
@@ -413,7 +400,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:311
+   * @declaredat ASTNode:313
    */
   public ASTNode<T> copy() {
     try {
@@ -433,7 +420,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:330
+   * @declaredat ASTNode:332
    */
   @Deprecated
   public ASTNode<T> fullCopy() {
@@ -444,7 +431,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:340
+   * @declaredat ASTNode:342
    */
   public ASTNode<T> treeCopyNoTransform() {
     ASTNode tree = (ASTNode) copy();
@@ -465,7 +452,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:360
+   * @declaredat ASTNode:362
    */
   public ASTNode<T> treeCopy() {
     ASTNode tree = (ASTNode) copy();
@@ -483,12 +470,182 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol implements Cloneab
   /**
    * Performs a full traversal of the tree using getChild to trigger rewrites
    * @apilevel low-level
-   * @declaredat ASTNode:377
+   * @declaredat ASTNode:379
    */
   public void doFullTraversal() {
     for (int i = 0; i < getNumChild(); i++) {
       getChild(i).doFullTraversal();
     }
+  }
+  /**
+   * @aspect <NoAspect>
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26
+   */
+    /** @apilevel internal */
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    for (int i = 0; i < getNumChild(); i++) {
+      getChild(i).collect_contributors_Program_errors(_root, _map);
+    }
+  }
+  /** @apilevel internal */
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+  }
+
+  /**
+   * @attribute inh
+   * @aspect Errors
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:28
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:28")
+  public Program program() {
+    ASTState state = state();
+    if (program_computed) {
+      return program_value;
+    }
+    if (program_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.program().");
+    }
+    program_visited = true;
+    state().enterLazyAttribute();
+    program_value = getParent().Define_program(this, null);
+    program_computed = true;
+    state().leaveLazyAttribute();
+    program_visited = false;
+    return program_value;
+  }
+/** @apilevel internal */
+protected boolean program_visited = false;
+  /** @apilevel internal */
+  private void program_reset() {
+    program_computed = false;
+    
+    program_value = null;
+    program_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean program_computed = false;
+
+  /** @apilevel internal */
+  protected Program program_value;
+
+  /**
+   * @attribute inh
+   * @aspect UnknownDecl
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:4
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:4")
+  public UnknownDecl unknownDecl() {
+    ASTState state = state();
+    if (unknownDecl_computed) {
+      return unknownDecl_value;
+    }
+    if (unknownDecl_visited) {
+      throw new RuntimeException("Circular definition of attribute ASTNode.unknownDecl().");
+    }
+    unknownDecl_visited = true;
+    state().enterLazyAttribute();
+    unknownDecl_value = getParent().Define_unknownDecl(this, null);
+    unknownDecl_computed = true;
+    state().leaveLazyAttribute();
+    unknownDecl_visited = false;
+    return unknownDecl_value;
+  }
+/** @apilevel internal */
+protected boolean unknownDecl_visited = false;
+  /** @apilevel internal */
+  private void unknownDecl_reset() {
+    unknownDecl_computed = false;
+    
+    unknownDecl_value = null;
+    unknownDecl_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean unknownDecl_computed = false;
+
+  /** @apilevel internal */
+  protected UnknownDecl unknownDecl_value;
+
+  /** @apilevel internal */
+  public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_program(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_program(self, _callerNode);
+  }
+
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:29
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute program
+   */
+  protected boolean canDefine_program(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
+  }
+  /** @apilevel internal */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_lookup(self, _callerNode, name)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_lookup(self, _callerNode, name);
+  }
+
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:34
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   */
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    return false;
+  }
+  /** @apilevel internal */
+  public boolean Define_inExprOf(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_inExprOf(self, _callerNode, decl)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_inExprOf(self, _callerNode, decl);
+  }
+
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:128
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inExprOf
+   */
+  protected boolean canDefine_inExprOf(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    return false;
+  }
+  /** @apilevel internal */
+  public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    ASTNode self = this;
+    ASTNode parent = getParent();
+    while (parent != null && !parent.canDefine_unknownDecl(self, _callerNode)) {
+      _callerNode = self;
+      self = parent;
+      parent = self.getParent();
+    }
+    return parent.Define_unknownDecl(self, _callerNode);
+  }
+
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:5
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute unknownDecl
+   */
+  protected boolean canDefine_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    return false;
   }
 public ASTNode rewrittenNode() { throw new Error("rewrittenNode is undefined for ASTNode"); }
 

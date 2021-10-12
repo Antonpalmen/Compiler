@@ -1,7 +1,0 @@
-int a() {
-  int x;
-  int y;
-    while (x < y) {
-        x = 5 % 3;
-    }
-}

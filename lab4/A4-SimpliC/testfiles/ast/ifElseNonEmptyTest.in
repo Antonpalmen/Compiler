@@ -1,9 +1,0 @@
-int a() {
-    int x;
-    int y;
-    if(x < y) {
-        x = 5 % 4;
-    } else {
-        y = 5 % 4;
-    }
-}

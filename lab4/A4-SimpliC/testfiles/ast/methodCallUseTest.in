@@ -1,4 +1,0 @@
-int a(int x) {
-    int a;
-    a = b(x, t) + c();
-}

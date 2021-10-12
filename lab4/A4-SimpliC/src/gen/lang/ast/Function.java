@@ -2,39 +2,20 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:3
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:4
  * @astdecl Function : ASTNode ::= IdDecl Parameter:IdDecl* Statement*;
  * @production Function : {@link ASTNode} ::= <span class="component">{@link IdDecl}</span> <span class="component">Parameter:{@link IdDecl}*</span> <span class="component">{@link Statement}*</span>;
 
  */
 public class Function extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:76
-   */
-  public boolean checkNames(PrintStream err, SymbolTable symbols) {
-		boolean result = getIdDecl().checkNames(err, symbols);
-		symbols = symbols.push();
-		if(hasParameter()){
-		    for(int i = 0; i < getNumParameter(); i++){
-		        result = result && getParameter(i).checkNames(err, symbols);
-		    }
-		}
-		if(hasStatement()){
-		    for(int i = 0; i < getNumStatement(); i++){
-		        result = result && getStatement(i).checkNames(err, symbols);
-		    }
-		}
-		return result;
-	}
-  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:15
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:15
    */
   public void prettyPrint(PrintStream out, String ind) {
 	out.print("int ");
@@ -62,7 +43,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
 		}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:51
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:51
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -109,24 +90,25 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    localLookup_String_int_reset();
+    lookup_String_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:35
+   * @declaredat ASTNode:36
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
 
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:40
+   * @declaredat ASTNode:41
    */
   public Function clone() throws CloneNotSupportedException {
     Function node = (Function) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:45
+   * @declaredat ASTNode:46
    */
   public Function copy() {
     try {
@@ -146,7 +128,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:64
+   * @declaredat ASTNode:65
    */
   @Deprecated
   public Function fullCopy() {
@@ -157,7 +139,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:74
+   * @declaredat ASTNode:75
    */
   public Function treeCopyNoTransform() {
     Function tree = (Function) copy();
@@ -178,7 +160,7 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:94
+   * @declaredat ASTNode:95
    */
   public Function treeCopy() {
     Function tree = (Function) copy();
@@ -447,6 +429,134 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
    */
   public List<Statement> getStatementsNoTransform() {
     return getStatementListNoTransform();
+  }
+/** @apilevel internal */
+protected java.util.Set localLookup_String_int_visited;
+  /** @apilevel internal */
+  private void localLookup_String_int_reset() {
+    localLookup_String_int_values = null;
+    localLookup_String_int_visited = null;
+  }
+  /** @apilevel internal */
+  protected java.util.Map localLookup_String_int_values;
+
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:92
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:92")
+  public IdDecl localLookup(String name, int index) {
+    java.util.List _parameters = new java.util.ArrayList(2);
+    _parameters.add(name);
+    _parameters.add(index);
+    if (localLookup_String_int_visited == null) localLookup_String_int_visited = new java.util.HashSet(4);
+    if (localLookup_String_int_values == null) localLookup_String_int_values = new java.util.HashMap(4);
+    ASTState state = state();
+    if (localLookup_String_int_values.containsKey(_parameters)) {
+      return (IdDecl) localLookup_String_int_values.get(_parameters);
+    }
+    if (localLookup_String_int_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Function.localLookup(String,int).");
+    }
+    localLookup_String_int_visited.add(_parameters);
+    state().enterLazyAttribute();
+    IdDecl localLookup_String_int_value = localLookup_compute(name, index);
+    localLookup_String_int_values.put(_parameters, localLookup_String_int_value);
+    state().leaveLazyAttribute();
+    localLookup_String_int_visited.remove(_parameters);
+    return localLookup_String_int_value;
+  }
+  /** @apilevel internal */
+  private IdDecl localLookup_compute(String name, int index) {
+          if (getIdDecl().getID().equals(name)){
+              return getIdDecl();
+          }
+  
+          for(int i = 0; i < getNumParameter(); i++){
+              if (getParameter(i).equals(name)) {
+                  return getParameter(i);
+              }
+          }
+  
+          for (int i = 0; i <= index; i++) {
+              IdDecl decl = getStatement(i).localLookup(name);
+              if (!decl.isUnknown()){
+                  return decl;
+              }
+          }
+  
+          return lookup(name);
+      }
+  /**
+   * @attribute inh
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:81
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:81")
+  public IdDecl lookup(String name) {
+    Object _parameters = name;
+    if (lookup_String_visited == null) lookup_String_visited = new java.util.HashSet(4);
+    if (lookup_String_values == null) lookup_String_values = new java.util.HashMap(4);
+    ASTState state = state();
+    if (lookup_String_values.containsKey(_parameters)) {
+      return (IdDecl) lookup_String_values.get(_parameters);
+    }
+    if (lookup_String_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Function.lookup(String).");
+    }
+    lookup_String_visited.add(_parameters);
+    state().enterLazyAttribute();
+    IdDecl lookup_String_value = getParent().Define_lookup(this, null, name);
+    lookup_String_values.put(_parameters, lookup_String_value);
+    state().leaveLazyAttribute();
+    lookup_String_visited.remove(_parameters);
+    return lookup_String_value;
+  }
+/** @apilevel internal */
+protected java.util.Set lookup_String_visited;
+  /** @apilevel internal */
+  private void lookup_String_reset() {
+    lookup_String_values = null;
+    lookup_String_visited = null;
+  }
+  /** @apilevel internal */
+  protected java.util.Map lookup_String_values;
+
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @apilevel internal
+   */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    if (_callerNode == getStatementListNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:87
+      int i = _callerNode.getIndexOfChild(_childNode);
+      {
+              IdDecl decl = localLookup(name, i);
+              return !decl.isUnknown() ? decl : lookup(name);
+          }
+    }
+    else if (_callerNode == getParameterListNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:83
+      int index = _callerNode.getIndexOfChild(_childNode);
+      {
+              IdDecl decl = localLookup(name, index);
+              return !decl.isUnknown() ? decl : lookup(name);
+          }
+    }
+    else {
+      return getParent().Define_lookup(this, _callerNode, name);
+    }
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   */
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    return true;
   }
 
 }

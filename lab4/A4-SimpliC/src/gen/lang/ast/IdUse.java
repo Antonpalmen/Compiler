@@ -2,39 +2,27 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:16
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:17
  * @astdecl IdUse : Expression ::= <ID:String>;
  * @production IdUse : {@link Expression} ::= <span class="component">&lt;ID:{@link String}&gt;</span>;
 
  */
 public class IdUse extends Expression implements Cloneable {
   /**
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:141
-   */
-  public boolean checkNames(PrintStream err, SymbolTable symbols) {
-		if (!symbols.lookup(getID())) {
-			err.format("Error at line %d: symbol \'%s\' has not been declared before this use!", getLine(), getID());
-			err.println();
-			return false;
-		}
-		return true;
-	}
-  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:179
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:179
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(getID());
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:116
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:116
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -82,24 +70,27 @@ public class IdUse extends Expression implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    decl_reset();
+    isCircular_reset();
+    lookup_String_reset();
+    inExprOf_IdDecl_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:33
+   * @declaredat ASTNode:36
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
 
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:41
    */
   public IdUse clone() throws CloneNotSupportedException {
     IdUse node = (IdUse) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:46
    */
   public IdUse copy() {
     try {
@@ -119,7 +110,7 @@ public class IdUse extends Expression implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:65
    */
   @Deprecated
   public IdUse fullCopy() {
@@ -130,7 +121,7 @@ public class IdUse extends Expression implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:72
+   * @declaredat ASTNode:75
    */
   public IdUse treeCopyNoTransform() {
     IdUse tree = (IdUse) copy();
@@ -151,7 +142,7 @@ public class IdUse extends Expression implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:95
    */
   public IdUse treeCopy() {
     IdUse tree = (IdUse) copy();
@@ -205,6 +196,190 @@ public class IdUse extends Expression implements Cloneable {
   @ASTNodeAnnotation.Token(name="ID")
   public String getID() {
     return tokenString_ID != null ? tokenString_ID : "";
+  }
+/** @apilevel internal */
+protected boolean decl_visited = false;
+  /** @apilevel internal */
+  private void decl_reset() {
+    decl_computed = false;
+    
+    decl_value = null;
+    decl_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean decl_computed = false;
+
+  /** @apilevel internal */
+  protected IdDecl decl_value;
+
+  /**
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:18
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:18")
+  public IdDecl decl() {
+    ASTState state = state();
+    if (decl_computed) {
+      return decl_value;
+    }
+    if (decl_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.decl().");
+    }
+    decl_visited = true;
+    state().enterLazyAttribute();
+    decl_value = lookup(getID());
+    decl_computed = true;
+    state().leaveLazyAttribute();
+    decl_visited = false;
+    return decl_value;
+  }
+/** @apilevel internal */
+protected boolean isCircular_visited = false;
+  /** @apilevel internal */
+  private void isCircular_reset() {
+    isCircular_computed = false;
+    isCircular_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean isCircular_computed = false;
+
+  /** @apilevel internal */
+  protected boolean isCircular_value;
+
+  /**
+   * @attribute syn
+   * @aspect CircularDefinitions
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:125
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:125")
+  public boolean isCircular() {
+    ASTState state = state();
+    if (isCircular_computed) {
+      return isCircular_value;
+    }
+    if (isCircular_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.isCircular().");
+    }
+    isCircular_visited = true;
+    state().enterLazyAttribute();
+    isCircular_value = inExprOf(decl());
+    isCircular_computed = true;
+    state().leaveLazyAttribute();
+    isCircular_visited = false;
+    return isCircular_value;
+  }
+  /**
+   * @attribute inh
+   * @aspect NameAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19")
+  public IdDecl lookup(String name) {
+    Object _parameters = name;
+    if (lookup_String_visited == null) lookup_String_visited = new java.util.HashSet(4);
+    if (lookup_String_values == null) lookup_String_values = new java.util.HashMap(4);
+    ASTState state = state();
+    if (lookup_String_values.containsKey(_parameters)) {
+      return (IdDecl) lookup_String_values.get(_parameters);
+    }
+    if (lookup_String_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute IdUse.lookup(String).");
+    }
+    lookup_String_visited.add(_parameters);
+    state().enterLazyAttribute();
+    IdDecl lookup_String_value = getParent().Define_lookup(this, null, name);
+    lookup_String_values.put(_parameters, lookup_String_value);
+    state().leaveLazyAttribute();
+    lookup_String_visited.remove(_parameters);
+    return lookup_String_value;
+  }
+/** @apilevel internal */
+protected java.util.Set lookup_String_visited;
+  /** @apilevel internal */
+  private void lookup_String_reset() {
+    lookup_String_values = null;
+    lookup_String_visited = null;
+  }
+  /** @apilevel internal */
+  protected java.util.Map lookup_String_values;
+
+  /**
+   * @attribute inh
+   * @aspect CircularDefinitions
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:126
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:126")
+  public boolean inExprOf(IdDecl decl) {
+    Object _parameters = decl;
+    if (inExprOf_IdDecl_visited == null) inExprOf_IdDecl_visited = new java.util.HashSet(4);
+    if (inExprOf_IdDecl_values == null) inExprOf_IdDecl_values = new java.util.HashMap(4);
+    ASTState state = state();
+    if (inExprOf_IdDecl_values.containsKey(_parameters)) {
+      return (Boolean) inExprOf_IdDecl_values.get(_parameters);
+    }
+    if (inExprOf_IdDecl_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute IdUse.inExprOf(IdDecl).");
+    }
+    inExprOf_IdDecl_visited.add(_parameters);
+    state().enterLazyAttribute();
+    boolean inExprOf_IdDecl_value = getParent().Define_inExprOf(this, null, decl);
+    inExprOf_IdDecl_values.put(_parameters, inExprOf_IdDecl_value);
+    state().leaveLazyAttribute();
+    inExprOf_IdDecl_visited.remove(_parameters);
+    return inExprOf_IdDecl_value;
+  }
+/** @apilevel internal */
+protected java.util.Set inExprOf_IdDecl_visited;
+  /** @apilevel internal */
+  private void inExprOf_IdDecl_reset() {
+    inExprOf_IdDecl_values = null;
+    inExprOf_IdDecl_visited = null;
+  }
+  /** @apilevel internal */
+  protected java.util.Map inExprOf_IdDecl_values;
+
+  /** @apilevel internal */
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:34
+    if (decl().isUnknown()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:42
+    if (isCircular()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    super.collect_contributors_Program_errors(_root, _map);
+  }
+  /** @apilevel internal */
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+    super.contributeTo_Program_errors(collection);
+    if (decl().isUnknown()) {
+      collection.add(error("symbol '" + getID() + "' is not declared"));
+    }
+    if (isCircular()) {
+      collection.add(error("the definition of symbol '" + getID() + "' is circular"));
+    }
   }
 
 }

@@ -3,6 +3,7 @@ package lang;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import lang.ast.ErrorMessage;
 
 import beaver.Parser.Exception;
 
@@ -39,10 +40,18 @@ public class Compiler {
             DrAST_root_node = program; //Enable debugging with DrAST
 			System.out.println(program.dumpTree());
       //System.out.println("The MSN for the program is: " + CalculateMSN.result(program));
-      //program.prettyPrint(System.out);
-      if(!program.checkNames(System.err)) {
+      program.prettyPrint(System.out);
+      if (!program.errors().isEmpty()) {
+        System.err.println();
+        System.err.println("Errors: ");
+        for (ErrorMessage e: program.errors()) {
+            System.err.println("- " + e);
+        }
         System.exit(1);
       }
+      /*if(!program.checkNames(System.err)) {
+        System.exit(1);
+      }*/
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!");
 			System.exit(1);

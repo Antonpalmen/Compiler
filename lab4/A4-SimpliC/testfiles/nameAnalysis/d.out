@@ -1,52 +1,15 @@
 Program
   List
     Function
-      IdDecl ID="f"
+      IdDecl ID="main"
       List
-        IdDecl ID="x"
       List
-        WhileStatement
-          GreaterThan
-            IdUse ID="x"
-            Numeral NUMERAL="0"
-          List
-            Declaration
-              IdDecl ID="a"
-              Opt
-                Sub
-                  IdUse ID="x"
-                  Numeral NUMERAL="1"
-            IfStatement
-              GreaterThan
-                IdUse ID="x"
-                Numeral NUMERAL="6"
-              List
-                Declaration
-                  IdDecl ID="a"
-                  Opt
-                    Numeral NUMERAL="31"
-                IfStatement
-                  GreaterThanEqual
-                    IdUse ID="x"
-                    Numeral NUMERAL="3"
-                  List
-                    Declaration
-                      IdDecl ID="a"
-                      Opt
-                        Numeral NUMERAL="42"
-                    IfStatement
-                      Equal
-                        IdUse ID="x"
-                        Numeral NUMERAL="3"
-                      List
-                        Assignment
-                          IdUse ID="a"
-                          Numeral NUMERAL="4"
-                      Opt
-                  Opt
-              Opt
-            Assignment
-              IdUse ID="x"
+        FunctionCall
+          FunctionUse
+            IdUse ID="print"
+            List
               IdUse ID="a"
-        Return
-          IdUse ID="x"
+        Declaration
+          IdDecl ID="a"
+          Opt
+            Numeral NUMERAL="10"

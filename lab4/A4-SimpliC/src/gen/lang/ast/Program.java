@@ -2,32 +2,20 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:1
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:1
  * @astdecl Program : ASTNode ::= Function*;
  * @production Program : {@link ASTNode} ::= <span class="component">{@link Function}*</span>;
 
  */
 public class Program extends ASTNode<ASTNode> implements Cloneable {
   /**
-   * @param err where to write error messages
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:56
-   */
-  public boolean checkNames(PrintStream err) {
-		SymbolTable symbols = new SymbolTable();
-		symbols.declare("print");
-		symbols.declare("read");
-
-		return checkNames(err, symbols);
-	}
-  /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:48
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:48
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -71,24 +59,29 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    predefinedFunctions_reset();
+    unknownDecl_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:32
+   * @declaredat ASTNode:33
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
-
+    Program_errors_visited = false;
+    Program_errors_computed = false;
+    
+    Program_errors_value = null;
+    contributorMap_Program_errors = null;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:37
+   * @declaredat ASTNode:42
    */
   public Program clone() throws CloneNotSupportedException {
     Program node = (Program) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:42
+   * @declaredat ASTNode:47
    */
   public Program copy() {
     try {
@@ -108,7 +101,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:61
+   * @declaredat ASTNode:66
    */
   @Deprecated
   public Program fullCopy() {
@@ -119,7 +112,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:71
+   * @declaredat ASTNode:76
    */
   public Program treeCopyNoTransform() {
     Program tree = (Program) copy();
@@ -140,7 +133,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:91
+   * @declaredat ASTNode:96
    */
   public Program treeCopy() {
     Program tree = (Program) copy();
@@ -269,5 +262,237 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
   public List<Function> getFunctionsNoTransform() {
     return getFunctionListNoTransform();
   }
+  /**
+   * @aspect <NoAspect>
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26
+   */
+  /** @apilevel internal */
+protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_Program_errors = null;
+
+  /** @apilevel internal */
+  protected void survey_Program_errors() {
+    if (contributorMap_Program_errors == null) {
+      contributorMap_Program_errors = new java.util.IdentityHashMap<ASTNode, java.util.Set<ASTNode>>();
+      collect_contributors_Program_errors(this, contributorMap_Program_errors);
+    }
+  }
+
+/** @apilevel internal */
+protected boolean predefinedFunctions_visited = false;
+  /** @apilevel internal */
+  private void predefinedFunctions_reset() {
+    predefinedFunctions_computed = false;
+    
+    predefinedFunctions_value = null;
+    predefinedFunctions_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean predefinedFunctions_computed = false;
+
+  /** @apilevel internal */
+  protected List<Function> predefinedFunctions_value;
+
+  /**
+   * @attribute syn
+   * @aspect PredefFuncs
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PreDefFuncs.jrag:2
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="PredefFuncs", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PreDefFuncs.jrag:2")
+  public List<Function> predefinedFunctions() {
+    ASTState state = state();
+    if (predefinedFunctions_computed) {
+      return predefinedFunctions_value;
+    }
+    if (predefinedFunctions_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.predefinedFunctions().");
+    }
+    predefinedFunctions_visited = true;
+    state().enterLazyAttribute();
+    predefinedFunctions_value = predefinedFunctions_compute();
+    predefinedFunctions_value.setParent(this);
+    predefinedFunctions_computed = true;
+    state().leaveLazyAttribute();
+    predefinedFunctions_visited = false;
+    return predefinedFunctions_value;
+  }
+  /** @apilevel internal */
+  private List<Function> predefinedFunctions_compute() {
+          List<Function> list = new List<Function>();
+  
+          // Create objects of type FunctionDecl and add them to the list
+  
+          Function read = new Function(new IdDecl("read"), new List(), new List());
+          list.add(read);
+  
+          Function print = new Function(new IdDecl("print"), new List(), new List());
+          list.add(print);
+  
+          return list;
+      }
+/** @apilevel internal */
+protected boolean unknownDecl_visited = false;
+  /** @apilevel internal */
+  private void unknownDecl_reset() {
+    unknownDecl_computed = false;
+    
+    unknownDecl_value = null;
+    unknownDecl_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean unknownDecl_computed = false;
+
+  /** @apilevel internal */
+  protected UnknownDecl unknownDecl_value;
+
+  /**
+   * @attribute syn
+   * @aspect UnknownDecl
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:2
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:2")
+  public UnknownDecl unknownDecl() {
+    ASTState state = state();
+    if (unknownDecl_computed) {
+      return unknownDecl_value;
+    }
+    if (unknownDecl_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.unknownDecl().");
+    }
+    unknownDecl_visited = true;
+    state().enterLazyAttribute();
+    unknownDecl_value = new UnknownDecl("<unknown>");
+    unknownDecl_value.setParent(this);
+    unknownDecl_computed = true;
+    state().leaveLazyAttribute();
+    unknownDecl_visited = false;
+    return unknownDecl_value;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:28
+   * @apilevel internal
+   */
+  public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return this;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:28
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute program
+   */
+  protected boolean canDefine_program(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @apilevel internal
+   */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    {
+    	    for(Function func : predefinedFunctions()){
+                if(func.getIdDecl().getID().equals(name)){
+                    return func.getIdDecl();
+                }
+    	    }
+    
+    	    for(Function func : getFunctionList()){
+    	        if (func.getIdDecl().getID().equals(name)) {
+            	    return func.getIdDecl();
+    	        }
+    	    }
+    
+    	    return unknownDecl();
+    	}
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   */
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    return true;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:126
+   * @apilevel internal
+   */
+  public boolean Define_inExprOf(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return false;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:126
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inExprOf
+   */
+  protected boolean canDefine_inExprOf(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    return true;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:4
+   * @apilevel internal
+   */
+  public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return unknownDecl();
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:4
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute unknownDecl
+   */
+  protected boolean canDefine_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+/** @apilevel internal */
+protected boolean Program_errors_visited = false;
+  /**
+   * @attribute coll
+   * @aspect Errors
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
+  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26")
+  public Set<ErrorMessage> errors() {
+    ASTState state = state();
+    if (Program_errors_computed) {
+      return Program_errors_value;
+    }
+    if (Program_errors_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.errors().");
+    }
+    Program_errors_visited = true;
+    state().enterLazyAttribute();
+    Program_errors_value = errors_compute();
+    Program_errors_computed = true;
+    state().leaveLazyAttribute();
+    Program_errors_visited = false;
+    return Program_errors_value;
+  }
+  /** @apilevel internal */
+  private Set<ErrorMessage> errors_compute() {
+    ASTNode node = this;
+    while (node != null && !(node instanceof Program)) {
+      node = node.getParent();
+    }
+    Program root = (Program) node;
+    root.survey_Program_errors();
+    Set<ErrorMessage> _computedValue = new TreeSet<ErrorMessage>();
+    if (root.contributorMap_Program_errors.containsKey(this)) {
+      for (ASTNode contributor : (java.util.Set<ASTNode>) root.contributorMap_Program_errors.get(this)) {
+        contributor.contributeTo_Program_errors(_computedValue);
+      }
+    }
+    return _computedValue;
+  }
+  /** @apilevel internal */
+  protected boolean Program_errors_computed = false;
+
+  /** @apilevel internal */
+  protected Set<ErrorMessage> Program_errors_value;
+
 
 }

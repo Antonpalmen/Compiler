@@ -2,33 +2,20 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/lang.ast:36
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:37
  * @astdecl FunctionUse : Expression ::= IdUse:IdUse Parameter:Expression*;
  * @production FunctionUse : {@link Expression} ::= <span class="component">IdUse:{@link IdUse}</span> <span class="component">Parameter:{@link Expression}*</span>;
 
  */
 public class FunctionUse extends Expression implements Cloneable {
   /**
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/NameAnalysis.jrag:150
-   */
-  public boolean checkNames(PrintStream err, SymbolTable symbols) {
-		boolean result = getIdUse().checkNames(err, symbols);
-    	if(hasParameter()){
-            for(int i = 0; i < getNumParameter(); i++){
-        	    result = result && getParameter(i).checkNames(err, symbols);
-        	}
-        }
-				return result;
-    }
-  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/PrettyPrint.jrag:183
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:183
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getIdUse().prettyPrint(out, ind);
@@ -45,7 +32,7 @@ public class FunctionUse extends Expression implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:119
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:119
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

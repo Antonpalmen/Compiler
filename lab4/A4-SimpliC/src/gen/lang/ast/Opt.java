@@ -2,9 +2,9 @@
 package lang.ast;
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 /**
  * @ast node
  * @astdecl Opt : ASTNode;
@@ -14,7 +14,7 @@ import java.util.HashSet;
 public class Opt<T extends ASTNode> extends ASTNode<T> implements Cloneable {
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:45
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:45
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);

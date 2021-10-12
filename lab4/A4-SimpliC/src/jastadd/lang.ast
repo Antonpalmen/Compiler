@@ -1,5 +1,6 @@
 Program ::= Function*;
 IdDecl ::= <ID>;
+UnknownDecl : IdDecl;
 Function ::= IdDecl Parameter:IdDecl* Statement*;
 
 abstract Statement;

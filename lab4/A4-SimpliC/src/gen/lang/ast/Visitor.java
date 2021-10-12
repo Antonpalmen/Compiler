@@ -2,16 +2,16 @@ package lang.ast;
 
 import java.io.PrintStream;
 import java.util.Set;
+import java.util.TreeSet;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 
 /**
  * Visitor interface for SimpliC language. Each concrete node type must
  * have a visit method.
  * @ast interface
  * @aspect Visitor
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab3/a3-simplic/src/jastadd/Visitor.jrag:6
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:6
  */
 public interface Visitor {
 
