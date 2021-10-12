@@ -212,10 +212,10 @@ protected boolean isMultiDeclared_visited = false;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:114
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:122
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:114")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:122")
   public boolean isMultiDeclared() {
     ASTState state = state();
     if (isMultiDeclared_computed) {
@@ -226,17 +226,12 @@ protected boolean isMultiDeclared_visited = false;
     }
     isMultiDeclared_visited = true;
     state().enterLazyAttribute();
-    isMultiDeclared_value = isMultiDeclared_compute();
+    isMultiDeclared_value = lookup(getID()) != this;
     isMultiDeclared_computed = true;
     state().leaveLazyAttribute();
     isMultiDeclared_visited = false;
     return isMultiDeclared_value;
   }
-  /** @apilevel internal */
-  private boolean isMultiDeclared_compute() {
-      	    IdDecl decl = lookup(getID());
-      	    return decl != this;
-      	}
 /** @apilevel internal */
 protected boolean isUnknown_visited = false;
   /** @apilevel internal */
@@ -276,10 +271,10 @@ protected boolean isUnknown_visited = false;
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:113
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:121
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:113")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:121")
   public IdDecl lookup(String name) {
     Object _parameters = name;
     if (lookup_String_visited == null) lookup_String_visited = new java.util.HashSet(4);

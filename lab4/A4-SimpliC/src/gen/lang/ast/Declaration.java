@@ -253,7 +253,7 @@ protected java.util.Set localLookup_String_visited;
    * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:24
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:22")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:24")
   public IdDecl localLookup(String name) {
     Object _parameters = name;
     if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
@@ -263,7 +263,7 @@ protected java.util.Set localLookup_String_visited;
       return (IdDecl) localLookup_String_values.get(_parameters);
     }
     if (localLookup_String_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute Statement.localLookup(String).");
+      throw new RuntimeException("Circular definition of attribute Declaration.localLookup(String).");
     }
     localLookup_String_visited.add(_parameters);
     state().enterLazyAttribute();
@@ -275,21 +275,18 @@ protected java.util.Set localLookup_String_visited;
   }
   /** @apilevel internal */
   private IdDecl localLookup_compute(String name) {
-          if(getIdDecl().getID().equals(name)){
-              return getIdDecl();
-          }
-          return unknownDecl();
-      }
+  		return getIdDecl().getID().equals(name) ? getIdDecl() : unknownDecl();
+  	}
   /**
    * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
     if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:30
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:27
       {
-              return lookup(name);
-          }
+      			return lookup(name);
+      	}
     }
     else {
       return getParent().Define_lookup(this, _callerNode, name);

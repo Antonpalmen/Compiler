@@ -1,4 +1,15 @@
-int main() {
-  print(a);
-  int a = 10;
+int f(int x) {
+
+    if (x > 6) {
+      int a = 31;
+      if (x >= 3) {
+        int a = 42;
+        if (x == 3) {
+          a = 4;
+          x = a;
+          }
+          }
+         
+  }
+  return x;
 }

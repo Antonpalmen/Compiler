@@ -21,7 +21,15 @@ aspect NameAnalysis {
 	inh IdDecl Statement.lookup(String name);
 	syn IdDecl Statement.localLookup(String name) = unknownDecl();
 
-    eq Declaration.localLookup(String name) {
+	syn IdDecl Declaration.localLookup(String name) {
+		return getIdDecl().getID().equals(name) ? getIdDecl() : unknownDecl();
+	}
+	eq Declaration.getIdDecl().lookup(String name) {
+			return lookup(name);
+	}
+
+
+    /*eq Declaration.localLookup(String name) {
         if(getIdDecl().getID().equals(name)){
             return getIdDecl();
         }
@@ -29,7 +37,7 @@ aspect NameAnalysis {
     }
     eq Declaration.getIdDecl().lookup(String name) {
         return lookup(name);
-    }
+    }*/
 
     eq WhileStatement.getStatement(int index).lookup(String name) {
         IdDecl decl = localLookup(name, index);
@@ -95,7 +103,7 @@ aspect NameAnalysis {
         }
 
         for(int i = 0; i < getNumParameter(); i++){
-            if (getParameter(i).equals(name)) {
+            if (getParameter(i).getID().equals(name)) {
                 return getParameter(i);
             }
         }
@@ -111,10 +119,7 @@ aspect NameAnalysis {
     }
 
 	inh IdDecl IdDecl.lookup(String name);
-    	syn boolean IdDecl.isMultiDeclared() {
-    	    IdDecl decl = lookup(getID());
-    	    return decl != this;
-    	}
+	syn boolean IdDecl.isMultiDeclared() = lookup(getID()) != this;
 //    	inh boolean IdDecl.isVariable();
 //    	inh boolean IdDecl.isFunction();
 }
