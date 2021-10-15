@@ -7,15 +7,15 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:12
- * @astdecl Return : Statement ::= Expression;
- * @production Return : {@link Statement} ::= <span class="component">{@link Expression}</span>;
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:13
+ * @astdecl Return : Statement ::= Expression:Expression;
+ * @production Return : {@link Statement} ::= <span class="component">Expression:{@link Expression}</span>;
 
  */
 public class Return extends Statement implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:45
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:37
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "return ");
@@ -24,7 +24,7 @@ public class Return extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:57
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:55
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -67,7 +67,7 @@ public class Return extends Statement implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    compatibleType_reset();
   }
   /** @apilevel internal 
    * @declaredat ASTNode:31
@@ -177,6 +177,67 @@ public class Return extends Statement implements Cloneable {
    */
   public Expression getExpressionNoTransform() {
     return (Expression) getChildNoTransform(0);
+  }
+/** @apilevel internal */
+protected boolean compatibleType_visited = false;
+  /** @apilevel internal */
+  private void compatibleType_reset() {
+    compatibleType_computed = false;
+    compatibleType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean compatibleType_computed = false;
+
+  /** @apilevel internal */
+  protected boolean compatibleType_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:110
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:110")
+  public boolean compatibleType() {
+    ASTState state = state();
+    if (compatibleType_computed) {
+      return compatibleType_value;
+    }
+    if (compatibleType_visited) {
+      throw new RuntimeException("Circular definition of attribute Return.compatibleType().");
+    }
+    compatibleType_visited = true;
+    state().enterLazyAttribute();
+    compatibleType_value = compatibleType_compute();
+    compatibleType_computed = true;
+    state().leaveLazyAttribute();
+    compatibleType_visited = false;
+    return compatibleType_value;
+  }
+  /** @apilevel internal */
+  private boolean compatibleType_compute() {
+      return getExpression().expectedType().compatibleType(getExpression().type());
+    }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   * @apilevel internal
+   */
+  public Type Define_expectedType(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getExpressionNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:84
+      return intType();
+    }
+    else {
+      return getParent().Define_expectedType(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute expectedType
+   */
+  protected boolean canDefine_expectedType(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
   }
 
 }

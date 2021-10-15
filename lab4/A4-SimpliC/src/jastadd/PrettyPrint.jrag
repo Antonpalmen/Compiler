@@ -12,30 +12,22 @@ aspect PrettyPrint {
 		}
 	}
 
-	public void Function.prettyPrint(PrintStream out, String ind) {
-	out.print("int ");
-	getIdDecl().prettyPrint(out, ind);
-	out.print("(");
-	if(hasParameter()){
-			for(int i = 0; i < getNumParameter(); i++){
-					getParameter(i).prettyPrint(out, ind);
-					if((getNumParameter()-1) - i > 0){
-							out.print(", ");
-					}
+	public void Function.prettyPrint(PrintStream out, String ind){
+		out.print(ind);
+		getIdDecl().prettyPrint(out,ind);
+		out.print("(");
+		//getParameterList().prettyPrint(out,ind);
+		int k = getNumParameter();
+		for(int i=0;i < k; i++){
+			getParameter(i).prettyPrint(out,ind);
+			if(i<k-1){
+				out.print(", ");
 			}
-	}
-	out.print(") {");
-	out.println();
-	if(hasStatement()) {
-					for(int i = 0; i < getNumStatement(); i++){
-						getStatement(i).prettyPrint(out, ind + "    ");
-						out.println();
-				}
-			} else {
-					//out.println();
-			}
-			out.println("}");
 		}
+		out.print(")");
+		getBlock().prettyPrint(out,ind);
+		out.println();
+  }
 
 	/*public void Parameter.prettyPrint(PrintStream out, String ind) {
 		out.print("int ");
@@ -55,49 +47,40 @@ aspect PrettyPrint {
 	}
 
 	public void IfStatement.prettyPrint(PrintStream out, String ind) {
-		out.print(ind + "if (");
-		getExpression().prettyPrint(out, ind);
-		out.println(") {");
-		if(hasStatement()) {
-			for(int i = 0; i < getNumStatement(); i++){
-				getStatement(i).prettyPrint(out, ind + "	");
-				out.println();
+			out.print("if(");
+			getCondition().prettyPrint(out,ind);
+			out.print(")");
+			getThen().prettyPrint(out,ind);
+			if (hasElse()){
+				out.print("else");
+				getElse().prettyPrint(out,ind);
 			}
-		} else {
-			out.println();
-			}
-		out.print(ind + "}");
-		if(hasElse()){
-			out.println(" else {");
-			getElse().prettyPrint(out, ind);
-			out.print(ind + "}");
-		}
-}
+	}
 
-	public void Else.prettyPrint(PrintStream out, String ind) {
-		if(hasStatement()) {
-			for(int i = 0; i < getNumStatement(); i++){
-				getStatement(i).prettyPrint(out, ind + "	");
-				out.println();
-			}
-		} else {
-			out.println();
-			}
-}
+
 
 	public void WhileStatement.prettyPrint(PrintStream out, String ind) {
-		out.print(ind + "while (");
-		getExpression().prettyPrint(out, ind);
-		out.println(") {");
-		if(hasStatement()) {
-			for(int i = 0; i < getNumStatement(); i++){
-				getStatement(i).prettyPrint(out, ind + "	");
-				out.println();
-			}
-		} else {
-				out.println();
-				}
-				out.print(ind + "}");
+		out.print("while(");
+		getCondition().prettyPrint(out,ind);
+		out.print(")");
+		getThen().prettyPrint(out,ind);
+	}
+
+	public void Block.prettyPrint(PrintStream out, String ind) {
+		out.print("{");
+		String indtemp = ind;
+		ind = ind + "  ";
+		int k = getNumStatement();
+		for(int i=0;i < k; i++){
+			out.println();
+			out.print(ind);
+			getStatement(i).prettyPrint(out,ind);
+		}
+		ind = indtemp;
+		if (k>0){
+			out.println();
+		}
+		out.print(ind + "}");
 	}
 
 	public void Declaration.prettyPrint(PrintStream out, String ind) {
@@ -136,6 +119,18 @@ aspect PrettyPrint {
 		getb().prettyPrint(out, ind);
 	}
 
+	public void LesserThanEqual.prettyPrint(PrintStream out, String ind) {
+		geta().prettyPrint(out, ind);
+		out.print(" <= ");
+		getb().prettyPrint(out, ind);
+	}
+
+	public void GreaterThanEqual.prettyPrint(PrintStream out, String ind) {
+		geta().prettyPrint(out, ind);
+		out.print(" >= ");
+		getb().prettyPrint(out, ind);
+	}
+
 	public void GreaterThan.prettyPrint(PrintStream out, String ind) {
 		geta().prettyPrint(out, ind);
 		out.print(" > ");
@@ -170,10 +165,6 @@ aspect PrettyPrint {
 		geta().prettyPrint(out, ind);
 		out.print(" % ");
 		getb().prettyPrint(out, ind);
-	}
-
-	public void Numeral.prettyPrint(PrintStream out, String ind) {
-		out.print(getNUMERAL());
 	}
 
 	public void IdUse.prettyPrint(PrintStream out, String ind) {

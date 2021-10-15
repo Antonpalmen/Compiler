@@ -38,9 +38,6 @@ public interface Visitor {
 		public Object visit(IfStatement node, Object data);
 
 		 
-		public Object visit(Else node, Object data);
-
-		 
 		public Object visit(WhileStatement node, Object data);
 
 		 
@@ -86,9 +83,6 @@ public interface Visitor {
 
 		 
 
-		public Object visit(Numeral node, Object data);
-
-		 
 		public Object visit(IdDecl node, Object data);
 
 		 

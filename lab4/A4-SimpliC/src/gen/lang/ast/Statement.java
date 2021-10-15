@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:6
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:8
  * @astdecl Statement : ASTNode;
  * @production Statement : {@link ASTNode};
 
@@ -41,7 +41,7 @@ public abstract class Statement extends ASTNode<ASTNode> implements Cloneable {
     super.flushAttrCache();
     localLookup_String_reset();
     lookup_String_reset();
-    inExprOf_IdDecl_reset();
+    inExpression_IdDecl_reset();
   }
   /** @apilevel internal 
    * @declaredat ASTNode:24
@@ -97,10 +97,10 @@ protected java.util.Set localLookup_String_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:22
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:64
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:22")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:64")
   public IdDecl localLookup(String name) {
     Object _parameters = name;
     if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
@@ -123,10 +123,10 @@ protected java.util.Set localLookup_String_visited;
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:21
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:63
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:21")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:63")
   public IdDecl lookup(String name) {
     Object _parameters = name;
     if (lookup_String_visited == null) lookup_String_visited = new java.util.HashSet(4);
@@ -159,38 +159,38 @@ protected java.util.Set lookup_String_visited;
   /**
    * @attribute inh
    * @aspect CircularDefinitions
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:132
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:86
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:132")
-  public boolean inExprOf(IdDecl decl) {
+  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:86")
+  public boolean inExpression(IdDecl decl) {
     Object _parameters = decl;
-    if (inExprOf_IdDecl_visited == null) inExprOf_IdDecl_visited = new java.util.HashSet(4);
-    if (inExprOf_IdDecl_values == null) inExprOf_IdDecl_values = new java.util.HashMap(4);
+    if (inExpression_IdDecl_visited == null) inExpression_IdDecl_visited = new java.util.HashSet(4);
+    if (inExpression_IdDecl_values == null) inExpression_IdDecl_values = new java.util.HashMap(4);
     ASTState state = state();
-    if (inExprOf_IdDecl_values.containsKey(_parameters)) {
-      return (Boolean) inExprOf_IdDecl_values.get(_parameters);
+    if (inExpression_IdDecl_values.containsKey(_parameters)) {
+      return (Boolean) inExpression_IdDecl_values.get(_parameters);
     }
-    if (inExprOf_IdDecl_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute Statement.inExprOf(IdDecl).");
+    if (inExpression_IdDecl_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Statement.inExpression(IdDecl).");
     }
-    inExprOf_IdDecl_visited.add(_parameters);
+    inExpression_IdDecl_visited.add(_parameters);
     state().enterLazyAttribute();
-    boolean inExprOf_IdDecl_value = getParent().Define_inExprOf(this, null, decl);
-    inExprOf_IdDecl_values.put(_parameters, inExprOf_IdDecl_value);
+    boolean inExpression_IdDecl_value = getParent().Define_inExpression(this, null, decl);
+    inExpression_IdDecl_values.put(_parameters, inExpression_IdDecl_value);
     state().leaveLazyAttribute();
-    inExprOf_IdDecl_visited.remove(_parameters);
-    return inExprOf_IdDecl_value;
+    inExpression_IdDecl_visited.remove(_parameters);
+    return inExpression_IdDecl_value;
   }
 /** @apilevel internal */
-protected java.util.Set inExprOf_IdDecl_visited;
+protected java.util.Set inExpression_IdDecl_visited;
   /** @apilevel internal */
-  private void inExprOf_IdDecl_reset() {
-    inExprOf_IdDecl_values = null;
-    inExprOf_IdDecl_visited = null;
+  private void inExpression_IdDecl_reset() {
+    inExpression_IdDecl_values = null;
+    inExpression_IdDecl_visited = null;
   }
   /** @apilevel internal */
-  protected java.util.Map inExprOf_IdDecl_values;
+  protected java.util.Map inExpression_IdDecl_values;
 
 
 }

@@ -29,7 +29,7 @@ import lang.ast.LangParser.SyntaxError;
 // macros
 WhiteSpace = [ ] | \t | \f | \n | \r
 ID = [a-zA-Z][a-zA-Z0-9]*
-Numeral = ([1-9][0-9]* | 0)("."[0-9]*[1-9])?
+INTEGER = [0-9]+
 Comment = "//"~"\n"
 
 %%
@@ -62,7 +62,8 @@ Comment = "//"~"\n"
 ">="          { return sym(Terminals.GEQ); }
 ","           { return sym(Terminals.COMMA); }
 "return"      { return sym(Terminals.RETURN); }
-{Numeral}     { return sym(Terminals.NUMERAL); }
+"boolean"      { return sym(Terminals.BOOLEAN); }
+{INTEGER}     { return sym(Terminals.INTEGER); }
 {ID}          { return sym(Terminals.ID); }
 <<EOF>>       { return sym(Terminals.EOF); }
 

@@ -1,21 +1,21 @@
 Program ::= Function*;
 IdDecl ::= <ID>;
+IntegerValue:Expression ::= <INTEGER>;
 UnknownDecl : IdDecl;
-Function ::= IdDecl Parameter:IdDecl* Statement*;
+Function ::= IdDecl:IdDecl Parameter:IdDecl* Block:Block;
+Block ::= Statement*;
 
 abstract Statement;
 Declaration:Statement ::= IdDecl:IdDecl [Assignment:Expression];
 Assignment:Statement ::= IdUse:IdUse Expression:Expression;
-IfStatement:Statement ::= Expression Statement* [Else];
-Else:Statement ::= Statement*;
-WhileStatement:Statement ::= Expression Statement*;
-Return:Statement ::= Expression;
+IfStatement:Statement ::= Condition:Expression Then:Block [Else:Block];
+WhileStatement:Statement ::= Condition:Expression Then:Block;
+Return:Statement ::= Expression:Expression;
 FunctionCall:Statement ::= FunctionUse;
 
 
 abstract Expression;
 IdUse:Expression ::= <ID>;
-Numeral:Expression ::= <NUMERAL>;
 
 abstract Comparison:Expression;
 LesserThan:Comparison ::= a:Expression b:Expression;
@@ -35,3 +35,8 @@ Div:Expression ::= a:Expression b:Expression;
 Mod:Expression ::= a:Expression b:Expression;
 
 FunctionUse:Expression ::= IdUse:IdUse Parameter:Expression*;
+
+abstract Type;
+IntType:Type;
+BoolType:Type;
+UnknownType:Type;

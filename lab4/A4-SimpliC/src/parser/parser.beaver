@@ -9,11 +9,13 @@
 	}
 :};
 
-%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, NUMERAL, ADD, SUB, MUL, DIV, MOD, IF, ELSE, WHILE, LT, GT, EQ, NEQ, LEQ, GEQ, COMMA, RETURN, PRINT;
+%terminals ID, LPAR, RPAR, LBRACKET, RBRACKET, INT, SEMI, ASSIGN, ADD, SUB,
+ MUL, DIV, MOD, IF, ELSE, WHILE, LT, GT, EQ, NEQ, LEQ, GEQ, COMMA, RETURN, PRINT, INTEGER, BOOLEAN;
 
 %typeof program = "Program";
 %typeof function = "Function";
 %typeof functionList = "List";
+%typeof block = "Block";
 %typeof idDecl = "IdDecl";
 %typeof idUse = "IdUse";
 %typeof declaration = "Declaration";
@@ -34,7 +36,6 @@
 %typeof term = "Expression";
 %typeof factor = "Expression";
 %typeof numericalExpression = "Expression";
-%typeof numeral = "Numeral";
 %typeof add = "Add";
 %typeof sub = "Sub";
 %typeof mul = "Mul";
@@ -44,6 +45,7 @@
 %typeof return = "Return";
 %typeof functionUse = "FunctionUse";
 %typeof functionCall = "FunctionCall";
+%typeof integer = "IntegerValue";
 %typeof argList = "List";
 
 
@@ -51,6 +53,7 @@
 
 program = /* epsilon */ {: return new Program(new List()); :}
           | functionList.list {: return new Program(list); :} ;
+
 idDecl = ID.id {: return new IdDecl(id); :} ;
 idUse = ID.id{: return new IdUse(id); :} ;
 return = RETURN expression.e SEMI {: return new Return(e); :} | RETURN SUB expression.e SEMI {: return new Return(e); :} ;
@@ -64,15 +67,18 @@ functionList =
     | functionList.list function.f {: return list.add(f); :} ;
 
 function =
-    INT idDecl.funcID LPAR RPAR LBRACKET statementList.list RBRACKET {: return new Function(funcID, new List(), list); :}
-    | INT idDecl.funcID LPAR RPAR LBRACKET RBRACKET {: return new Function(funcID, new List(), new List()); :}
-	| INT idDecl.funcID LPAR parameterList.list RPAR LBRACKET RBRACKET {: return new Function(funcID, list, new List()); :}
-	| INT idDecl.funcID LPAR parameterList.parameters RPAR LBRACKET statementList.statements RBRACKET {: return new Function(funcID, parameters, statements); :}
-    ;
+    INT idDecl.funcID LPAR RPAR block.block {: return new Function(funcID, new List(), block); :}
+	| INT idDecl.funcID LPAR parameterList.list RPAR block.block {: return new Function(funcID, list, block); :}
+	;
+
+
+block = LBRACKET RBRACKET {: return new Block(new List()); :}
+		| LBRACKET statementList.statement RBRACKET {: return new Block(statement); :}
+		;
 
 statementList =
-	statement.stmt {: return new List().add(stmt); :}
-	| statementList.stmtList statement.stmt {: return stmtList.add(stmt); :} ;
+	statement.statement {: return new List().add(statement); :}
+	| statementList.statementList statement.statement {: return statementList.add(statement); :} ;
 
 statement = declaration
 			| assignment
@@ -83,21 +89,12 @@ statement = declaration
 			;
 
 if =
-    IF LPAR expression.c RPAR LBRACKET statementList.list RBRACKET else.opt {: return new IfStatement(c, list, new Opt(opt)); :}
-    | IF LPAR expression.c RPAR LBRACKET RBRACKET else.opt {: return new IfStatement(c, new List(), new Opt(opt)); :}
-    | IF LPAR expression.c RPAR LBRACKET statementList.list RBRACKET {: return new IfStatement(c, list, new Opt()); :}
-    | IF LPAR expression.c RPAR LBRACKET RBRACKET {: return new IfStatement(c, new List(), new Opt()); :}
-    ;
-
-else =
-    ELSE LBRACKET statementList.list RBRACKET {: return new Else(list); :}
-    | ELSE LBRACKET RBRACKET {: return new Else(new List()); :}
-    ;
+    IF LPAR expression.c RPAR block.block {: return new IfStatement(c, block, new Opt()); :}
+	| IF LPAR expression.c RPAR block.block ELSE block.b {: return new IfStatement(c,block, new Opt(b)); :}
+	;
 
 while =
-    WHILE LPAR expression.c RPAR LBRACKET statementList.list RBRACKET {: return new WhileStatement(c, list); :}
-    | WHILE LPAR expression.c RPAR LBRACKET RBRACKET {: return new WhileStatement(c, new List()); :}
-    ;
+	WHILE LPAR expression.c RPAR block.block {: return new WhileStatement(c,block); :} ;
 
 declaration = INT idDecl.id SEMI {: return new Declaration(id, new Opt()); :}
 			  | INT idDecl.id ASSIGN expression.e SEMI {: return new Declaration(id, new Opt(e)); :} ;
@@ -125,9 +122,9 @@ term = mul
 	   ;
 
 factor = idUse
-		 | numeral
 		 | LPAR expression.e RPAR {: return e; :}
 		 | functionUse
+		 | integer
 		 ;
 
 mul = term.t MUL factor.f {: return new Mul(t, f); :} ;
@@ -156,7 +153,8 @@ functionUse =
 
 functionCall = functionUse.f SEMI {: return new FunctionCall(f); :};
 
-numeral = NUMERAL.num {: return new Numeral(num); :} ;
+
+integer = INTEGER.value {: return new IntegerValue(value); :} ;
 
 argList =
     expression.e {:return new List().add(e); :}

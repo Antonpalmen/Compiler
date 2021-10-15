@@ -7,33 +7,25 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:11
- * @astdecl WhileStatement : Statement ::= Expression Statement*;
- * @production WhileStatement : {@link Statement} ::= <span class="component">{@link Expression}</span> <span class="component">{@link Statement}*</span>;
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:12
+ * @astdecl WhileStatement : Statement ::= Condition:Expression Then:Block;
+ * @production WhileStatement : {@link Statement} ::= <span class="component">Condition:{@link Expression}</span> <span class="component">Then:{@link Block}</span>;
 
  */
 public class WhileStatement extends Statement implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:88
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:62
    */
   public void prettyPrint(PrintStream out, String ind) {
-		out.print(ind + "while (");
-		getExpression().prettyPrint(out, ind);
-		out.println(") {");
-		if(hasStatement()) {
-			for(int i = 0; i < getNumStatement(); i++){
-				getStatement(i).prettyPrint(out, ind + "	");
-				out.println();
-			}
-		} else {
-				out.println();
-				}
-				out.print(ind + "}");
+		out.print("while(");
+		getCondition().prettyPrint(out,ind);
+		out.print(")");
+		getThen().prettyPrint(out,ind);
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:67
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:63
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -53,49 +45,48 @@ public class WhileStatement extends Statement implements Cloneable {
    */
   public void init$Children() {
     children = new ASTNode[2];
-    setChild(new List(), 1);
   }
   /**
-   * @declaredat ASTNode:14
+   * @declaredat ASTNode:13
    */
   @ASTNodeAnnotation.Constructor(
-    name = {"Expression", "Statement"},
-    type = {"Expression", "List<Statement>"},
-    kind = {"Child", "List"}
+    name = {"Condition", "Then"},
+    type = {"Expression", "Block"},
+    kind = {"Child", "Child"}
   )
-  public WhileStatement(Expression p0, List<Statement> p1) {
+  public WhileStatement(Expression p0, Block p1) {
     setChild(p0, 0);
     setChild(p1, 1);
   }
   /** @apilevel low-level 
-   * @declaredat ASTNode:24
+   * @declaredat ASTNode:23
    */
   protected int numChildren() {
     return 2;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:28
+   * @declaredat ASTNode:27
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-    localLookup_String_int_reset();
+    compatibleType_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:33
+   * @declaredat ASTNode:32
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
 
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:37
    */
   public WhileStatement clone() throws CloneNotSupportedException {
     WhileStatement node = (WhileStatement) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:42
    */
   public WhileStatement copy() {
     try {
@@ -115,7 +106,7 @@ public class WhileStatement extends Statement implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:61
    */
   @Deprecated
   public WhileStatement fullCopy() {
@@ -126,7 +117,7 @@ public class WhileStatement extends Statement implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:72
+   * @declaredat ASTNode:71
    */
   public WhileStatement treeCopyNoTransform() {
     WhileStatement tree = (WhileStatement) copy();
@@ -147,7 +138,7 @@ public class WhileStatement extends Statement implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:91
    */
   public WhileStatement treeCopy() {
     WhileStatement tree = (WhileStatement) copy();
@@ -163,218 +154,118 @@ public class WhileStatement extends Statement implements Cloneable {
     return tree;
   }
   /**
-   * Replaces the Expression child.
-   * @param node The new node to replace the Expression child.
+   * Replaces the Condition child.
+   * @param node The new node to replace the Condition child.
    * @apilevel high-level
    */
-  public WhileStatement setExpression(Expression node) {
+  public WhileStatement setCondition(Expression node) {
     setChild(node, 0);
     return this;
   }
   /**
-   * Retrieves the Expression child.
-   * @return The current node used as the Expression child.
+   * Retrieves the Condition child.
+   * @return The current node used as the Condition child.
    * @apilevel high-level
    */
-  @ASTNodeAnnotation.Child(name="Expression")
-  public Expression getExpression() {
+  @ASTNodeAnnotation.Child(name="Condition")
+  public Expression getCondition() {
     return (Expression) getChild(0);
   }
   /**
-   * Retrieves the Expression child.
+   * Retrieves the Condition child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Expression child.
+   * @return The current node used as the Condition child.
    * @apilevel low-level
    */
-  public Expression getExpressionNoTransform() {
+  public Expression getConditionNoTransform() {
     return (Expression) getChildNoTransform(0);
   }
   /**
-   * Replaces the Statement list.
-   * @param list The new list node to be used as the Statement list.
+   * Replaces the Then child.
+   * @param node The new node to replace the Then child.
    * @apilevel high-level
    */
-  public WhileStatement setStatementList(List<Statement> list) {
-    setChild(list, 1);
+  public WhileStatement setThen(Block node) {
+    setChild(node, 1);
     return this;
   }
   /**
-   * Retrieves the number of children in the Statement list.
-   * @return Number of children in the Statement list.
+   * Retrieves the Then child.
+   * @return The current node used as the Then child.
    * @apilevel high-level
    */
-  public int getNumStatement() {
-    return getStatementList().getNumChild();
+  @ASTNodeAnnotation.Child(name="Then")
+  public Block getThen() {
+    return (Block) getChild(1);
   }
   /**
-   * Retrieves the number of children in the Statement list.
-   * Calling this method will not trigger rewrites.
-   * @return Number of children in the Statement list.
-   * @apilevel low-level
-   */
-  public int getNumStatementNoTransform() {
-    return getStatementListNoTransform().getNumChildNoTransform();
-  }
-  /**
-   * Retrieves the element at index {@code i} in the Statement list.
-   * @param i Index of the element to return.
-   * @return The element at position {@code i} in the Statement list.
-   * @apilevel high-level
-   */
-  public Statement getStatement(int i) {
-    return (Statement) getStatementList().getChild(i);
-  }
-  /**
-   * Check whether the Statement list has any children.
-   * @return {@code true} if it has at least one child, {@code false} otherwise.
-   * @apilevel high-level
-   */
-  public boolean hasStatement() {
-    return getStatementList().getNumChild() != 0;
-  }
-  /**
-   * Append an element to the Statement list.
-   * @param node The element to append to the Statement list.
-   * @apilevel high-level
-   */
-  public WhileStatement addStatement(Statement node) {
-    List<Statement> list = (parent == null) ? getStatementListNoTransform() : getStatementList();
-    list.addChild(node);
-    return this;
-  }
-  /** @apilevel low-level 
-   */
-  public WhileStatement addStatementNoTransform(Statement node) {
-    List<Statement> list = getStatementListNoTransform();
-    list.addChild(node);
-    return this;
-  }
-  /**
-   * Replaces the Statement list element at index {@code i} with the new node {@code node}.
-   * @param node The new node to replace the old list element.
-   * @param i The list index of the node to be replaced.
-   * @apilevel high-level
-   */
-  public WhileStatement setStatement(Statement node, int i) {
-    List<Statement> list = getStatementList();
-    list.setChild(node, i);
-    return this;
-  }
-  /**
-   * Retrieves the Statement list.
-   * @return The node representing the Statement list.
-   * @apilevel high-level
-   */
-  @ASTNodeAnnotation.ListChild(name="Statement")
-  public List<Statement> getStatementList() {
-    List<Statement> list = (List<Statement>) getChild(1);
-    return list;
-  }
-  /**
-   * Retrieves the Statement list.
+   * Retrieves the Then child.
    * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the Statement list.
+   * @return The current node used as the Then child.
    * @apilevel low-level
    */
-  public List<Statement> getStatementListNoTransform() {
-    return (List<Statement>) getChildNoTransform(1);
-  }
-  /**
-   * @return the element at index {@code i} in the Statement list without
-   * triggering rewrites.
-   */
-  public Statement getStatementNoTransform(int i) {
-    return (Statement) getStatementListNoTransform().getChildNoTransform(i);
-  }
-  /**
-   * Retrieves the Statement list.
-   * @return The node representing the Statement list.
-   * @apilevel high-level
-   */
-  public List<Statement> getStatements() {
-    return getStatementList();
-  }
-  /**
-   * Retrieves the Statement list.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the Statement list.
-   * @apilevel low-level
-   */
-  public List<Statement> getStatementsNoTransform() {
-    return getStatementListNoTransform();
+  public Block getThenNoTransform() {
+    return (Block) getChildNoTransform(1);
   }
 /** @apilevel internal */
-protected java.util.Set localLookup_String_int_visited;
+protected boolean compatibleType_visited = false;
   /** @apilevel internal */
-  private void localLookup_String_int_reset() {
-    localLookup_String_int_values = null;
-    localLookup_String_int_visited = null;
+  private void compatibleType_reset() {
+    compatibleType_computed = false;
+    compatibleType_visited = false;
   }
   /** @apilevel internal */
-  protected java.util.Map localLookup_String_int_values;
+  protected boolean compatibleType_computed = false;
+
+  /** @apilevel internal */
+  protected boolean compatibleType_value;
 
   /**
    * @attribute syn
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:46
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:102
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:46")
-  public IdDecl localLookup(String name, int index) {
-    java.util.List _parameters = new java.util.ArrayList(2);
-    _parameters.add(name);
-    _parameters.add(index);
-    if (localLookup_String_int_visited == null) localLookup_String_int_visited = new java.util.HashSet(4);
-    if (localLookup_String_int_values == null) localLookup_String_int_values = new java.util.HashMap(4);
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:102")
+  public boolean compatibleType() {
     ASTState state = state();
-    if (localLookup_String_int_values.containsKey(_parameters)) {
-      return (IdDecl) localLookup_String_int_values.get(_parameters);
+    if (compatibleType_computed) {
+      return compatibleType_value;
     }
-    if (localLookup_String_int_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute WhileStatement.localLookup(String,int).");
+    if (compatibleType_visited) {
+      throw new RuntimeException("Circular definition of attribute WhileStatement.compatibleType().");
     }
-    localLookup_String_int_visited.add(_parameters);
+    compatibleType_visited = true;
     state().enterLazyAttribute();
-    IdDecl localLookup_String_int_value = localLookup_compute(name, index);
-    localLookup_String_int_values.put(_parameters, localLookup_String_int_value);
+    compatibleType_value = compatibleType_compute();
+    compatibleType_computed = true;
     state().leaveLazyAttribute();
-    localLookup_String_int_visited.remove(_parameters);
-    return localLookup_String_int_value;
+    compatibleType_visited = false;
+    return compatibleType_value;
   }
   /** @apilevel internal */
-  private IdDecl localLookup_compute(String name, int index) {
-          for(int i = 0; i <= index; i++){
-              IdDecl decl = getStatement(index).localLookup(name);
-              if (!decl.isUnknown()){
-                  return decl;
-              }
-          }
-  
-          return unknownDecl();
-      }
+  private boolean compatibleType_compute() {
+      return getCondition().expectedType().compatibleType(getCondition().type());
+    }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
    */
-  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
-    if (_callerNode == getStatementListNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:42
-      int index = _callerNode.getIndexOfChild(_childNode);
-      {
-              IdDecl decl = localLookup(name, index);
-              return !decl.isUnknown() ? decl : lookup(name);
-          }
+  public Type Define_expectedType(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getConditionNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:82
+      return boolType();
     }
     else {
-      return getParent().Define_lookup(this, _callerNode, name);
+      return getParent().Define_expectedType(this, _callerNode);
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   * @return {@code true} if this node has an equation for the inherited attribute expectedType
    */
-  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+  protected boolean canDefine_expectedType(ASTNode _callerNode, ASTNode _childNode) {
     return true;
   }
 

@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 public class FunctionUse extends Expression implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:183
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:174
    */
   public void prettyPrint(PrintStream out, String ind) {
 		getIdUse().prettyPrint(out, ind);
@@ -32,7 +32,7 @@ public class FunctionUse extends Expression implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:119
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:112
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -77,24 +77,27 @@ public class FunctionUse extends Expression implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    type_reset();
+    isFunction_reset();
+    correctNumParameter_reset();
+    correctTypeParameter_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:33
+   * @declaredat ASTNode:36
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
 
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:41
    */
   public FunctionUse clone() throws CloneNotSupportedException {
     FunctionUse node = (FunctionUse) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:46
    */
   public FunctionUse copy() {
     try {
@@ -114,7 +117,7 @@ public class FunctionUse extends Expression implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:65
    */
   @Deprecated
   public FunctionUse fullCopy() {
@@ -125,7 +128,7 @@ public class FunctionUse extends Expression implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:72
+   * @declaredat ASTNode:75
    */
   public FunctionUse treeCopyNoTransform() {
     FunctionUse tree = (FunctionUse) copy();
@@ -146,7 +149,7 @@ public class FunctionUse extends Expression implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:95
    */
   public FunctionUse treeCopy() {
     FunctionUse tree = (FunctionUse) copy();
@@ -301,6 +304,192 @@ public class FunctionUse extends Expression implements Cloneable {
    */
   public List<Expression> getParametersNoTransform() {
     return getParameterListNoTransform();
+  }
+/** @apilevel internal */
+protected boolean type_visited = false;
+  /** @apilevel internal */
+  private void type_reset() {
+    type_computed = false;
+    
+    type_value = null;
+    type_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean type_computed = false;
+
+  /** @apilevel internal */
+  protected Type type_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:73
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:4")
+  public Type type() {
+    ASTState state = state();
+    if (type_computed) {
+      return type_value;
+    }
+    if (type_visited) {
+      throw new RuntimeException("Circular definition of attribute Expression.type().");
+    }
+    type_visited = true;
+    state().enterLazyAttribute();
+    type_value = getIdUse().type();
+    type_computed = true;
+    state().leaveLazyAttribute();
+    type_visited = false;
+    return type_value;
+  }
+/** @apilevel internal */
+protected boolean isFunction_visited = false;
+  /** @apilevel internal */
+  private void isFunction_reset() {
+    isFunction_computed = false;
+    isFunction_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean isFunction_computed = false;
+
+  /** @apilevel internal */
+  protected boolean isFunction_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:119
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:119")
+  public boolean isFunction() {
+    ASTState state = state();
+    if (isFunction_computed) {
+      return isFunction_value;
+    }
+    if (isFunction_visited) {
+      throw new RuntimeException("Circular definition of attribute FunctionUse.isFunction().");
+    }
+    isFunction_visited = true;
+    state().enterLazyAttribute();
+    isFunction_value = isFunction_compute();
+    isFunction_computed = true;
+    state().leaveLazyAttribute();
+    isFunction_visited = false;
+    return isFunction_value;
+  }
+  /** @apilevel internal */
+  private boolean isFunction_compute() {
+    IdDecl dec = getIdUse().decl();
+      if(!dec.isUnknown()){
+        return dec.isFunction();
+      }
+      return true;
+    }
+/** @apilevel internal */
+protected boolean correctNumParameter_visited = false;
+  /** @apilevel internal */
+  private void correctNumParameter_reset() {
+    correctNumParameter_computed = false;
+    correctNumParameter_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean correctNumParameter_computed = false;
+
+  /** @apilevel internal */
+  protected boolean correctNumParameter_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:152
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:152")
+  public boolean correctNumParameter() {
+    ASTState state = state();
+    if (correctNumParameter_computed) {
+      return correctNumParameter_value;
+    }
+    if (correctNumParameter_visited) {
+      throw new RuntimeException("Circular definition of attribute FunctionUse.correctNumParameter().");
+    }
+    correctNumParameter_visited = true;
+    state().enterLazyAttribute();
+    correctNumParameter_value = getNumParameter() == getIdUse().decl().function().getNumParameter();
+    correctNumParameter_computed = true;
+    state().leaveLazyAttribute();
+    correctNumParameter_visited = false;
+    return correctNumParameter_value;
+  }
+/** @apilevel internal */
+protected boolean correctTypeParameter_visited = false;
+  /** @apilevel internal */
+  private void correctTypeParameter_reset() {
+    correctTypeParameter_computed = false;
+    correctTypeParameter_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean correctTypeParameter_computed = false;
+
+  /** @apilevel internal */
+  protected boolean correctTypeParameter_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:155
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:155")
+  public boolean correctTypeParameter() {
+    ASTState state = state();
+    if (correctTypeParameter_computed) {
+      return correctTypeParameter_value;
+    }
+    if (correctTypeParameter_visited) {
+      throw new RuntimeException("Circular definition of attribute FunctionUse.correctTypeParameter().");
+    }
+    correctTypeParameter_visited = true;
+    state().enterLazyAttribute();
+    correctTypeParameter_value = correctTypeParameter_compute();
+    correctTypeParameter_computed = true;
+    state().leaveLazyAttribute();
+    correctTypeParameter_visited = false;
+    return correctTypeParameter_value;
+  }
+  /** @apilevel internal */
+  private boolean correctTypeParameter_compute() {
+      if(hasParameter()){
+        for(int i = 0; i < getNumParameter(); i++){
+         if(!getParameter(i).type().compatibleType(intType())){
+          return false;
+         }
+        }
+      }
+      return true;
+    }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:129
+   * @apilevel internal
+   */
+  public boolean Define_functionExpected(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getIdUseNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:127
+      return true;
+    }
+    else {
+      return getParent().Define_functionExpected(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:129
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute functionExpected
+   */
+  protected boolean canDefine_functionExpected(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
   }
 
 }

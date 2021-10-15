@@ -3,18 +3,19 @@ Program
     Function
       IdDecl ID="main"
       List
-      List
-        Declaration
-          IdDecl ID="a"
-          Opt
-        Assignment
-          IdUse ID="a"
-          Add
-            Numeral NUMERAL="2"
-            IdUse ID="b"
-        Declaration
-          IdDecl ID="b"
-          Opt
-            Numeral NUMERAL="3"
-        Return
-          IdUse ID="a"
+      Block
+        List
+          Declaration
+            IdDecl ID="a"
+            Opt
+          Assignment
+            IdUse ID="a"
+            Add
+              IntegerValue INTEGER="2"
+              IdUse ID="b"
+          Declaration
+            IdDecl ID="b"
+            Opt
+              IntegerValue INTEGER="3"
+          Return
+            IdUse ID="a"

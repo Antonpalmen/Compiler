@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:17
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:18
  * @astdecl IdUse : Expression ::= <ID:String>;
  * @production IdUse : {@link Expression} ::= <span class="component">&lt;ID:{@link String}&gt;</span>;
 
@@ -15,14 +15,14 @@ import java.lang.reflect.InvocationTargetException;
 public class IdUse extends Expression implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:179
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:170
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(getID());
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:116
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:109
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -72,25 +72,31 @@ public class IdUse extends Expression implements Cloneable {
     super.flushAttrCache();
     decl_reset();
     isCircular_reset();
+    type_reset();
+    isUsedCorrectly_reset();
+    isFunction_reset();
+    isVariable_reset();
+    function_reset();
     lookup_String_reset();
-    inExprOf_IdDecl_reset();
+    inExpression_IdDecl_reset();
+    functionExpected_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:36
+   * @declaredat ASTNode:42
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
 
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:41
+   * @declaredat ASTNode:47
    */
   public IdUse clone() throws CloneNotSupportedException {
     IdUse node = (IdUse) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:46
+   * @declaredat ASTNode:52
    */
   public IdUse copy() {
     try {
@@ -110,7 +116,7 @@ public class IdUse extends Expression implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:65
+   * @declaredat ASTNode:71
    */
   @Deprecated
   public IdUse fullCopy() {
@@ -121,7 +127,7 @@ public class IdUse extends Expression implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:75
+   * @declaredat ASTNode:81
    */
   public IdUse treeCopyNoTransform() {
     IdUse tree = (IdUse) copy();
@@ -142,7 +148,7 @@ public class IdUse extends Expression implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:95
+   * @declaredat ASTNode:101
    */
   public IdUse treeCopy() {
     IdUse tree = (IdUse) copy();
@@ -215,10 +221,10 @@ protected boolean decl_visited = false;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:18
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:2
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:18")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:2")
   public IdDecl decl() {
     ASTState state = state();
     if (decl_computed) {
@@ -251,10 +257,10 @@ protected boolean isCircular_visited = false;
   /**
    * @attribute syn
    * @aspect CircularDefinitions
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:130
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:83
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:130")
+  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:83")
   public boolean isCircular() {
     ASTState state = state();
     if (isCircular_computed) {
@@ -265,19 +271,203 @@ protected boolean isCircular_visited = false;
     }
     isCircular_visited = true;
     state().enterLazyAttribute();
-    isCircular_value = inExprOf(decl());
+    isCircular_value = inExpression(decl());
     isCircular_computed = true;
     state().leaveLazyAttribute();
     isCircular_visited = false;
     return isCircular_value;
   }
+/** @apilevel internal */
+protected boolean type_visited = false;
+  /** @apilevel internal */
+  private void type_reset() {
+    type_computed = false;
+    
+    type_value = null;
+    type_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean type_computed = false;
+
+  /** @apilevel internal */
+  protected Type type_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:72
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:4")
+  public Type type() {
+    ASTState state = state();
+    if (type_computed) {
+      return type_value;
+    }
+    if (type_visited) {
+      throw new RuntimeException("Circular definition of attribute Expression.type().");
+    }
+    type_visited = true;
+    state().enterLazyAttribute();
+    type_value = decl().type();
+    type_computed = true;
+    state().leaveLazyAttribute();
+    type_visited = false;
+    return type_value;
+  }
+/** @apilevel internal */
+protected boolean isUsedCorrectly_visited = false;
+  /** @apilevel internal */
+  private void isUsedCorrectly_reset() {
+    isUsedCorrectly_computed = false;
+    isUsedCorrectly_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean isUsedCorrectly_computed = false;
+
+  /** @apilevel internal */
+  protected boolean isUsedCorrectly_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:131
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:131")
+  public boolean isUsedCorrectly() {
+    ASTState state = state();
+    if (isUsedCorrectly_computed) {
+      return isUsedCorrectly_value;
+    }
+    if (isUsedCorrectly_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.isUsedCorrectly().");
+    }
+    isUsedCorrectly_visited = true;
+    state().enterLazyAttribute();
+    isUsedCorrectly_value = functionExpected() == isFunction();
+    isUsedCorrectly_computed = true;
+    state().leaveLazyAttribute();
+    isUsedCorrectly_visited = false;
+    return isUsedCorrectly_value;
+  }
+/** @apilevel internal */
+protected boolean isFunction_visited = false;
+  /** @apilevel internal */
+  private void isFunction_reset() {
+    isFunction_computed = false;
+    isFunction_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean isFunction_computed = false;
+
+  /** @apilevel internal */
+  protected boolean isFunction_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:133
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:133")
+  public boolean isFunction() {
+    ASTState state = state();
+    if (isFunction_computed) {
+      return isFunction_value;
+    }
+    if (isFunction_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.isFunction().");
+    }
+    isFunction_visited = true;
+    state().enterLazyAttribute();
+    isFunction_value = decl().isFunction();
+    isFunction_computed = true;
+    state().leaveLazyAttribute();
+    isFunction_visited = false;
+    return isFunction_value;
+  }
+/** @apilevel internal */
+protected boolean isVariable_visited = false;
+  /** @apilevel internal */
+  private void isVariable_reset() {
+    isVariable_computed = false;
+    isVariable_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean isVariable_computed = false;
+
+  /** @apilevel internal */
+  protected boolean isVariable_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:134
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:134")
+  public boolean isVariable() {
+    ASTState state = state();
+    if (isVariable_computed) {
+      return isVariable_value;
+    }
+    if (isVariable_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.isVariable().");
+    }
+    isVariable_visited = true;
+    state().enterLazyAttribute();
+    isVariable_value = decl().isFunction();
+    isVariable_computed = true;
+    state().leaveLazyAttribute();
+    isVariable_visited = false;
+    return isVariable_value;
+  }
+/** @apilevel internal */
+protected boolean function_visited = false;
+  /** @apilevel internal */
+  private void function_reset() {
+    function_computed = false;
+    
+    function_value = null;
+    function_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean function_computed = false;
+
+  /** @apilevel internal */
+  protected Function function_value;
+
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:135
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:135")
+  public Function function() {
+    ASTState state = state();
+    if (function_computed) {
+      return function_value;
+    }
+    if (function_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.function().");
+    }
+    function_visited = true;
+    state().enterLazyAttribute();
+    function_value = decl().function();
+    function_computed = true;
+    state().leaveLazyAttribute();
+    function_visited = false;
+    return function_value;
+  }
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:3
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:3")
   public IdDecl lookup(String name) {
     Object _parameters = name;
     if (lookup_String_visited == null) lookup_String_visited = new java.util.HashSet(4);
@@ -310,38 +500,74 @@ protected java.util.Set lookup_String_visited;
   /**
    * @attribute inh
    * @aspect CircularDefinitions
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:131
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:84
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:131")
-  public boolean inExprOf(IdDecl decl) {
+  @ASTNodeAnnotation.Source(aspect="CircularDefinitions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:84")
+  public boolean inExpression(IdDecl decl) {
     Object _parameters = decl;
-    if (inExprOf_IdDecl_visited == null) inExprOf_IdDecl_visited = new java.util.HashSet(4);
-    if (inExprOf_IdDecl_values == null) inExprOf_IdDecl_values = new java.util.HashMap(4);
+    if (inExpression_IdDecl_visited == null) inExpression_IdDecl_visited = new java.util.HashSet(4);
+    if (inExpression_IdDecl_values == null) inExpression_IdDecl_values = new java.util.HashMap(4);
     ASTState state = state();
-    if (inExprOf_IdDecl_values.containsKey(_parameters)) {
-      return (Boolean) inExprOf_IdDecl_values.get(_parameters);
+    if (inExpression_IdDecl_values.containsKey(_parameters)) {
+      return (Boolean) inExpression_IdDecl_values.get(_parameters);
     }
-    if (inExprOf_IdDecl_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute IdUse.inExprOf(IdDecl).");
+    if (inExpression_IdDecl_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute IdUse.inExpression(IdDecl).");
     }
-    inExprOf_IdDecl_visited.add(_parameters);
+    inExpression_IdDecl_visited.add(_parameters);
     state().enterLazyAttribute();
-    boolean inExprOf_IdDecl_value = getParent().Define_inExprOf(this, null, decl);
-    inExprOf_IdDecl_values.put(_parameters, inExprOf_IdDecl_value);
+    boolean inExpression_IdDecl_value = getParent().Define_inExpression(this, null, decl);
+    inExpression_IdDecl_values.put(_parameters, inExpression_IdDecl_value);
     state().leaveLazyAttribute();
-    inExprOf_IdDecl_visited.remove(_parameters);
-    return inExprOf_IdDecl_value;
+    inExpression_IdDecl_visited.remove(_parameters);
+    return inExpression_IdDecl_value;
   }
 /** @apilevel internal */
-protected java.util.Set inExprOf_IdDecl_visited;
+protected java.util.Set inExpression_IdDecl_visited;
   /** @apilevel internal */
-  private void inExprOf_IdDecl_reset() {
-    inExprOf_IdDecl_values = null;
-    inExprOf_IdDecl_visited = null;
+  private void inExpression_IdDecl_reset() {
+    inExpression_IdDecl_values = null;
+    inExpression_IdDecl_visited = null;
   }
   /** @apilevel internal */
-  protected java.util.Map inExprOf_IdDecl_values;
+  protected java.util.Map inExpression_IdDecl_values;
+
+  /**
+   * @attribute inh
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:129
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:129")
+  public boolean functionExpected() {
+    ASTState state = state();
+    if (functionExpected_computed) {
+      return functionExpected_value;
+    }
+    if (functionExpected_visited) {
+      throw new RuntimeException("Circular definition of attribute IdUse.functionExpected().");
+    }
+    functionExpected_visited = true;
+    state().enterLazyAttribute();
+    functionExpected_value = getParent().Define_functionExpected(this, null);
+    functionExpected_computed = true;
+    state().leaveLazyAttribute();
+    functionExpected_visited = false;
+    return functionExpected_value;
+  }
+/** @apilevel internal */
+protected boolean functionExpected_visited = false;
+  /** @apilevel internal */
+  private void functionExpected_reset() {
+    functionExpected_computed = false;
+    functionExpected_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean functionExpected_computed = false;
+
+  /** @apilevel internal */
+  protected boolean functionExpected_value;
 
   /** @apilevel internal */
   protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {

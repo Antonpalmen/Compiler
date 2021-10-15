@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:7
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:9
  * @astdecl Declaration : Statement ::= IdDecl:IdDecl [Assignment:Expression];
  * @production Declaration : {@link Statement} ::= <span class="component">IdDecl:{@link IdDecl}</span> <span class="component">[Assignment:{@link Expression}]</span>;
 
@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Declaration extends Statement implements Cloneable {
   /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:103
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:86
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "int ");
@@ -28,7 +28,7 @@ public class Declaration extends Statement implements Cloneable {
 	}
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:87
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:83
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -74,23 +74,24 @@ public class Declaration extends Statement implements Cloneable {
   public void flushAttrCache() {
     super.flushAttrCache();
     localLookup_String_reset();
+    compatibleType_reset();
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:33
+   * @declaredat ASTNode:34
    */
   public void flushCollectionCache() {
     super.flushCollectionCache();
 
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:38
+   * @declaredat ASTNode:39
    */
   public Declaration clone() throws CloneNotSupportedException {
     Declaration node = (Declaration) super.clone();
     return node;
   }
   /** @apilevel internal 
-   * @declaredat ASTNode:43
+   * @declaredat ASTNode:44
    */
   public Declaration copy() {
     try {
@@ -110,7 +111,7 @@ public class Declaration extends Statement implements Cloneable {
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
    * @deprecated Please use treeCopy or treeCopyNoTransform instead
-   * @declaredat ASTNode:62
+   * @declaredat ASTNode:63
    */
   @Deprecated
   public Declaration fullCopy() {
@@ -121,7 +122,7 @@ public class Declaration extends Statement implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:72
+   * @declaredat ASTNode:73
    */
   public Declaration treeCopyNoTransform() {
     Declaration tree = (Declaration) copy();
@@ -142,7 +143,7 @@ public class Declaration extends Statement implements Cloneable {
    * The copy is dangling, i.e. has no parent.
    * @return dangling copy of the subtree at this node
    * @apilevel low-level
-   * @declaredat ASTNode:92
+   * @declaredat ASTNode:93
    */
   public Declaration treeCopy() {
     Declaration tree = (Declaration) copy();
@@ -250,10 +251,10 @@ protected java.util.Set localLookup_String_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:24
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:66
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:24")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:66")
   public IdDecl localLookup(String name) {
     Object _parameters = name;
     if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
@@ -275,29 +276,112 @@ protected java.util.Set localLookup_String_visited;
   }
   /** @apilevel internal */
   private IdDecl localLookup_compute(String name) {
-  		return getIdDecl().getID().equals(name) ? getIdDecl() : unknownDecl();
-  	}
+  			return getIdDecl().getID().equals(name) ? getIdDecl() : unknownDecl();
+  		}
+/** @apilevel internal */
+protected boolean compatibleType_visited = false;
+  /** @apilevel internal */
+  private void compatibleType_reset() {
+    compatibleType_computed = false;
+    compatibleType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean compatibleType_computed = false;
+
+  /** @apilevel internal */
+  protected boolean compatibleType_value;
+
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:91
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:91")
+  public boolean compatibleType() {
+    ASTState state = state();
+    if (compatibleType_computed) {
+      return compatibleType_value;
+    }
+    if (compatibleType_visited) {
+      throw new RuntimeException("Circular definition of attribute Declaration.compatibleType().");
+    }
+    compatibleType_visited = true;
+    state().enterLazyAttribute();
+    compatibleType_value = compatibleType_compute();
+    compatibleType_computed = true;
+    state().leaveLazyAttribute();
+    compatibleType_visited = false;
+    return compatibleType_value;
+  }
+  /** @apilevel internal */
+  private boolean compatibleType_compute() {
+      if(hasAssignment()){
+        return getAssignment().expectedType().compatibleType(getAssignment().type());
+      }
+      return true;
+    }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
    */
-  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
-    if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:27
-      {
-      			return lookup(name);
-      	}
+  public Type Define_expectedType(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getAssignmentOptNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:80
+      return intType();
     }
     else {
-      return getParent().Define_lookup(this, _callerNode, name);
+      return getParent().Define_expectedType(this, _callerNode);
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:19
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   * @return {@code true} if this node has an equation for the inherited attribute expectedType
    */
-  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+  protected boolean canDefine_expectedType(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
+   * @apilevel internal
+   */
+  public boolean Define_isVariable(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getIdDeclNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:140
+      return true;
+    }
+    else {
+      return getParent().Define_isVariable(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute isVariable
+   */
+  protected boolean canDefine_isVariable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
+   * @apilevel internal
+   */
+  public boolean Define_isFunction(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getIdDeclNoTransform()) {
+      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:141
+      return false;
+    }
+    else {
+      return getParent().Define_isFunction(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute isFunction
+   */
+  protected boolean canDefine_isFunction(ASTNode _callerNode, ASTNode _childNode) {
     return true;
   }
 

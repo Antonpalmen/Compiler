@@ -3,14 +3,16 @@ Program
     Function
       IdDecl ID="a"
       List
-      List
-        Return
-          FunctionUse
-            IdUse ID="b"
-            List
+      Block
+        List
+          Return
+            FunctionUse
+              IdUse ID="b"
+              List
     Function
       IdDecl ID="b"
       List
-      List
-        Return
-          Numeral NUMERAL="1"
+      Block
+        List
+          Return
+            IntegerValue INTEGER="1"

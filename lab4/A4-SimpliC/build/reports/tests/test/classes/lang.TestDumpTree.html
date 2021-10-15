@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.042s</div>
+<div class="counter">1.520s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,41 +79,45 @@
       IdDecl ID=&quot;f&quot;
       List
         IdDecl ID=&quot;x&quot;
-      List
-        IfStatement
-          GreaterThan
-            IdUse ID=&quot;x&quot;
-            Numeral NUMERAL=&quot;6&quot;
-          List
-            Declaration
-              IdDecl ID=&quot;a&quot;
-              Opt
-                Numeral NUMERAL=&quot;31&quot;
-            IfStatement
-              GreaterThanEqual
-                IdUse ID=&quot;x&quot;
-                Numeral NUMERAL=&quot;3&quot;
+      Block
+        List
+          IfStatement
+            GreaterThan
+              IdUse ID=&quot;x&quot;
+              IntegerValue INTEGER=&quot;6&quot;
+            Block
               List
                 Declaration
                   IdDecl ID=&quot;a&quot;
                   Opt
-                    Numeral NUMERAL=&quot;42&quot;
+                    IntegerValue INTEGER=&quot;31&quot;
                 IfStatement
-                  Equal
+                  GreaterThanEqual
                     IdUse ID=&quot;x&quot;
-                    Numeral NUMERAL=&quot;3&quot;
-                  List
-                    Assignment
-                      IdUse ID=&quot;a&quot;
-                      Numeral NUMERAL=&quot;4&quot;
-                    Assignment
-                      IdUse ID=&quot;x&quot;
-                      IdUse ID=&quot;a&quot;
+                    IntegerValue INTEGER=&quot;3&quot;
+                  Block
+                    List
+                      Declaration
+                        IdDecl ID=&quot;a&quot;
+                        Opt
+                          IntegerValue INTEGER=&quot;42&quot;
+                      IfStatement
+                        Equal
+                          IdUse ID=&quot;x&quot;
+                          IntegerValue INTEGER=&quot;3&quot;
+                        Block
+                          List
+                            Assignment
+                              IdUse ID=&quot;a&quot;
+                              IntegerValue INTEGER=&quot;4&quot;
+                            Assignment
+                              IdUse ID=&quot;x&quot;
+                              IdUse ID=&quot;a&quot;
+                        Opt
                   Opt
-              Opt
-          Opt
-        Return
-          IdUse ID=&quot;x&quot;]&gt;
+            Opt
+          Return
+            IdUse ID=&quot;x&quot;]&gt;
 	at org.junit.Assert.assertEquals(Assert.java:117)
 	at lang.Util.compareOutput(Util.java:46)
 	at lang.TestDumpTree.runTest(TestDumpTree.java:31)
@@ -180,21 +184,22 @@
     Function
       IdDecl ID=&quot;main&quot;
       List
-      List
-        Declaration
-          IdDecl ID=&quot;a&quot;
-          Opt
-        Assignment
-          IdUse ID=&quot;a&quot;
-          Add
-            Numeral NUMERAL=&quot;2&quot;
-            IdUse ID=&quot;b&quot;
-        Declaration
-          IdDecl ID=&quot;b&quot;
-          Opt
-            Numeral NUMERAL=&quot;3&quot;
-        Return
-          IdUse ID=&quot;a&quot;]&gt;
+      Block
+        List
+          Declaration
+            IdDecl ID=&quot;a&quot;
+            Opt
+          Assignment
+            IdUse ID=&quot;a&quot;
+            Add
+              IntegerValue INTEGER=&quot;2&quot;
+              IdUse ID=&quot;b&quot;
+          Declaration
+            IdDecl ID=&quot;b&quot;
+            Opt
+              IntegerValue INTEGER=&quot;3&quot;
+          Return
+            IdUse ID=&quot;a&quot;]&gt;
 	at org.junit.Assert.assertEquals(Assert.java:117)
 	at lang.Util.compareOutput(Util.java:46)
 	at lang.TestDumpTree.runTest(TestDumpTree.java:31)
@@ -261,29 +266,31 @@
     Function
       IdDecl ID=&quot;main&quot;
       List
-      List
-        Declaration
-          IdDecl ID=&quot;a&quot;
-          Opt
-            Numeral NUMERAL=&quot;3&quot;
-        IfStatement
-          NotEqual
-            IdUse ID=&quot;a&quot;
-            Numeral NUMERAL=&quot;0&quot;
-          List
-            Declaration
-              IdDecl ID=&quot;a&quot;
-              Opt
-                Numeral NUMERAL=&quot;4&quot;
-            Return
+      Block
+        List
+          Declaration
+            IdDecl ID=&quot;a&quot;
+            Opt
+              IntegerValue INTEGER=&quot;3&quot;
+          IfStatement
+            NotEqual
               IdUse ID=&quot;a&quot;
-          Opt
-        Declaration
-          IdDecl ID=&quot;a&quot;
-          Opt
-            Numeral NUMERAL=&quot;5&quot;
-        Return
-          IdUse ID=&quot;a&quot;]&gt;
+              IntegerValue INTEGER=&quot;0&quot;
+            Block
+              List
+                Declaration
+                  IdDecl ID=&quot;a&quot;
+                  Opt
+                    IntegerValue INTEGER=&quot;4&quot;
+                Return
+                  IdUse ID=&quot;a&quot;
+            Opt
+          Declaration
+            IdDecl ID=&quot;a&quot;
+            Opt
+              IntegerValue INTEGER=&quot;5&quot;
+          Return
+            IdUse ID=&quot;a&quot;]&gt;
 	at org.junit.Assert.assertEquals(Assert.java:117)
 	at lang.Util.compareOutput(Util.java:46)
 	at lang.TestDumpTree.runTest(TestDumpTree.java:31)
@@ -350,17 +357,19 @@
     Function
       IdDecl ID=&quot;a&quot;
       List
-      List
-        Return
-          FunctionUse
-            IdUse ID=&quot;b&quot;
-            List
+      Block
+        List
+          Return
+            FunctionUse
+              IdUse ID=&quot;b&quot;
+              List
     Function
       IdDecl ID=&quot;b&quot;
       List
-      List
-        Return
-          Numeral NUMERAL=&quot;1&quot;]&gt;
+      Block
+        List
+          Return
+            IntegerValue INTEGER=&quot;1&quot;]&gt;
 	at org.junit.Assert.assertEquals(Assert.java:117)
 	at lang.Util.compareOutput(Util.java:46)
 	at lang.TestDumpTree.runTest(TestDumpTree.java:31)
@@ -431,22 +440,22 @@
 </thead>
 <tr>
 <td class="failures">runTest[d.in]</td>
-<td class="failures">0.995s</td>
+<td class="failures">1.421s</td>
 <td class="failures">failed</td>
 </tr>
 <tr>
 <td class="failures">runTest[declareBeforeUseTest.in]</td>
-<td class="failures">0.017s</td>
+<td class="failures">0.032s</td>
 <td class="failures">failed</td>
 </tr>
 <tr>
 <td class="failures">runTest[redeclarationTest.in]</td>
-<td class="failures">0.019s</td>
+<td class="failures">0.035s</td>
 <td class="failures">failed</td>
 </tr>
 <tr>
 <td class="failures">runTest[useBeforeDeclareTest.in]</td>
-<td class="failures">0.011s</td>
+<td class="failures">0.032s</td>
 <td class="failures">failed</td>
 </tr>
 </table>
@@ -459,7 +468,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.2</a> at Oct 12, 2021, 3:47:05 PM</p>
+<a href="http://www.gradle.org">Gradle 7.2</a> at Oct 15, 2021, 2:40:46 PM</p>
 </div>
 </div>
 </body>

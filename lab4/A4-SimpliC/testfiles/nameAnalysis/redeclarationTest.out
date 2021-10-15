@@ -3,26 +3,28 @@ Program
     Function
       IdDecl ID="main"
       List
-      List
-        Declaration
-          IdDecl ID="a"
-          Opt
-            Numeral NUMERAL="3"
-        IfStatement
-          NotEqual
-            IdUse ID="a"
-            Numeral NUMERAL="0"
-          List
-            Declaration
-              IdDecl ID="a"
-              Opt
-                Numeral NUMERAL="4"
-            Return
+      Block
+        List
+          Declaration
+            IdDecl ID="a"
+            Opt
+              IntegerValue INTEGER="3"
+          IfStatement
+            NotEqual
               IdUse ID="a"
-          Opt
-        Declaration
-          IdDecl ID="a"
-          Opt
-            Numeral NUMERAL="5"
-        Return
-          IdUse ID="a"
+              IntegerValue INTEGER="0"
+            Block
+              List
+                Declaration
+                  IdDecl ID="a"
+                  Opt
+                    IntegerValue INTEGER="4"
+                Return
+                  IdUse ID="a"
+            Opt
+          Declaration
+            IdDecl ID="a"
+            Opt
+              IntegerValue INTEGER="5"
+          Return
+            IdUse ID="a"

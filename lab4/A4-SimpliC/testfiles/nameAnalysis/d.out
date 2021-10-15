@@ -4,38 +4,42 @@ Program
       IdDecl ID="f"
       List
         IdDecl ID="x"
-      List
-        IfStatement
-          GreaterThan
-            IdUse ID="x"
-            Numeral NUMERAL="6"
-          List
-            Declaration
-              IdDecl ID="a"
-              Opt
-                Numeral NUMERAL="31"
-            IfStatement
-              GreaterThanEqual
-                IdUse ID="x"
-                Numeral NUMERAL="3"
+      Block
+        List
+          IfStatement
+            GreaterThan
+              IdUse ID="x"
+              IntegerValue INTEGER="6"
+            Block
               List
                 Declaration
                   IdDecl ID="a"
                   Opt
-                    Numeral NUMERAL="42"
+                    IntegerValue INTEGER="31"
                 IfStatement
-                  Equal
+                  GreaterThanEqual
                     IdUse ID="x"
-                    Numeral NUMERAL="3"
-                  List
-                    Assignment
-                      IdUse ID="a"
-                      Numeral NUMERAL="4"
-                    Assignment
-                      IdUse ID="x"
-                      IdUse ID="a"
+                    IntegerValue INTEGER="3"
+                  Block
+                    List
+                      Declaration
+                        IdDecl ID="a"
+                        Opt
+                          IntegerValue INTEGER="42"
+                      IfStatement
+                        Equal
+                          IdUse ID="x"
+                          IntegerValue INTEGER="3"
+                        Block
+                          List
+                            Assignment
+                              IdUse ID="a"
+                              IntegerValue INTEGER="4"
+                            Assignment
+                              IdUse ID="x"
+                              IdUse ID="a"
+                        Opt
                   Opt
-              Opt
-          Opt
-        Return
-          IdUse ID="x"
+            Opt
+          Return
+            IdUse ID="x"

@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:16
+ * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:17
  * @astdecl Expression : ASTNode;
  * @production Expression : {@link ASTNode};
 
@@ -39,7 +39,7 @@ public abstract class Expression extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-
+    expectedType_reset();
   }
   /** @apilevel internal 
    * @declaredat ASTNode:22
@@ -82,5 +82,51 @@ public abstract class Expression extends ASTNode<ASTNode> implements Cloneable {
    * @declaredat ASTNode:54
    */
   public abstract Expression treeCopy();
+  /**
+   * @attribute syn
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:4
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:4")
+  public abstract Type type();
+  /**
+   * @attribute inh
+   * @aspect TypeAnalysis
+   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78")
+  public Type expectedType() {
+    ASTState state = state();
+    if (expectedType_computed) {
+      return expectedType_value;
+    }
+    if (expectedType_visited) {
+      throw new RuntimeException("Circular definition of attribute Expression.expectedType().");
+    }
+    expectedType_visited = true;
+    state().enterLazyAttribute();
+    expectedType_value = getParent().Define_expectedType(this, null);
+    expectedType_computed = true;
+    state().leaveLazyAttribute();
+    expectedType_visited = false;
+    return expectedType_value;
+  }
+/** @apilevel internal */
+protected boolean expectedType_visited = false;
+  /** @apilevel internal */
+  private void expectedType_reset() {
+    expectedType_computed = false;
+    
+    expectedType_value = null;
+    expectedType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean expectedType_computed = false;
+
+  /** @apilevel internal */
+  protected Type expectedType_value;
+
 
 }
