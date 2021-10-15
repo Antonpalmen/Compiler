@@ -42,4 +42,37 @@ aspect ErrorContributions {
 	IdUse contributes error("the definition of symbol '" + getID() + "' is circular")
 		when isCircular()
 		to Program.errors() for program();
+
+	FunctionUse contributes error("Parameter mistmatch!")
+		when !correctNumParameter()
+		to Program.errors() for program();
+
+	Assignment contributes error("Assign type mistmatch!")
+		when !compatibleType()
+		to Program.errors() for program();
+
+	Return contributes error("Return type mistmatch!")
+		when !compatibleType()
+		to Program.errors() for program();
+
+	Declaration contributes error("Declaration type mistmatch!")
+		when !compatibleType()
+		to Program.errors() for program();
+
+	IfStatement contributes error("If condition type mistmatch!")
+		when !compatibleType()
+		to Program.errors() for program();
+
+	WhileStatement contributes error("While condition type mistmatch!")
+		when !compatibleType()
+		to Program.errors() for program();
+
+	Expression contributes error("Expression type mistmatch!")
+		when type() == unknownType()
+		to Program.errors() for program();
+
+	FunctionUse contributes error("Parameter type mistmatch!")
+		when !correctTypeParameter()
+		to Program.errors() for program();
+
 }

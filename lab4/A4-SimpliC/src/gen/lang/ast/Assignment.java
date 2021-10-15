@@ -7,15 +7,22 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:10
+ * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/lang.ast:10
  * @astdecl Assignment : Statement ::= IdUse:IdUse Expression:Expression;
  * @production Assignment : {@link Statement} ::= <span class="component">IdUse:{@link IdUse}</span> <span class="component">Expression:{@link Expression}</span>;
 
  */
 public class Assignment extends Statement implements Cloneable {
   /**
+   * @aspect Visitor
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Visitor.jrag:86
+   */
+  public Object accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:96
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/PrettyPrint.jrag:96
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind);
@@ -23,13 +30,6 @@ public class Assignment extends Statement implements Cloneable {
 		out.print(" = ");
 		getExpression().prettyPrint(out, ind);
 		out.print(";");
-	}
-  /**
-   * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:86
-   */
-  public Object accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
 	}
   /**
    * @declaredat ASTNode:1
@@ -224,10 +224,10 @@ protected boolean compatibleType_visited = false;
   /**
    * @attribute syn
    * @aspect TypeAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:98
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:98
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:98")
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:98")
   public boolean compatibleType() {
     ASTState state = state();
     if (compatibleType_computed) {
@@ -249,33 +249,12 @@ protected boolean compatibleType_visited = false;
       return getExpression().expectedType().compatibleType(getExpression().type());
     }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:84
-   * @apilevel internal
-   */
-  public boolean Define_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
-    if (_callerNode == getIdUseNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:87
-      return getIdUse().getID() == decl.getID() || inExpression(decl);
-    }
-    else {
-      return getParent().Define_inExpression(this, _callerNode, decl);
-    }
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:84
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute inExpression
-   */
-  protected boolean canDefine_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
    */
   public Type Define_expectedType(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getExpressionNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:81
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:81
       return intType();
     }
     else {
@@ -283,7 +262,7 @@ protected boolean compatibleType_visited = false;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute expectedType
    */
@@ -291,12 +270,12 @@ protected boolean compatibleType_visited = false;
     return true;
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:115
    * @apilevel internal
    */
   public boolean Define_isVariable(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getIdUseNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:137
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:137
       return true;
     }
     else {
@@ -304,7 +283,7 @@ protected boolean compatibleType_visited = false;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:115
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute isVariable
    */
@@ -312,12 +291,12 @@ protected boolean compatibleType_visited = false;
     return true;
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:116
    * @apilevel internal
    */
   public boolean Define_isFunction(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getIdUseNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:138
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:138
       return false;
     }
     else {
@@ -325,12 +304,56 @@ protected boolean compatibleType_visited = false;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:116
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute isFunction
    */
   protected boolean canDefine_isFunction(ASTNode _callerNode, ASTNode _childNode) {
     return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:84
+   * @apilevel internal
+   */
+  public boolean Define_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    if (_callerNode == getIdUseNoTransform()) {
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:87
+      return getIdUse().getID() == decl.getID() || inExpression(decl);
+    }
+    else {
+      return getParent().Define_inExpression(this, _callerNode, decl);
+    }
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:84
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inExpression
+   */
+  protected boolean canDefine_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    return true;
+  }
+  /** @apilevel internal */
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:50
+    if (!compatibleType()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    super.collect_contributors_Program_errors(_root, _map);
+  }
+  /** @apilevel internal */
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+    super.contributeTo_Program_errors(collection);
+    if (!compatibleType()) {
+      collection.add(error("Assign type mistmatch!"));
+    }
   }
 
 }

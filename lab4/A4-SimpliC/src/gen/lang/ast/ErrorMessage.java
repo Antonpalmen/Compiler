@@ -8,24 +8,24 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @ast class
  * @aspect Errors
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:5
+ * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:5
  */
 public class ErrorMessage extends java.lang.Object implements Comparable<ErrorMessage> {
   /**
    * @aspect Errors
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:6
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:6
    */
   
 		protected final String message;
   /**
    * @aspect Errors
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:7
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:7
    */
   
 		protected final int lineNumber;
   /**
    * @aspect Errors
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:8
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:8
    */
   
 		public ErrorMessage(String message, int lineNumber) {
@@ -34,7 +34,7 @@ public class ErrorMessage extends java.lang.Object implements Comparable<ErrorMe
 		}
   /**
    * @aspect Errors
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:12
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:12
    */
   
 		public int compareTo(ErrorMessage other) {
@@ -45,7 +45,7 @@ public class ErrorMessage extends java.lang.Object implements Comparable<ErrorMe
 		}
   /**
    * @aspect Errors
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:18
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:18
    */
   
 		public String toString() {

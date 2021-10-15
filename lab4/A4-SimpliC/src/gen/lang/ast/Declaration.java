@@ -7,15 +7,22 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:9
+ * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/lang.ast:9
  * @astdecl Declaration : Statement ::= IdDecl:IdDecl [Assignment:Expression];
  * @production Declaration : {@link Statement} ::= <span class="component">IdDecl:{@link IdDecl}</span> <span class="component">[Assignment:{@link Expression}]</span>;
 
  */
 public class Declaration extends Statement implements Cloneable {
   /**
+   * @aspect Visitor
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Visitor.jrag:83
+   */
+  public Object accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:86
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/PrettyPrint.jrag:86
    */
   public void prettyPrint(PrintStream out, String ind) {
 		out.print(ind + "int ");
@@ -25,13 +32,6 @@ public class Declaration extends Statement implements Cloneable {
 			getAssignment().prettyPrint(out, ind);
 		}
 		out.println(";");
-	}
-  /**
-   * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:83
-   */
-  public Object accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
 	}
   /**
    * @declaredat ASTNode:1
@@ -73,8 +73,8 @@ public class Declaration extends Statement implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-    localLookup_String_reset();
     compatibleType_reset();
+    localLookup_String_reset();
   }
   /** @apilevel internal 
    * @declaredat ASTNode:34
@@ -239,46 +239,6 @@ public class Declaration extends Statement implements Cloneable {
     return (Opt<Expression>) getChildNoTransform(1);
   }
 /** @apilevel internal */
-protected java.util.Set localLookup_String_visited;
-  /** @apilevel internal */
-  private void localLookup_String_reset() {
-    localLookup_String_values = null;
-    localLookup_String_visited = null;
-  }
-  /** @apilevel internal */
-  protected java.util.Map localLookup_String_values;
-
-  /**
-   * @attribute syn
-   * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:66
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:66")
-  public IdDecl localLookup(String name) {
-    Object _parameters = name;
-    if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
-    if (localLookup_String_values == null) localLookup_String_values = new java.util.HashMap(4);
-    ASTState state = state();
-    if (localLookup_String_values.containsKey(_parameters)) {
-      return (IdDecl) localLookup_String_values.get(_parameters);
-    }
-    if (localLookup_String_visited.contains(_parameters)) {
-      throw new RuntimeException("Circular definition of attribute Declaration.localLookup(String).");
-    }
-    localLookup_String_visited.add(_parameters);
-    state().enterLazyAttribute();
-    IdDecl localLookup_String_value = localLookup_compute(name);
-    localLookup_String_values.put(_parameters, localLookup_String_value);
-    state().leaveLazyAttribute();
-    localLookup_String_visited.remove(_parameters);
-    return localLookup_String_value;
-  }
-  /** @apilevel internal */
-  private IdDecl localLookup_compute(String name) {
-  			return getIdDecl().getID().equals(name) ? getIdDecl() : unknownDecl();
-  		}
-/** @apilevel internal */
 protected boolean compatibleType_visited = false;
   /** @apilevel internal */
   private void compatibleType_reset() {
@@ -294,10 +254,10 @@ protected boolean compatibleType_visited = false;
   /**
    * @attribute syn
    * @aspect TypeAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:91
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:91
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:91")
+  @ASTNodeAnnotation.Source(aspect="TypeAnalysis", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:91")
   public boolean compatibleType() {
     ASTState state = state();
     if (compatibleType_computed) {
@@ -321,13 +281,53 @@ protected boolean compatibleType_visited = false;
       }
       return true;
     }
+/** @apilevel internal */
+protected java.util.Set localLookup_String_visited;
+  /** @apilevel internal */
+  private void localLookup_String_reset() {
+    localLookup_String_values = null;
+    localLookup_String_visited = null;
+  }
+  /** @apilevel internal */
+  protected java.util.Map localLookup_String_values;
+
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   * @attribute syn
+   * @aspect NameAnalysis
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:66
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:66")
+  public IdDecl localLookup(String name) {
+    Object _parameters = name;
+    if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
+    if (localLookup_String_values == null) localLookup_String_values = new java.util.HashMap(4);
+    ASTState state = state();
+    if (localLookup_String_values.containsKey(_parameters)) {
+      return (IdDecl) localLookup_String_values.get(_parameters);
+    }
+    if (localLookup_String_visited.contains(_parameters)) {
+      throw new RuntimeException("Circular definition of attribute Declaration.localLookup(String).");
+    }
+    localLookup_String_visited.add(_parameters);
+    state().enterLazyAttribute();
+    IdDecl localLookup_String_value = localLookup_compute(name);
+    localLookup_String_values.put(_parameters, localLookup_String_value);
+    state().leaveLazyAttribute();
+    localLookup_String_visited.remove(_parameters);
+    return localLookup_String_value;
+  }
+  /** @apilevel internal */
+  private IdDecl localLookup_compute(String name) {
+  			return getIdDecl().getID().equals(name) ? getIdDecl() : unknownDecl();
+  		}
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
    */
   public Type Define_expectedType(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getAssignmentOptNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:80
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:80
       return intType();
     }
     else {
@@ -335,7 +335,7 @@ protected boolean compatibleType_visited = false;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:78
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:78
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute expectedType
    */
@@ -343,12 +343,12 @@ protected boolean compatibleType_visited = false;
     return true;
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:115
    * @apilevel internal
    */
   public boolean Define_isVariable(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:140
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:140
       return true;
     }
     else {
@@ -356,7 +356,7 @@ protected boolean compatibleType_visited = false;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:115
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute isVariable
    */
@@ -364,12 +364,12 @@ protected boolean compatibleType_visited = false;
     return true;
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:116
    * @apilevel internal
    */
   public boolean Define_isFunction(ASTNode _callerNode, ASTNode _childNode) {
     if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:141
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:141
       return false;
     }
     else {
@@ -377,12 +377,35 @@ protected boolean compatibleType_visited = false;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:116
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute isFunction
    */
   protected boolean canDefine_isFunction(ASTNode _callerNode, ASTNode _childNode) {
     return true;
+  }
+  /** @apilevel internal */
+  protected void collect_contributors_Program_errors(Program _root, java.util.Map<ASTNode, java.util.Set<ASTNode>> _map) {
+    // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:58
+    if (!compatibleType()) {
+      {
+        Program target = (Program) (program());
+        java.util.Set<ASTNode> contributors = _map.get(target);
+        if (contributors == null) {
+          contributors = new java.util.LinkedHashSet<ASTNode>();
+          _map.put((ASTNode) target, contributors);
+        }
+        contributors.add(this);
+      }
+    }
+    super.collect_contributors_Program_errors(_root, _map);
+  }
+  /** @apilevel internal */
+  protected void contributeTo_Program_errors(Set<ErrorMessage> collection) {
+    super.contributeTo_Program_errors(collection);
+    if (!compatibleType()) {
+      collection.add(error("Declaration type mistmatch!"));
+    }
   }
 
 }

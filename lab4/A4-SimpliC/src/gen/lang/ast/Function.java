@@ -7,15 +7,22 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:5
+ * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/lang.ast:5
  * @astdecl Function : ASTNode ::= IdDecl:IdDecl Parameter:IdDecl* Block:Block;
  * @production Function : {@link ASTNode} ::= <span class="component">IdDecl:{@link IdDecl}</span> <span class="component">Parameter:{@link IdDecl}*</span> <span class="component">Block:{@link Block}</span>;
 
  */
 public class Function extends ASTNode<ASTNode> implements Cloneable {
   /**
+   * @aspect Visitor
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Visitor.jrag:49
+   */
+  public Object accept(Visitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
+  /**
    * @aspect PrettyPrint
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/PrettyPrint.jrag:15
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/PrettyPrint.jrag:15
    */
   public void prettyPrint(PrintStream out, String ind){
 		out.print(ind);
@@ -33,13 +40,6 @@ public class Function extends ASTNode<ASTNode> implements Cloneable {
 		getBlock().prettyPrint(out,ind);
 		out.println();
   }
-  /**
-   * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:49
-   */
-  public Object accept(Visitor visitor, Object data) {
-		return visitor.visit(this, data);
-	}
   /**
    * @declaredat ASTNode:1
    */
@@ -347,10 +347,10 @@ protected java.util.Set localLookup_String_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:34
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:34
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:34")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:34")
   public IdDecl localLookup(String name) {
     Object _parameters = name;
     if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
@@ -384,10 +384,10 @@ protected java.util.Set localLookup_String_visited;
   /**
    * @attribute inh
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:25
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:25
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.INH)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:25")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:25")
   public IdDecl lookup(String name) {
     Object _parameters = name;
     if (lookup_String_visited == null) lookup_String_visited = new java.util.HashSet(4);
@@ -418,12 +418,85 @@ protected java.util.Set lookup_String_visited;
   protected java.util.Map lookup_String_values;
 
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:3
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:115
+   * @apilevel internal
+   */
+  public boolean Define_isVariable(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getParameterListNoTransform()) {
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:147
+      int childIndex = _callerNode.getIndexOfChild(_childNode);
+      return true;
+    }
+    else if (_callerNode == getIdDeclNoTransform()) {
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:143
+      return false;
+    }
+    else {
+      return getParent().Define_isVariable(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:115
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute isVariable
+   */
+  protected boolean canDefine_isVariable(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:116
+   * @apilevel internal
+   */
+  public boolean Define_isFunction(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getParameterListNoTransform()) {
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:148
+      int childIndex = _callerNode.getIndexOfChild(_childNode);
+      return false;
+    }
+    else if (_callerNode == getIdDeclNoTransform()) {
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:144
+      return true;
+    }
+    else {
+      return getParent().Define_isFunction(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:116
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute isFunction
+   */
+  protected boolean canDefine_isFunction(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:117
+   * @apilevel internal
+   */
+  public Function Define_function(ASTNode _callerNode, ASTNode _childNode) {
+    if (_callerNode == getIdDeclNoTransform()) {
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:145
+      return this;
+    }
+    else {
+      return getParent().Define_function(this, _callerNode);
+    }
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:117
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute function
+   */
+  protected boolean canDefine_function(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    */
   public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
     if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:26
+      // @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:26
       {
       			return lookup(name);
       		}
@@ -437,84 +510,11 @@ protected java.util.Set lookup_String_visited;
     }
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:3
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:3
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute lookup
    */
   protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
-   * @apilevel internal
-   */
-  public boolean Define_isVariable(ASTNode _callerNode, ASTNode _childNode) {
-    if (_callerNode == getParameterListNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:147
-      int childIndex = _callerNode.getIndexOfChild(_childNode);
-      return true;
-    }
-    else if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:143
-      return false;
-    }
-    else {
-      return getParent().Define_isVariable(this, _callerNode);
-    }
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:115
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute isVariable
-   */
-  protected boolean canDefine_isVariable(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
-   * @apilevel internal
-   */
-  public boolean Define_isFunction(ASTNode _callerNode, ASTNode _childNode) {
-    if (_callerNode == getParameterListNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:148
-      int childIndex = _callerNode.getIndexOfChild(_childNode);
-      return false;
-    }
-    else if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:144
-      return true;
-    }
-    else {
-      return getParent().Define_isFunction(this, _callerNode);
-    }
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:116
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute isFunction
-   */
-  protected boolean canDefine_isFunction(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:117
-   * @apilevel internal
-   */
-  public Function Define_function(ASTNode _callerNode, ASTNode _childNode) {
-    if (_callerNode == getIdDeclNoTransform()) {
-      // @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:145
-      return this;
-    }
-    else {
-      return getParent().Define_function(this, _callerNode);
-    }
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:117
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute function
-   */
-  protected boolean canDefine_function(ASTNode _callerNode, ASTNode _childNode) {
     return true;
   }
 

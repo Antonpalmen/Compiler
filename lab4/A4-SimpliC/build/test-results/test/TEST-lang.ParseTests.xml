@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="lang.ParseTests" tests="2" skipped="0" failures="2" errors="0" timestamp="2021-10-15T12:40:44" hostname="LAPTOP-4TE2LN4I" time="0.151">
+<testsuite name="lang.ParseTests" tests="2" skipped="0" failures="2" errors="0" timestamp="2021-10-15T14:31:29" hostname="AirsomthorAnton" time="0.036">
   <properties/>
-  <testcase name="example" classname="lang.ParseTests" time="0.147">
+  <testcase name="example" classname="lang.ParseTests" time="0.031">
     <failure message="java.lang.AssertionError: Unexpected error while parsing 'example.in': testfiles/parser/example.in (No such file or directory)" type="java.lang.AssertionError">java.lang.AssertionError: Unexpected error while parsing 'example.in': testfiles/parser/example.in (No such file or directory)
 	at org.junit.Assert.fail(Assert.java:89)
 	at lang.Util.testValidSyntax(Util.java:83)
@@ -51,7 +51,7 @@
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
 </failure>
   </testcase>
-  <testcase name="error" classname="lang.ParseTests" time="0.004">
+  <testcase name="error" classname="lang.ParseTests" time="0.003">
     <failure message="java.lang.AssertionError: IO error while trying to parse 'error.in': testfiles/parser/error.in (No such file or directory)" type="java.lang.AssertionError">java.lang.AssertionError: IO error while trying to parse 'error.in': testfiles/parser/error.in (No such file or directory)
 	at org.junit.Assert.fail(Assert.java:89)
 	at lang.Util.testSyntaxError(Util.java:101)

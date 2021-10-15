@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 /**
  * @ast node
- * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/lang.ast:1
+ * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/lang.ast:1
  * @astdecl Program : ASTNode ::= Function*;
  * @production Program : {@link ASTNode} ::= <span class="component">{@link Function}*</span>;
 
@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Program extends ASTNode<ASTNode> implements Cloneable {
   /**
    * @aspect Visitor
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Visitor.jrag:46
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Visitor.jrag:46
    */
   public Object accept(Visitor visitor, Object data) {
 		return visitor.visit(this, data);
@@ -59,12 +59,12 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
    */
   public void flushAttrCache() {
     super.flushAttrCache();
-    localLookup_String_reset();
-    getPredefinedFunctions_reset();
-    unknownDecl_reset();
     unknownType_reset();
     intType_reset();
     boolType_reset();
+    unknownDecl_reset();
+    localLookup_String_reset();
+    getPredefinedFunctions_reset();
   }
   /** @apilevel internal 
    * @declaredat ASTNode:37
@@ -268,7 +268,7 @@ public class Program extends ASTNode<ASTNode> implements Cloneable {
   }
   /**
    * @aspect <NoAspect>
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:26
    */
   /** @apilevel internal */
 protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_Program_errors = null;
@@ -282,6 +282,162 @@ protected java.util.Map<ASTNode, java.util.Set<ASTNode>> contributorMap_Program_
   }
 
 /** @apilevel internal */
+protected boolean unknownType_visited = false;
+  /** @apilevel internal */
+  private void unknownType_reset() {
+    unknownType_computed = false;
+    
+    unknownType_value = null;
+    unknownType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean unknownType_computed = false;
+
+  /** @apilevel internal */
+  protected UnknownType unknownType_value;
+
+  /**
+   * @attribute syn
+   * @aspect UnknownType
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:2
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="UnknownType", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:2")
+  public UnknownType unknownType() {
+    ASTState state = state();
+    if (unknownType_computed) {
+      return unknownType_value;
+    }
+    if (unknownType_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.unknownType().");
+    }
+    unknownType_visited = true;
+    state().enterLazyAttribute();
+    unknownType_value = new UnknownType();
+    unknownType_value.setParent(this);
+    unknownType_computed = true;
+    state().leaveLazyAttribute();
+    unknownType_visited = false;
+    return unknownType_value;
+  }
+/** @apilevel internal */
+protected boolean intType_visited = false;
+  /** @apilevel internal */
+  private void intType_reset() {
+    intType_computed = false;
+    
+    intType_value = null;
+    intType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean intType_computed = false;
+
+  /** @apilevel internal */
+  protected IntType intType_value;
+
+  /**
+   * @attribute syn
+   * @aspect IntType
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:12
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="IntType", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:12")
+  public IntType intType() {
+    ASTState state = state();
+    if (intType_computed) {
+      return intType_value;
+    }
+    if (intType_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.intType().");
+    }
+    intType_visited = true;
+    state().enterLazyAttribute();
+    intType_value = new IntType();
+    intType_value.setParent(this);
+    intType_computed = true;
+    state().leaveLazyAttribute();
+    intType_visited = false;
+    return intType_value;
+  }
+/** @apilevel internal */
+protected boolean boolType_visited = false;
+  /** @apilevel internal */
+  private void boolType_reset() {
+    boolType_computed = false;
+    
+    boolType_value = null;
+    boolType_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean boolType_computed = false;
+
+  /** @apilevel internal */
+  protected BoolType boolType_value;
+
+  /**
+   * @attribute syn
+   * @aspect BoolType
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:22
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="BoolType", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:22")
+  public BoolType boolType() {
+    ASTState state = state();
+    if (boolType_computed) {
+      return boolType_value;
+    }
+    if (boolType_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.boolType().");
+    }
+    boolType_visited = true;
+    state().enterLazyAttribute();
+    boolType_value = new BoolType();
+    boolType_value.setParent(this);
+    boolType_computed = true;
+    state().leaveLazyAttribute();
+    boolType_visited = false;
+    return boolType_value;
+  }
+/** @apilevel internal */
+protected boolean unknownDecl_visited = false;
+  /** @apilevel internal */
+  private void unknownDecl_reset() {
+    unknownDecl_computed = false;
+    
+    unknownDecl_value = null;
+    unknownDecl_visited = false;
+  }
+  /** @apilevel internal */
+  protected boolean unknownDecl_computed = false;
+
+  /** @apilevel internal */
+  protected UnknownDecl unknownDecl_value;
+
+  /**
+   * @attribute syn
+   * @aspect UnknownDecl
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownDecl.jrag:2
+   */
+  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
+  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownDecl.jrag:2")
+  public UnknownDecl unknownDecl() {
+    ASTState state = state();
+    if (unknownDecl_computed) {
+      return unknownDecl_value;
+    }
+    if (unknownDecl_visited) {
+      throw new RuntimeException("Circular definition of attribute Program.unknownDecl().");
+    }
+    unknownDecl_visited = true;
+    state().enterLazyAttribute();
+    unknownDecl_value = new UnknownDecl("<unknown>");
+    unknownDecl_value.setParent(this);
+    unknownDecl_computed = true;
+    state().leaveLazyAttribute();
+    unknownDecl_visited = false;
+    return unknownDecl_value;
+  }
+/** @apilevel internal */
 protected java.util.Set localLookup_String_visited;
   /** @apilevel internal */
   private void localLookup_String_reset() {
@@ -294,10 +450,10 @@ protected java.util.Set localLookup_String_visited;
   /**
    * @attribute syn
    * @aspect NameAnalysis
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:9
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:9
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN)
-  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:9")
+  @ASTNodeAnnotation.Source(aspect="NameAnalysis", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:9")
   public IdDecl localLookup(String name) {
     Object _parameters = name;
     if (localLookup_String_visited == null) localLookup_String_visited = new java.util.HashSet(4);
@@ -351,10 +507,10 @@ protected boolean getPredefinedFunctions_visited = false;
   /**
    * @attribute syn
    * @aspect PredefinedFunctions
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:73
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:73
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="PredefinedFunctions", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:73")
+  @ASTNodeAnnotation.Source(aspect="PredefinedFunctions", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:73")
   public List<Function> getPredefinedFunctions() {
     ASTState state = state();
     if (getPredefinedFunctions_computed) {
@@ -379,244 +535,8 @@ protected boolean getPredefinedFunctions_visited = false;
   		list.add(new Function(new IdDecl("print"), new List(new IdDecl("output")), new Block(new List())));
   		return list;
   	}
-/** @apilevel internal */
-protected boolean unknownDecl_visited = false;
-  /** @apilevel internal */
-  private void unknownDecl_reset() {
-    unknownDecl_computed = false;
-    
-    unknownDecl_value = null;
-    unknownDecl_visited = false;
-  }
-  /** @apilevel internal */
-  protected boolean unknownDecl_computed = false;
-
-  /** @apilevel internal */
-  protected UnknownDecl unknownDecl_value;
-
   /**
-   * @attribute syn
-   * @aspect UnknownDecl
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="UnknownDecl", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:2")
-  public UnknownDecl unknownDecl() {
-    ASTState state = state();
-    if (unknownDecl_computed) {
-      return unknownDecl_value;
-    }
-    if (unknownDecl_visited) {
-      throw new RuntimeException("Circular definition of attribute Program.unknownDecl().");
-    }
-    unknownDecl_visited = true;
-    state().enterLazyAttribute();
-    unknownDecl_value = new UnknownDecl("<unknown>");
-    unknownDecl_value.setParent(this);
-    unknownDecl_computed = true;
-    state().leaveLazyAttribute();
-    unknownDecl_visited = false;
-    return unknownDecl_value;
-  }
-/** @apilevel internal */
-protected boolean unknownType_visited = false;
-  /** @apilevel internal */
-  private void unknownType_reset() {
-    unknownType_computed = false;
-    
-    unknownType_value = null;
-    unknownType_visited = false;
-  }
-  /** @apilevel internal */
-  protected boolean unknownType_computed = false;
-
-  /** @apilevel internal */
-  protected UnknownType unknownType_value;
-
-  /**
-   * @attribute syn
-   * @aspect UnknownType
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:2
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="UnknownType", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:2")
-  public UnknownType unknownType() {
-    ASTState state = state();
-    if (unknownType_computed) {
-      return unknownType_value;
-    }
-    if (unknownType_visited) {
-      throw new RuntimeException("Circular definition of attribute Program.unknownType().");
-    }
-    unknownType_visited = true;
-    state().enterLazyAttribute();
-    unknownType_value = new UnknownType();
-    unknownType_value.setParent(this);
-    unknownType_computed = true;
-    state().leaveLazyAttribute();
-    unknownType_visited = false;
-    return unknownType_value;
-  }
-/** @apilevel internal */
-protected boolean intType_visited = false;
-  /** @apilevel internal */
-  private void intType_reset() {
-    intType_computed = false;
-    
-    intType_value = null;
-    intType_visited = false;
-  }
-  /** @apilevel internal */
-  protected boolean intType_computed = false;
-
-  /** @apilevel internal */
-  protected IntType intType_value;
-
-  /**
-   * @attribute syn
-   * @aspect IntType
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:12
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="IntType", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:12")
-  public IntType intType() {
-    ASTState state = state();
-    if (intType_computed) {
-      return intType_value;
-    }
-    if (intType_visited) {
-      throw new RuntimeException("Circular definition of attribute Program.intType().");
-    }
-    intType_visited = true;
-    state().enterLazyAttribute();
-    intType_value = new IntType();
-    intType_value.setParent(this);
-    intType_computed = true;
-    state().leaveLazyAttribute();
-    intType_visited = false;
-    return intType_value;
-  }
-/** @apilevel internal */
-protected boolean boolType_visited = false;
-  /** @apilevel internal */
-  private void boolType_reset() {
-    boolType_computed = false;
-    
-    boolType_value = null;
-    boolType_visited = false;
-  }
-  /** @apilevel internal */
-  protected boolean boolType_computed = false;
-
-  /** @apilevel internal */
-  protected BoolType boolType_value;
-
-  /**
-   * @attribute syn
-   * @aspect BoolType
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:22
-   */
-  @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.SYN, isNTA=true)
-  @ASTNodeAnnotation.Source(aspect="BoolType", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:22")
-  public BoolType boolType() {
-    ASTState state = state();
-    if (boolType_computed) {
-      return boolType_value;
-    }
-    if (boolType_visited) {
-      throw new RuntimeException("Circular definition of attribute Program.boolType().");
-    }
-    boolType_visited = true;
-    state().enterLazyAttribute();
-    boolType_value = new BoolType();
-    boolType_value.setParent(this);
-    boolType_computed = true;
-    state().leaveLazyAttribute();
-    boolType_visited = false;
-    return boolType_value;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:28
-   * @apilevel internal
-   */
-  public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return this;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:28
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute program
-   */
-  protected boolean canDefine_program(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:3
-   * @apilevel internal
-   */
-  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return localLookup(name);
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:3
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute lookup
-   */
-  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:84
-   * @apilevel internal
-   */
-  public boolean Define_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return false;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/NameAnalysis.jrag:84
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute inExpression
-   */
-  protected boolean canDefine_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:129
-   * @apilevel internal
-   */
-  public boolean Define_functionExpected(ASTNode _callerNode, ASTNode _childNode) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return false;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/TypeAnalysis.jrag:129
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute functionExpected
-   */
-  protected boolean canDefine_functionExpected(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:4
-   * @apilevel internal
-   */
-  public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
-    int childIndex = this.getIndexOfChild(_callerNode);
-    return unknownDecl();
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownDecl.jrag:4
-   * @apilevel internal
-   * @return {@code true} if this node has an equation for the inherited attribute unknownDecl
-   */
-  protected boolean canDefine_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
-    return true;
-  }
-  /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:4
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:4
    * @apilevel internal
    */
   public UnknownType Define_unknownType(ASTNode _callerNode, ASTNode _childNode) {
@@ -624,7 +544,7 @@ protected boolean boolType_visited = false;
     return unknownType();
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:4
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:4
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute unknownType
    */
@@ -632,7 +552,7 @@ protected boolean boolType_visited = false;
     return true;
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:14
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:14
    * @apilevel internal
    */
   public IntType Define_intType(ASTNode _callerNode, ASTNode _childNode) {
@@ -640,7 +560,7 @@ protected boolean boolType_visited = false;
     return intType();
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:14
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:14
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute intType
    */
@@ -648,7 +568,7 @@ protected boolean boolType_visited = false;
     return true;
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:24
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:24
    * @apilevel internal
    */
   public BoolType Define_boolType(ASTNode _callerNode, ASTNode _childNode) {
@@ -656,11 +576,91 @@ protected boolean boolType_visited = false;
     return boolType();
   }
   /**
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/UnknownType.jrag:24
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownType.jrag:24
    * @apilevel internal
    * @return {@code true} if this node has an equation for the inherited attribute boolType
    */
   protected boolean canDefine_boolType(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:28
+   * @apilevel internal
+   */
+  public Program Define_program(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return this;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:28
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute program
+   */
+  protected boolean canDefine_program(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownDecl.jrag:4
+   * @apilevel internal
+   */
+  public UnknownDecl Define_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return unknownDecl();
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/UnknownDecl.jrag:4
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute unknownDecl
+   */
+  protected boolean canDefine_unknownDecl(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:129
+   * @apilevel internal
+   */
+  public boolean Define_functionExpected(ASTNode _callerNode, ASTNode _childNode) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return false;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/TypeAnalysis.jrag:129
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute functionExpected
+   */
+  protected boolean canDefine_functionExpected(ASTNode _callerNode, ASTNode _childNode) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:3
+   * @apilevel internal
+   */
+  public IdDecl Define_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return localLookup(name);
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:3
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute lookup
+   */
+  protected boolean canDefine_lookup(ASTNode _callerNode, ASTNode _childNode, String name) {
+    return true;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:84
+   * @apilevel internal
+   */
+  public boolean Define_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
+    int childIndex = this.getIndexOfChild(_callerNode);
+    return false;
+  }
+  /**
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/NameAnalysis.jrag:84
+   * @apilevel internal
+   * @return {@code true} if this node has an equation for the inherited attribute inExpression
+   */
+  protected boolean canDefine_inExpression(ASTNode _callerNode, ASTNode _childNode, IdDecl decl) {
     return true;
   }
 /** @apilevel internal */
@@ -668,10 +668,10 @@ protected boolean Program_errors_visited = false;
   /**
    * @attribute coll
    * @aspect Errors
-   * @declaredat /mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26
+   * @declaredat /Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:26
    */
   @ASTNodeAnnotation.Attribute(kind=ASTNodeAnnotation.Kind.COLL)
-  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="/mnt/c/Users/torth/documents/edan65/p003-william-anton/lab4/a4-simplic/src/jastadd/Errors.jrag:26")
+  @ASTNodeAnnotation.Source(aspect="Errors", declaredAt="/Users/antonpalmen/github/p003-william-anton/lab4/A4-SimpliC/src/jastadd/Errors.jrag:26")
   public Set<ErrorMessage> errors() {
     ASTState state = state();
     if (Program_errors_computed) {
