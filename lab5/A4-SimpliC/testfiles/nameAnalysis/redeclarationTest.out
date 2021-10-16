@@ -1,0 +1,30 @@
+Program
+  List
+    Function
+      IdDecl ID="main"
+      List
+      Block
+        List
+          Declaration
+            IdDecl ID="a"
+            Opt
+              IntegerValue INTEGER="3"
+          IfStatement
+            NotEqual
+              IdUse ID="a"
+              IntegerValue INTEGER="0"
+            Block
+              List
+                Declaration
+                  IdDecl ID="a"
+                  Opt
+                    IntegerValue INTEGER="4"
+                Return
+                  IdUse ID="a"
+            Opt
+          Declaration
+            IdDecl ID="a"
+            Opt
+              IntegerValue INTEGER="5"
+          Return
+            IdUse ID="a"
