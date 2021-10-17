@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lang.TestInterpreter" tests="8" skipped="0" failures="0" errors="0" timestamp="2021-10-17T14:48:47" hostname="LAPTOP-4TE2LN4I" time="0.132">
+  <properties/>
+  <testcase name="runTest[elseTest.in]" classname="lang.TestInterpreter" time="0.023"/>
+  <testcase name="runTest[emptyTest.in]" classname="lang.TestInterpreter" time="0.01"/>
+  <testcase name="runTest[functionCallTest.in]" classname="lang.TestInterpreter" time="0.014"/>
+  <testcase name="runTest[gcdTest.in]" classname="lang.TestInterpreter" time="0.024"/>
+  <testcase name="runTest[recursiveFunctionTest.in]" classname="lang.TestInterpreter" time="0.014"/>
+  <testcase name="runTest[shadowTest.in]" classname="lang.TestInterpreter" time="0.014"/>
+  <testcase name="runTest[variableTest.in]" classname="lang.TestInterpreter" time="0.016"/>
+  <testcase name="runTest[whileTest.in]" classname="lang.TestInterpreter" time="0.014"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

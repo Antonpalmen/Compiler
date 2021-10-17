@@ -1,0 +1,11 @@
+int main() {
+    int a = 2;
+    print(rec(a));
+}
+
+int rec(int value) {
+    if(value > 100) {
+        return value;
+    }
+    return rec(value*value);
+}

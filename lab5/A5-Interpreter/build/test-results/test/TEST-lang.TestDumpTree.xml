@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="lang.TestDumpTree" tests="4" skipped="0" failures="0" errors="0" timestamp="2021-10-17T14:48:45" hostname="LAPTOP-4TE2LN4I" time="1.464">
+  <properties/>
+  <testcase name="runTest[d.in]" classname="lang.TestDumpTree" time="1.374"/>
+  <testcase name="runTest[declareBeforeUseTest.in]" classname="lang.TestDumpTree" time="0.017"/>
+  <testcase name="runTest[redeclarationTest.in]" classname="lang.TestDumpTree" time="0.032"/>
+  <testcase name="runTest[useBeforeDeclareTest.in]" classname="lang.TestDumpTree" time="0.031"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
