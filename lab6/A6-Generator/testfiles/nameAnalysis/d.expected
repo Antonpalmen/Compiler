@@ -1,0 +1,45 @@
+Program
+  List
+    Function
+      IdDecl ID="f"
+      List
+        IdDecl ID="x"
+      Block
+        List
+          IfStatement
+            GreaterThan
+              IdUse ID="x"
+              IntegerValue INTEGER="6"
+            Block
+              List
+                Declaration
+                  IdDecl ID="a"
+                  Opt
+                    IntegerValue INTEGER="31"
+                IfStatement
+                  GreaterThanEqual
+                    IdUse ID="x"
+                    IntegerValue INTEGER="3"
+                  Block
+                    List
+                      Declaration
+                        IdDecl ID="a"
+                        Opt
+                          IntegerValue INTEGER="42"
+                      IfStatement
+                        Equal
+                          IdUse ID="x"
+                          IntegerValue INTEGER="3"
+                        Block
+                          List
+                            Assignment
+                              IdUse ID="a"
+                              IntegerValue INTEGER="4"
+                            Assignment
+                              IdUse ID="x"
+                              IdUse ID="a"
+                        Opt
+                  Opt
+            Opt
+          Return
+            IdUse ID="x"

@@ -1,0 +1,165 @@
+aspect TypeAnalysis{
+
+//Expression
+  syn Type Expression.type();
+  /*
+  eq Add.type() = intType();
+  eq Sub.type() = intType();
+  eq Div.type() = intType();
+  eq Mul.type() = intType();
+  eq Mod.type() = intType();
+  eq NotEqual.type() = boolType();
+  eq LesserThan.type() = boolType();
+  eq GreaterThan.type() = boolType();
+  eq LesserThanEqual.type() = boolType();
+  eq GreaterThanEqual.type() = boolType();
+  eq Equal.type() = boolType();
+
+  eq Expression.type() {
+    if(getb().type().isIntType() && geta().type().isIntType()){
+      return intType();
+    }else if(getb().type().isBoolType() && geta().type().isBoolType()){
+      return boolType();
+    }
+    return unknownType();
+  }*/
+  eq Mul.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? intType() : unknownType();
+  }
+
+  eq Div.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? intType() : unknownType();
+  }
+
+  eq Mod.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? intType() : unknownType();
+  }
+
+  eq Add.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? intType() : unknownType();
+  }
+
+  eq Sub.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? intType() : unknownType();
+  }
+
+  eq LesserThan.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? boolType() : unknownType();
+  }
+
+  eq GreaterThan.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? boolType() : unknownType();
+  }
+
+  eq LesserThanEqual.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? boolType() : unknownType();
+  }
+
+  eq GreaterThanEqual.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? boolType() : unknownType();
+  }
+
+  eq NotEqual.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? boolType() : unknownType();
+  }
+
+  eq Equal.type() {
+    return geta().type().isIntType() && getb().type().isIntType() ? boolType() : unknownType();
+  }
+
+
+  eq IntegerValue.type() = intType();
+  eq IdUse.type() = decl().type();
+  eq FunctionUse.type() = getIdUse().type();
+
+  syn Type IdDecl.type() = intType();
+
+//Expected
+  inh Type Expression.expectedType();
+  eq FunctionCall.getFunctionUse().expectedType() = intType(); //
+  eq Declaration.getAssignment().expectedType() = intType();
+  eq Assignment.getExpression().expectedType() = intType();
+  eq WhileStatement.getCondition().expectedType() = boolType();
+  eq IfStatement.getCondition().expectedType() = boolType();
+  eq Return.getExpression().expectedType() = intType();
+
+//Compatible
+  syn boolean Type.compatibleType(Type t){
+		return this.equals(t) || isUnknownType() || t.isUnknownType();
+	}
+
+  syn boolean Declaration.compatibleType(){
+    if(hasAssignment()){
+      return getAssignment().expectedType().compatibleType(getAssignment().type());
+    }
+    return true;
+  }
+
+  syn boolean Assignment.compatibleType(){
+    return getExpression().expectedType().compatibleType(getExpression().type());
+  }
+
+  syn boolean WhileStatement.compatibleType(){
+    return getCondition().expectedType().compatibleType(getCondition().type());
+  }
+
+  syn boolean IfStatement.compatibleType(){
+    return getCondition().expectedType().compatibleType(getCondition().type());
+  }
+
+  syn boolean Return.compatibleType(){
+    return getExpression().expectedType().compatibleType(getExpression().type());
+  }
+
+//Variable or function
+  inh boolean IdDecl.isVariable();
+  inh boolean IdDecl.isFunction();
+  inh Function IdDecl.function();
+
+  syn boolean FunctionUse.isFunction(){
+  IdDecl dec = getIdUse().decl();
+    if(!dec.isUnknown()){
+      return dec.isFunction();
+    }
+    return true;
+  }
+
+  eq FunctionUse.getIdUse().functionExpected() = true;
+  eq Program.getChild().functionExpected() = false;
+  inh boolean IdUse.functionExpected();
+
+  syn boolean IdUse.isUsedCorrectly() = functionExpected() == isFunction();
+
+  syn boolean IdUse.isFunction() = decl().isFunction();
+  syn boolean IdUse.isVariable() = decl().isFunction();
+  syn Function IdUse.function() = decl().function();
+
+  eq Assignment.getIdUse().isVariable() = true;
+  eq Assignment.getIdUse().isFunction() = false;
+
+  eq Declaration.getIdDecl().isVariable() = true;
+  eq Declaration.getIdDecl().isFunction() = false;
+
+  eq Function.getIdDecl().isVariable() = false;
+  eq Function.getIdDecl().isFunction() = true;
+  eq Function.getIdDecl().function() = this;
+
+  eq Function.getParameter().isVariable() = true;
+  eq Function.getParameter().isFunction() = false;
+
+
+
+  syn boolean FunctionUse.correctNumParameter()
+    = getNumParameter() == getIdUse().decl().function().getNumParameter();
+
+  syn boolean FunctionUse.correctTypeParameter(){
+    if(hasParameter()){
+      for(int i = 0; i < getNumParameter(); i++){
+       if(!getParameter(i).type().compatibleType(intType())){
+        return false;
+       }
+      }
+    }
+    return true;
+  }
+}

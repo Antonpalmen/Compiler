@@ -1,0 +1,42 @@
+Program ::= Function*;
+IdDecl ::= <ID>;
+IntegerValue:Expression ::= <INTEGER>;
+UnknownDecl : IdDecl;
+Function ::= IdDecl:IdDecl Parameter:IdDecl* Block:Block;
+Block ::= Statement:Statement*;
+
+abstract Statement;
+Declaration:Statement ::= IdDecl:IdDecl [Assignment:Expression];
+Assignment:Statement ::= IdUse:IdUse Expression:Expression;
+IfStatement:Statement ::= Condition:Expression Then:Block [Else:Block];
+WhileStatement:Statement ::= Condition:Expression Then:Block;
+Return:Statement ::= Expression:Expression;
+FunctionCall:Statement ::= FunctionUse;
+
+
+abstract Expression;
+IdUse:Expression ::= <ID>;
+
+abstract Comparison:Expression;
+LesserThan:Comparison ::= a:Expression b:Expression;
+GreaterThan:Comparison ::= a:Expression b:Expression;
+Equal:Comparison ::= a:Expression b:Expression;
+NotEqual:Comparison ::= a:Expression b:Expression;
+LesserThanEqual:Comparison ::= a:Expression b:Expression;
+GreaterThanEqual:Comparison ::= a:Expression b:Expression;
+
+abstract Term:Expression;
+Add:Expression ::= a:Expression b:Expression;
+Sub:Expression ::= a:Expression b:Expression;
+
+abstract Factor:Term;
+Mul:Expression ::= a:Expression b:Expression;
+Div:Expression ::= a:Expression b:Expression;
+Mod:Expression ::= a:Expression b:Expression;
+
+FunctionUse:Expression ::= IdUse:IdUse Parameter:Expression*;
+
+abstract Type;
+IntType:Type;
+BoolType:Type;
+UnknownType:Type;
